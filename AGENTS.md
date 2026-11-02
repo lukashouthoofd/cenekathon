@@ -59,6 +59,15 @@ scripts/             verify.sh · sync-skills.sh · check-skills.sh
 | `verification-before-done` | Before saying "done", opening a PR, or demoing |
 | `demo-and-pitch` | Last 90 min: demo script, slides, 3-minute pitch |
 | `repo-polish` | README and repo presentation for judges |
+| `frontend-nextjs-vercel` | Building the web UI with Next.js/React; deploying on Vercel |
+| `ui-polish` | The UI works but looks generic or rough |
+| `backend-api` | Building the API/backend (FastAPI or Node) |
+| `database-quick` | Storing data: JSON/SQLite/Supabase/Postgres, RAG basics |
+| `docker` | Dockerfile, compose, running services locally |
+| `data-ml-quickstart` | Dataset, classic ML, analytics |
+| `smoke-testing` | Tests for the demo path (unit, API, Playwright) |
+| `security-basics` | Before deploy/pitch; keys, input, personal data |
+| `git-github` | Branches, PRs, issues, conflicts with `git`/`gh` |
 | `find-skills` | Need a capability not listed — search before reinventing |
 
 Skills are guidance, not a replacement for this file. Add new ones with `skill-authoring`
