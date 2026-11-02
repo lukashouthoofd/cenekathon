@@ -15,7 +15,7 @@ Team starter for the [CenEkathon](https://ceneka.be/activity/cenekathon) (CenEka
 | Path | Purpose |
 |------|---------|
 | `AGENTS.md` | Single authoritative instruction file for every agent. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md` just point to it |
-| `.agents/skills/` | 19 skills (open [Agent Skills](https://agentskills.io/specification) format): `kickoff` · `rapid-prototype` · `team-sync` · `ai-in-the-product` · `deploy-fast` · `debug-fast` · `verification-before-done` · `demo-and-pitch` · `repo-polish` · `find-skills` · `frontend-nextjs-vercel` · `ui-polish` · `backend-api` · `database-quick` · `docker` · `data-ml-quickstart` · `smoke-testing` · `security-basics` · `git-github` |
+| `.agents/skills/` | 25 skills (open [Agent Skills](https://agentskills.io/specification) format): `kickoff` · `rapid-prototype` · `team-sync` · `ai-in-the-product` · `deploy-fast` · `debug-fast` · `verification-before-done` · `demo-and-pitch` · `repo-polish` · `find-skills` · `frontend-nextjs-vercel` · `ui-polish` · `backend-api` · `database-quick` · `docker-project-foundations` · `docker-build-strategies` · `docker-compose-patterns` · `docker-destructive-guardrails` · `deploy-to-vercel` · `vercel-react-best-practices` · `vercel-composition-patterns` · `data-ml-quickstart` · `smoke-testing` · `security-basics` · `git-github` |
 | `.agents/roles/` | `architect`, `builder`, `reviewer` role prompts |
 | `docs/` | `CHALLENGE` · `PLAN` · `DECISIONS` · `TEAM` · `STACK` · `PITCH` · `SCHEDULE` — shared memory for humans and agents |
 | `scripts/` | `verify.sh` (the "done" contract), `check-skills.sh`, `sync-skills.sh` |
@@ -27,7 +27,7 @@ Tell the agent: *"Read AGENTS.md first, and read `.agents/skills/<name>/SKILL.md
 
 ## Design notes
 
-Modelled on a production setup (single `AGENTS.md`, canonical `.agents/` skills mirrored for Claude, plan-before-code, one verification command, separate planner/builder roles) and trimmed to hackathon scale: no plan-gate tooling, a demo-first rule, and pitch/deploy skills. Format and patterns informed by [agentskills.io](https://agentskills.io/specification), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) and [abhilashpandurangan/hackathon-prep](https://github.com/abhilashpandurangan/hackathon-prep).
+Modelled on a production setup (single `AGENTS.md`, canonical `.agents/` skills mirrored for Claude, plan-before-code, one verification command, separate planner/builder roles) and trimmed to hackathon scale: no plan-gate tooling, a demo-first rule, and pitch/deploy skills. Docker and Vercel skills are copied verbatim from [docker/skills](https://github.com/docker/skills) and [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) (see `.agents/skills/THIRD_PARTY.md`). Format and patterns informed by [agentskills.io](https://agentskills.io/specification), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) and [abhilashpandurangan/hackathon-prep](https://github.com/abhilashpandurangan/hackathon-prep).
 
 ## License
 

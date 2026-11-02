@@ -23,7 +23,7 @@ Add UI kit only if needed: `npx shadcn@latest init` then `npx shadcn@latest add 
 - `next/image` for images, `next/font` for fonts; lazy-load heavy components with `next/dynamic`.
 - Stream slow AI/data parts with `<Suspense fallback={…}>` so the page shows instantly.
 - Don't import big libraries into client components; no barrel-file mega imports.
-- Deeper guidance: github.com/vercel-labs/agent-skills (react-best-practices, composition-patterns) — vet before installing (see `find-skills`).
+- Deeper guidance: `vercel-react-best-practices`, `vercel-composition-patterns`; deploying: `deploy-to-vercel`.
 
 ## UX that demos well
 Loading, empty and error states for every async view; disable buttons while pending; show results progressively. See `ui-polish`.

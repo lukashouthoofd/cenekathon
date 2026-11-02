@@ -11,7 +11,8 @@ for dir in "$root"/.agents/skills/*/; do
   [ "$(head -n1 "$f")" = "---" ] || { echo "FAIL $name: no frontmatter"; fail=1; }
   fm=$(sed -n '2,/^---$/p' "$f")
   echo "$fm" | grep -q "^name: $name\$" || { echo "FAIL $name: 'name:' must equal folder name"; fail=1; }
-  echo "$fm" | grep -q "^description: ." || { echo "FAIL $name: missing description"; fail=1; }
+  # description may be inline or a YAML block/continuation on the next line
+  echo "$fm" | grep -qE "^description:( .|$)" && { echo "$fm" | grep -qE "^description: ." || echo "$fm" | grep -A1 "^description:" | tail -n1 | grep -q "^[[:space:]]\+[^[:space:]]"; } || { echo "FAIL $name: missing description"; fail=1; }
   if [ -f "$root/.claude/skills/$name/SKILL.md" ]; then
     cmp -s "$f" "$root/.claude/skills/$name/SKILL.md" || { echo "FAIL $name: .claude mirror stale (run scripts/sync-skills.sh)"; fail=1; }
   else

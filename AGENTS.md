@@ -63,15 +63,21 @@ scripts/             verify.sh · sync-skills.sh · check-skills.sh
 | `ui-polish` | The UI works but looks generic or rough |
 | `backend-api` | Building the API/backend (FastAPI or Node) |
 | `database-quick` | Storing data: JSON/SQLite/Supabase/Postgres, RAG basics |
-| `docker` | Dockerfile, compose, running services locally |
+| `docker-project-foundations` | Containerizing a project from scratch (Dockerfile, compose, .dockerignore) — official Docker skill |
+| `docker-build-strategies` | Dockerfile/build optimization: multi-stage, caching, small secure images |
+| `docker-compose-patterns` | Multi-service compose setups (app + db + cache), dev overrides |
+| `docker-destructive-guardrails` | Before any `docker ... prune/rm/down -v` that can destroy data |
+| `deploy-to-vercel` | Deploying to Vercel (preview by default) — official Vercel skill |
+| `vercel-react-best-practices` | Writing/reviewing React/Next.js for performance — official Vercel skill |
+| `vercel-composition-patterns` | Scalable React component APIs — official Vercel skill |
 | `data-ml-quickstart` | Dataset, classic ML, analytics |
 | `smoke-testing` | Tests for the demo path (unit, API, Playwright) |
 | `security-basics` | Before deploy/pitch; keys, input, personal data |
 | `git-github` | Branches, PRs, issues, conflicts with `git`/`gh` |
 | `find-skills` | Need a capability not listed — search before reinventing |
 
-Skills are guidance, not a replacement for this file. Add new ones with `skill-authoring`
-guidance in `.agents/skills/README.md`; run `scripts/check-skills.sh` after.
+Skills are guidance, not a replacement for this file. Third-party skills are copied verbatim (see `.agents/skills/THIRD_PARTY.md`). Add new ones per
+`.agents/skills/README.md`; run `scripts/check-skills.sh` after.
 
 ## Reply style (for agents)
 

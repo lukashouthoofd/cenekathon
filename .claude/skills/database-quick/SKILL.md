@@ -11,7 +11,7 @@ description: Use when the product needs to store data — choosing between JSON/
 | Static or read-only data | JSON/CSV file in the repo, loaded at startup |
 | Single-server persistence | SQLite (`better-sqlite3` / Python `sqlite3`) — caution: serverless hosts (Vercel) have no persistent disk |
 | Multi-user, hosted, auth, realtime | Supabase (free tier; Postgres + Auth + Storage + pgvector) |
-| Local Postgres in dev | `docker` skill → `postgres:16` |
+| Local Postgres in dev | `docker-compose-patterns` skill → `postgres:16` |
 | Embeddings / semantic search | pgvector (Supabase) or an in-memory index for < 10k items |
 
 ## Rules
