@@ -1,0 +1,17 @@
+model,model_provider,valid_from,list_price_usd_per_1m_input,list_price_usd_per_1m_output,fx_usd_eur,note,is_synthetic
+gpt-3.5-turbo,OpenAI (via cloud),2023-01-01,1.5,2.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-3.5-turbo,OpenAI (via cloud),2023-11-06,1.0,2.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-3.5-turbo,OpenAI (via cloud),2024-01-25,0.5,1.5,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-4,OpenAI (via cloud),2023-01-01,30.0,60.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-4-turbo,OpenAI (via cloud),2023-11-06,10.0,30.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-4o,OpenAI (via cloud),2024-05-13,5.0,15.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-4o,OpenAI (via cloud),2024-10-01,2.5,10.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-4o-mini,OpenAI (via cloud),2024-07-18,0.15,0.6,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-4.1,OpenAI (via cloud),2025-04-14,2.0,8.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+gpt-4.1-mini,OpenAI (via cloud),2025-04-14,0.4,1.6,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+claude-3.5-sonnet,Anthropic (via cloud),2024-06-20,3.0,15.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+claude-3-haiku,Anthropic (via cloud),2024-03-13,0.25,1.25,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+claude-sonnet-4,Anthropic (via cloud),2025-05-22,3.0,15.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+claude-sonnet-4.5,Anthropic (via cloud),2025-09-29,3.0,15.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+claude-haiku-4.5,Anthropic (via cloud),2025-10-15,1.0,5.0,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True
+llama-3.1-70b-selfhosted,Self-hosted open-weight,2024-09-01,0.6,0.6,0.92,approximate public list price; enterprise discount applied on top in ai_usage_logs,True

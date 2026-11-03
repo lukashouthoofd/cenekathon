@@ -1,0 +1,94 @@
+department_id,name,parent,country,org_level,is_synthetic
+NWB,Northwind Bank (synthetic) Group,,GROUP,0,True
+DIV_RET,Retail Banking,NWB,GROUP,1,True
+DIV_CWB,"Corporate, Commercial & Wealth",NWB,GROUP,1,True
+DIV_TEC,Technology & Data,NWB,GROUP,1,True
+DIV_OPS,Operations,NWB,GROUP,1,True
+DIV_RSK,"Risk, Compliance & Audit",NWB,GROUP,1,True
+DIV_COR,Corporate Functions,NWB,GROUP,1,True
+FN_CSC,Customer Service & Contact Centre,DIV_RET,GROUP,2,True
+T_CSC_GB,Customer Service & Contact Centre GB,FN_CSC,GB,3,True
+T_CSC_NL,Customer Service & Contact Centre NL,FN_CSC,NL,3,True
+T_CSC_BE,Customer Service & Contact Centre BE,FN_CSC,BE,3,True
+FN_BRM,Branch Network & Mortgages,DIV_RET,GROUP,2,True
+T_BRM_GB,Branch Network & Mortgages GB,FN_BRM,GB,3,True
+T_BRM_NL,Branch Network & Mortgages NL,FN_BRM,NL,3,True
+T_BRM_BE,Branch Network & Mortgages BE,FN_BRM,BE,3,True
+FN_CBK,Corporate & Commercial Banking,DIV_CWB,GROUP,2,True
+T_CBK_GB,Corporate & Commercial Banking GB,FN_CBK,GB,3,True
+T_CBK_NL,Corporate & Commercial Banking NL,FN_CBK,NL,3,True
+T_CBK_BE,Corporate & Commercial Banking BE,FN_CBK,BE,3,True
+T_CBK_LU,Corporate & Commercial Banking LU,FN_CBK,LU,3,True
+FN_WPB,Wealth & Private Banking,DIV_CWB,GROUP,2,True
+T_WPB_LU,Wealth & Private Banking LU,FN_WPB,LU,3,True
+T_WPB_GB,Wealth & Private Banking GB,FN_WPB,GB,3,True
+T_WPB_NL,Wealth & Private Banking NL,FN_WPB,NL,3,True
+T_WPB_BE,Wealth & Private Banking BE,FN_WPB,BE,3,True
+FN_SWE,Software Engineering,DIV_TEC,GROUP,2,True
+T_SWE_NL,Software Engineering NL,FN_SWE,NL,3,True
+T_SWE_GB,Software Engineering GB,FN_SWE,GB,3,True
+T_SWE_BE,Software Engineering BE,FN_SWE,BE,3,True
+T_SWE_LU,Software Engineering LU,FN_SWE,LU,3,True
+FN_DAI,"Data, Analytics & AI",DIV_TEC,GROUP,2,True
+T_DAI_NL,"Data, Analytics & AI NL",FN_DAI,NL,3,True
+T_DAI_GB,"Data, Analytics & AI GB",FN_DAI,GB,3,True
+T_DAI_BE,"Data, Analytics & AI BE",FN_DAI,BE,3,True
+T_DAI_LU,"Data, Analytics & AI LU",FN_DAI,LU,3,True
+FN_INF,Infrastructure & Cloud,DIV_TEC,GROUP,2,True
+T_INF_NL,Infrastructure & Cloud NL,FN_INF,NL,3,True
+T_INF_GB,Infrastructure & Cloud GB,FN_INF,GB,3,True
+T_INF_BE,Infrastructure & Cloud BE,FN_INF,BE,3,True
+T_INF_LU,Infrastructure & Cloud LU,FN_INF,LU,3,True
+FN_CYB,Cyber Security,DIV_TEC,GROUP,2,True
+T_CYB_GB,Cyber Security GB,FN_CYB,GB,3,True
+T_CYB_NL,Cyber Security NL,FN_CYB,NL,3,True
+T_CYB_BE,Cyber Security BE,FN_CYB,BE,3,True
+FN_CHG,Change & Transformation,DIV_TEC,GROUP,2,True
+T_CHG_GB,Change & Transformation GB,FN_CHG,GB,3,True
+T_CHG_NL,Change & Transformation NL,FN_CHG,NL,3,True
+T_CHG_BE,Change & Transformation BE,FN_CHG,BE,3,True
+T_CHG_LU,Change & Transformation LU,FN_CHG,LU,3,True
+FN_OPS,Banking Operations & Payments,DIV_OPS,GROUP,2,True
+T_OPS_GB,Banking Operations & Payments GB,FN_OPS,GB,3,True
+T_OPS_NL,Banking Operations & Payments NL,FN_OPS,NL,3,True
+T_OPS_BE,Banking Operations & Payments BE,FN_OPS,BE,3,True
+T_OPS_LU,Banking Operations & Payments LU,FN_OPS,LU,3,True
+FN_RSK,Risk Management,DIV_RSK,GROUP,2,True
+T_RSK_GB,Risk Management GB,FN_RSK,GB,3,True
+T_RSK_NL,Risk Management NL,FN_RSK,NL,3,True
+T_RSK_BE,Risk Management BE,FN_RSK,BE,3,True
+T_RSK_LU,Risk Management LU,FN_RSK,LU,3,True
+FN_CMP,Compliance & Financial Crime,DIV_RSK,GROUP,2,True
+T_CMP_GB,Compliance & Financial Crime GB,FN_CMP,GB,3,True
+T_CMP_NL,Compliance & Financial Crime NL,FN_CMP,NL,3,True
+T_CMP_BE,Compliance & Financial Crime BE,FN_CMP,BE,3,True
+T_CMP_LU,Compliance & Financial Crime LU,FN_CMP,LU,3,True
+FN_AUD,Internal Audit,DIV_RSK,GROUP,2,True
+T_AUD_GB,Internal Audit GB,FN_AUD,GB,3,True
+T_AUD_NL,Internal Audit NL,FN_AUD,NL,3,True
+T_AUD_BE,Internal Audit BE,FN_AUD,BE,3,True
+T_AUD_LU,Internal Audit LU,FN_AUD,LU,3,True
+FN_LEG,Legal,DIV_COR,GROUP,2,True
+T_LEG_GB,Legal GB,FN_LEG,GB,3,True
+T_LEG_NL,Legal NL,FN_LEG,NL,3,True
+T_LEG_BE,Legal BE,FN_LEG,BE,3,True
+T_LEG_LU,Legal LU,FN_LEG,LU,3,True
+FN_FIN,Finance & Treasury,DIV_COR,GROUP,2,True
+T_FIN_GB,Finance & Treasury GB,FN_FIN,GB,3,True
+T_FIN_NL,Finance & Treasury NL,FN_FIN,NL,3,True
+T_FIN_BE,Finance & Treasury BE,FN_FIN,BE,3,True
+T_FIN_LU,Finance & Treasury LU,FN_FIN,LU,3,True
+FN_HRM,Human Resources,DIV_COR,GROUP,2,True
+T_HRM_GB,Human Resources GB,FN_HRM,GB,3,True
+T_HRM_NL,Human Resources NL,FN_HRM,NL,3,True
+T_HRM_BE,Human Resources BE,FN_HRM,BE,3,True
+T_HRM_LU,Human Resources LU,FN_HRM,LU,3,True
+FN_MKT,Marketing & Communications,DIV_COR,GROUP,2,True
+T_MKT_GB,Marketing & Communications GB,FN_MKT,GB,3,True
+T_MKT_NL,Marketing & Communications NL,FN_MKT,NL,3,True
+T_MKT_BE,Marketing & Communications BE,FN_MKT,BE,3,True
+FN_OFC,Executive Office,DIV_COR,GROUP,2,True
+T_OFC_GB,Executive Office GB,FN_OFC,GB,3,True
+T_OFC_NL,Executive Office NL,FN_OFC,NL,3,True
+T_OFC_BE,Executive Office BE,FN_OFC,BE,3,True
+T_OFC_LU,Executive Office LU,FN_OFC,LU,3,True
