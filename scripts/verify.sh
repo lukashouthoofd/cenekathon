@@ -13,16 +13,11 @@ if git grep -nIE '(sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30,}|---
 fi
 if git ls-files --error-unmatch .env >/dev/null 2>&1; then echo "FAIL: .env is tracked"; exit 1; fi
 
-# --- project checks: auto-detected; replace with explicit commands once the stack is chosen ---
-if [ -f package.json ]; then
-  echo "== node"
-  [ -d node_modules ] || npm install
-  npm run --if-present build
-  npm run --if-present test
-fi
-if [ -f pyproject.toml ] || [ -f requirements.txt ]; then
-  echo "== python"
-  if command -v pytest >/dev/null 2>&1; then pytest -q || [ $? -eq 5 ]; fi
-fi
+# --- project checks: this repo's stack (frontend in src/frontend, Node backend in src/backend) ---
+echo "== backend tests"; node --test src/backend/chat.test.mjs
+echo "== frontend deps"; [ -d src/frontend/node_modules ] || npm ci --prefix src/frontend
+echo "== frontend typecheck"; npm run --prefix src/frontend typecheck
+echo "== frontend build"; npm run --prefix src/frontend build
+echo "== backend syntax"; node --check src/backend/server.mjs; node --check src/backend/chat.mjs
 
 echo "verify: OK"

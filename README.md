@@ -1,34 +1,38 @@
-# CenEkathon starter
+# CenEkathon: AI-readiness assistent
 
-Team starter for the [CenEkathon](https://ceneka.be/activity/cenekathon) (CenEka × Techwolf, 3 Nov 2026, iGent Gent): a 6-hour build with an agent-ready setup that works with **any** AI coding tool — Claude Code, Codex, Gemini CLI, Copilot, Cursor.
+Een prototype voor financiële instellingen die willen weten hoe klaar ze zijn voor AI. De app bevat:
 
-## Use it
+- een **AI-readiness dashboard** (in demo-modus),
+- een **actieplan**,
+- een **Slack-preview**,
+- een **chat** die antwoordt met dashboards; elk antwoord eindigt met advies.
 
-1. Click **Use this template** on GitHub (or `gh repo create <team> --template <owner>/cenekathon-starter --public --clone`).
-2. Add teammates as collaborators. Everyone: `cp .env.example .env`, fill in the AI tokens from the organisers.
-3. Fill `docs/TEAM.md`. At 13:00 paste the brief into `docs/CHALLENGE.md`, then tell your agent:
-   > Read AGENTS.md and run the `kickoff` skill on docs/CHALLENGE.md.
-4. Run `sh scripts/sync-skills.sh` once if you use Claude Code (mirrors skills to `.claude/skills/`).
+## Onderdelen
 
-## What's inside
+- **Frontend** (`src/frontend`): React + Vite + Tailwind.
+- **Chat-backend** (`src/backend/server.mjs`, `chat.mjs`): Node, zonder dependencies. Stuurt vragen naar het AI-model.
+- **Datasamenvatting** (`src/backend/build_summary.py`): berekent cijfers uit de vacaturedata in `data/`.
 
-| Path | Purpose |
-|------|---------|
-| `AGENTS.md` | Single authoritative instruction file for every agent. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md` just point to it |
-| `.agents/skills/` | 25 skills (open [Agent Skills](https://agentskills.io/specification) format): `kickoff` · `rapid-prototype` · `team-sync` · `ai-in-the-product` · `deploy-fast` · `debug-fast` · `verification-before-done` · `demo-and-pitch` · `repo-polish` · `find-skills` · `frontend-nextjs-vercel` · `ui-polish` · `backend-api` · `database-quick` · `docker-project-foundations` · `docker-build-strategies` · `docker-compose-patterns` · `docker-destructive-guardrails` · `deploy-to-vercel` · `vercel-react-best-practices` · `vercel-composition-patterns` · `data-ml-quickstart` · `smoke-testing` · `security-basics` · `git-github` |
-| `.agents/roles/` | `architect`, `builder`, `reviewer` role prompts |
-| `docs/` | `CHALLENGE` · `PLAN` · `DECISIONS` · `TEAM` · `STACK` · `PITCH` · `SCHEDULE` — shared memory for humans and agents |
-| `scripts/` | `verify.sh` (the "done" contract), `check-skills.sh`, `sync-skills.sh` |
-| `.github/` | CI (runs `verify.sh`), Aikido PR security scan (needs `AIKIDO_SECRET_KEY`), PR template, task issue template |
+## Lokaal draaien
 
-## Tools that don't read AGENTS.md automatically
+a. Optioneel: zet de vacaturebestanden in `data/` en run `python src/backend/build_summary.py`. De data is gelicentieerd, alleen voor teamgebruik, en staat niet in de repo. Zonder samenvatting antwoordt de chat zonder cijfers en zegt hij dat erbij.
 
-Tell the agent: *"Read AGENTS.md first, and read `.agents/skills/<name>/SKILL.md` when relevant."*
+b. Start de backend (poort 8000): `node src/backend/server.mjs`. Hiervoor heb je `AI_API_KEY` nodig in een lokaal `.env` (kopieer `.env.example`). Commit nooit `.env`.
 
-## Design notes
+c. Start de frontend:
+```sh
+cd src/frontend && npm install && npm run dev
+```
+Open daarna http://localhost:5173. De Vite-proxy stuurt `/api` naar de backend.
 
-Modelled on a production setup (single `AGENTS.md`, canonical `.agents/` skills mirrored for Claude, plan-before-code, one verification command, separate planner/builder roles) and trimmed to hackathon scale: no plan-gate tooling, a demo-first rule, and pitch/deploy skills. Docker and Vercel skills are copied verbatim from [docker/skills](https://github.com/docker/skills) and [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) (see `.agents/skills/THIRD_PARTY.md`). Format and patterns informed by [agentskills.io](https://agentskills.io/specification), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) and [abhilashpandurangan/hackathon-prep](https://github.com/abhilashpandurangan/hackathon-prep).
+Controle van de hele repo: `sh scripts/verify.sh` (eindigt met `verify: OK`).
 
-## License
+## Tests
 
-MIT
+- Unit-tests: `node --test src/backend/chat.test.mjs`
+- Evals: `node src/backend/evals/run-evals.mjs` (dry run, geen netwerk). Met `EVAL_LIVE=1` draait hij tegen de backend; dat vereist een draaiende backend en een aanwezige samenvatting.
+
+## Data-eerlijkheid
+
+- De demo-modus gebruikt gesimuleerde data. Die is als zodanig gelabeld.
+- Trefwoordtellingen van vaardigheden in vacatures zijn geen geverifieerde vaardigheden.
