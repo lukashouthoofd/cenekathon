@@ -15,10 +15,18 @@ node src/slackbot/bot.mjs
 - `SLACK_APP_TOKEN` (verplicht, begint met `xapp-`)
 - `SLACK_BOT_TOKEN` (verplicht, begint met `xoxb-`)
 - `CHAT_URL` (optioneel, standaard `http://localhost:8000/api/chat`)
+- `SLACK_CHANNEL_HR`, `SLACK_CHANNEL_ENGINEERING`, `SLACK_CHANNEL_IT` (kanaal-ID's, beginnen met `C`)
+
+## Goedkeuring voor verzenden
+
+Vraagt iemand om een vacature/aannemen/werving (HR), een interne tool/bouwen (Engineering) of software/kopen/licentie (IT), dan zet Json een voorstel in de thread. Pas na een klik op **Verstuur naar ...** wordt het bericht in het teamkanaal geplaatst. Ontbreekt een kanaal-ID, dan staat dat in het voorstel en is er geen verstuurknop.
+
+Nodig de bot uit in elk kanaal: `/invite @AI-readiness`.
 
 ## Slack-app instellen
 
 1. Zet **Socket Mode** aan en maak een app-level token met scope `connections:write`.
 2. Zet onder **Event Subscriptions** de events `app_mention` en `message.im` aan.
 3. Zet onder **App Home** de **Messages Tab** aan.
+3b. Zet onder **Interactivity & Shortcuts** de interactiviteit aan (nodig voor de knoppen).
 4. Installeer de app in de workspace en kopieer de Bot User OAuth Token.

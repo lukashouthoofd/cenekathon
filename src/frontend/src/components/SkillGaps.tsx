@@ -2,8 +2,7 @@ import { useState, type MouseEvent } from 'react'
 import type { SkillGap } from '../types'
 import { EmptyState } from './StateMessages'
 import { VacancyDraft } from './VacancyDraft'
-
-const pct = (v: number) => `${Math.round(v * 100)}%`
+import { formatPercent } from '../format'
 
 export function SkillGaps({
   gaps,
@@ -31,7 +30,7 @@ export function SkillGaps({
     <section aria-labelledby="skillgaps-h" className="space-y-4">
       <h2 id="skillgaps-h" className="text-title text-foreground">Ontbrekende skills per afdeling</h2>
       {[...byDept].map(([dept, items]) => (
-        <div key={dept} className="rounded-lg border border-border bg-surface">
+        <div key={dept} className="rounded-md border border-border bg-surface">
           <h3 className="border-b border-border px-4 py-2 text-heading text-foreground">{dept}</h3>
           <ul className="divide-y divide-border">
             {items.map((g) => {
@@ -43,9 +42,9 @@ export function SkillGaps({
                     <span className="flex flex-wrap items-baseline justify-between gap-x-4">
                       <span className="text-heading text-foreground">{g.name}</span>
                       <span className="text-body-sm text-muted-foreground">
-                        {g.marketShare === null ? 'Onbekend' : `${pct(g.marketShare)} van vergelijkbare vacatures`}
+                        {g.marketShare === null ? 'Onbekend' : `${formatPercent(g.marketShare)} van vergelijkbare vacatures`}
                         {' · '}
-                        {g.internalCoverage === null ? 'Intern: onbekend' : `Intern: ${pct(g.internalCoverage)}`}
+                        {g.internalCoverage === null ? 'Intern: onbekend' : `Intern: ${formatPercent(g.internalCoverage)}`}
                       </span>
                     </span>
                     <span className="mt-1 block text-body-sm text-muted-foreground">{g.explanation}</span>

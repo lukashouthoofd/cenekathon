@@ -1,12 +1,11 @@
 import type { Score, ScoreDimension } from '../types'
+import { formatPercent, formatScore } from '../format'
 
 const LABELS: Record<ScoreDimension, string> = {
   skills: 'Vaardigheden',
   ai_usage: 'AI-gebruik',
   training: 'Opleiding',
 }
-
-const pct = (v: number) => `${Math.round(v * 100)}%`
 
 function Bar({ fraction, label }: { fraction: number; label: string }) {
   return (
@@ -29,19 +28,20 @@ export function ScoreCards({ scores }: { scores: Score[] }) {
       {scores.map((s) => {
         const label = LABELS[s.dimension]
         return (
-          <section key={s.dimension} aria-label={label} className="rounded-lg border border-border bg-surface p-4">
+          <section key={s.dimension} aria-label={label} className="rounded-md border border-border bg-surface p-4">
             <h3 className="text-heading text-foreground">{label}</h3>
-            {s.value === null ? (
-              <p className="mt-2 text-metric text-muted-foreground">Onbekend</p>
-            ) : (
-              <>
-                <p className="mt-2 text-metric text-foreground">{Math.round(s.value)} / 100</p>
-                <div className="mt-2">
-                  <Bar fraction={s.value / 100} label={`${label} score`} />
-                </div>
-              </>
+            <p
+              className={`mt-2 text-metric ${s.value === null ? 'text-muted-foreground' : 'text-foreground'}`}
+            >
+              {formatScore(s.value)}
+              {s.value !== null && ' / 100'}
+            </p>
+            {s.value !== null && (
+              <div className="mt-2">
+                <Bar fraction={s.value / 100} label={`${label} score`} />
+              </div>
             )}
-            <p className="mt-3 text-body-sm text-muted-foreground">Datadekking {pct(s.coverage)}</p>
+            <p className="mt-3 text-body-sm text-muted-foreground">Datadekking {formatPercent(s.coverage)}</p>
             <div className="mt-1">
               <Bar fraction={s.coverage} label={`${label} datadekking`} />
             </div>
