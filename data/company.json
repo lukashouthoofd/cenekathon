@@ -1,5 +1,5 @@
 {
-  "company": { "name": "Goldman Stanley (gesimuleerd)", "sector": "Bankwezen", "employees": 45 },
+  "company": { "name": "Goldman Stanley (gesimuleerd)", "sector": "Bankwezen", "employees": 7884 },
   "market_trends": [
     { "id": "mt1", "skill": "AI-zoeksystemen en kennisassistenten (RAG)", "growth_pct_yoy": 85, "postings": 12400, "note": "Vooral in klantenservice en kredietverlening bij vergelijkbare bedrijven." },
     { "id": "mt2", "skill": "Beoordelen en controleren van AI-antwoorden", "growth_pct_yoy": 62, "postings": 8100, "note": "Broncontrole en kwaliteitsbewaking." },
@@ -34,6 +34,6 @@
   "scores": {
     "skills": { "value": 34, "explanation": "De markt vraagt vooral AI-zoeksystemen en AI-controle. Intern heeft niemand die skills.", "coverage": "hoog (5 marktskills, 6 interne skillregels)" },
     "ai_usage": { "value": 22, "explanation": "Copilot is beschikbaar maar uit. Enkel onofficieel gebruik van gratis ChatGPT.", "coverage": "middel (4 softwaretools)" },
-    "training": { "value": 41, "explanation": "Eén AI-introductie voor 5 van 45 medewerkers. Verder geen opleidingen die de marktvraag dekken.", "coverage": "laag (3 opleidingen)" }
+    "training": { "value": 41, "explanation": "Eén AI-introductie voor een kleine groep medewerkers. Verder geen opleidingen die de marktvraag dekken.", "coverage": "laag (3 opleidingen)" }
   }
 }
