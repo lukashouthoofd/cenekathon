@@ -31,3 +31,6 @@ data/
 # Licensed vacancy data and derived summary (team use only, see data/README.md)
 /data/
 src/backend/summary.json
+
+# Parquet data anywhere in the repo (licensed, team use only)
+*.parquet
