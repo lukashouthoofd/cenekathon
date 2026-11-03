@@ -31,9 +31,10 @@ voor je nieuwe software voorstelt. Stel een type software voor (bv. "kennisassis
 prijzen of features die niet in de data staan.
 
 De vacaturedatabase bevat echte vacatures van financiële bedrijven in België, Nederland, Luxemburg en het VK (2022 tot september 2026).
-Zoek daarin met vacancyTrend en searchVacancies. Gebruik zoektermen in het Engels, Nederlands én Frans (bv. "RAG", "retrieval", "kennisassistent").
-Gebruik semanticSearch voor vragen over een concept (bv. "kennisassistent", "AI governance") en skillGap voor vragen over skills of readiness van een functie.
-Id's van vacatures uit semanticSearch mogen ook in basedOn van createVacancyDocument.
+Zoek bewijs bij voorkeur met search_postings (op betekenis, meertalig, met filters op land, bedrijf en jaar) in plaats van searchVacancies (trefwoorden).
+Gebruik top_skills voor marktcijfers (welke skills, hoeveel vacatures; vermeld altijd het totaal) en skill_gap voor de kloof tussen interne skills en de markt.
+vacancyTrend blijft voor trends per jaar. Zeg je iets op basis van een vacature, steun het dan op de vacancy_id uit de tool (in basedOn, niet in de tekst).
+Is de RAG-API niet bereikbaar, gebruik dan searchVacancies en vacancyTrend.
 Zeg altijd dat de interne bedrijfsdata synthetisch is.
 Met searchKnowledge zoek je in vrije tekst (best passende eerst) in vacatures van 2025-2026, ESCO-skills (officiële skillnamen in EN/NL/FR)
 en AI-blootstelling per beroep (ILO, OpenAI GPTs-are-GPTs, Felten, Anthropic Economic Index). Gebruik het om een skill aan ESCO te koppelen
@@ -61,7 +62,7 @@ Schrijf ALLEEN vacatures als de gebruiker daar expliciet om vraagt (bv. "maak va
 Doe het anders niet, ook niet bij een rapport, en roep createVacancyDocument dan niet aan.
 Vraagt de gebruiker erom, schrijf dan zelf 1 à 3 vacatures op maat van ${data.company.name}
 voor de rollen die het bedrijf nodig heeft om de kloof te dichten:
-- Baseer ze op de interne behoefte (afdeling, taken, software van het bedrijf) en gebruik echte vacatures uit searchVacancies als inspiratie; zet hun id's in basedOn.
+- Baseer ze op de interne behoefte (afdeling, taken, software van het bedrijf) en gebruik echte vacatures uit search_postings (of searchVacancies) als inspiratie; zet hun id's in basedOn.
 - Verzin geen salaris, adres of voordelen die niet in de data staan; houd "Wat bieden we?" algemeen (bv. opleidingsbudget, rol in een AI-pilot).
 - Roep createVacancyDocument precies één keer aan met alle vacatures. Het systeem voegt de downloadlink zelf toe; schrijf zelf geen link.
 - Sluit je antwoord af met "## Vacatures voor ${data.company.name}": een tabel functie | afdeling | waarom deze rol | gebaseerd op (bedrijf en functietitel van de echte vacatures, geen id's).
@@ -119,8 +120,8 @@ const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
-    name: 'semanticSearch',
-    description: 'Zoekt echte vacatures op betekenis in plaats van trefwoorden, over Engels, Nederlands en Frans heen. Geeft id, titel, bedrijf, datum, land en een fragment terug. Gebruik ze als voorbeeld en bewijs en verwijs naar de vacancy_id (bv. in basedOn). Niet om te tellen: daarvoor is vacancyTrend.',
+    name: 'search_postings',
+    description: 'Zoekt echte vacatures op betekenis in plaats van trefwoorden, over Engels, Nederlands en Frans heen. Geeft vacancy_id, titel, bedrijf, land, datum en een fragment terug. Gebruik ze als bewijs en voorbeeld en verwijs naar de vacancy_id (bv. in basedOn). Niet om te tellen: daarvoor is top_skills.',
     input_schema: {
       type: 'object',
       properties: {
@@ -132,6 +133,21 @@ const TOOLS: Anthropic.Tool[] = [
         year_to: { type: 'integer' },
       },
       required: ['query'],
+    },
+  },
+  {
+    name: 'top_skills',
+    description: 'Telt de meest gevraagde ESCO-skills in alle vacatures die aan de filters voldoen: skill, aantal vacatures en aandeel, plus het totaal. Gebruik dit voor marktcijfers; een totaal onder ~50 is anekdotisch. Jan-apr 2026 is onvolledig.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        company: { type: 'string', description: 'Deel van de bedrijfsnaam, bv. "belfius"' },
+        country: { type: 'string', enum: ['BE', 'NL', 'LU', 'GB'] },
+        year_from: { type: 'integer' },
+        year_to: { type: 'integer' },
+        title_contains: { type: 'string', description: 'Deel van de functietitel, bv. "data scientist"' },
+        k: { type: 'integer', description: '1-200, standaard 20' },
+      },
     },
   },
   {
@@ -148,8 +164,8 @@ const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
-    name: 'skillGap',
-    description: 'Vergelijkt de skills die de markt vraagt in vergelijkbare rollen met de skills die aanwezig zijn bij het (synthetische) Northwind Bank, per functie of functietitel. Geeft kloven en sterktes met marktaandeel, intern aandeel en een voorbeeldvacature als bewijs.',
+    name: 'skill_gap',
+    description: 'Vergelijkt de skills die de markt vraagt in vergelijkbare rollen met de skills die aanwezig zijn bij het (synthetische) Goldman Stanley, per functie of functietitel. Geeft kloven en sterktes met marktaandeel, intern aandeel en een voorbeeldvacature als bewijs.',
     input_schema: {
       type: 'object',
       properties: {
@@ -177,7 +193,7 @@ const TOOLS: Anthropic.Tool[] = [
               requirements: { type: 'array', items: { type: 'string' } },
               niceToHave: { type: 'array', items: { type: 'string' } },
               offer: { type: 'array', items: { type: 'string' } },
-              basedOn: { type: 'array', items: { type: 'string' }, description: "Id's van echte vacatures uit searchVacancies" },
+              basedOn: { type: 'array', items: { type: 'string' }, description: "Id's van echte vacatures uit search_postings of searchVacancies" },
               linkedinSearch: { type: 'string', description: 'Boolean-zoekstring om kandidaten op LinkedIn te vinden' },
               alternativeTitles: { type: 'array', items: { type: 'string' }, description: 'Andere functietitels om op te zoeken' },
             },
@@ -192,24 +208,24 @@ const TOOLS: Anthropic.Tool[] = [
 
 type ToolInput = {
   query?: string; ref?: string; terms?: string[]; limit?: number; kind?: Kind; vacancies?: VacancyDraft[];
-  k?: number; country?: string; company?: string; year_from?: number; year_to?: number; function?: string; job_title?: string;
+  k?: number; country?: string; company?: string; year_from?: number; year_to?: number; function?: string; job_title?: string; title_contains?: string;
 };
 
-const RAG_API_URL = process.env.RAG_API_URL ?? 'http://localhost:8100';
+const RAG_DOWN = { message: 'RAG-API niet bereikbaar; gebruik searchVacancies en vacancyTrend.' };
 
 /** Calls the data team's RAG API (via SSH tunnel). Never throws, so the agent keeps working without it. */
 async function ragApi(path: string, body: unknown): Promise<unknown> {
   try {
-    const res = await fetch(`${RAG_API_URL}${path}`, {
+    const res = await fetch(`${process.env.RAG_API_URL ?? 'http://localhost:8100'}${path}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(20000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch {
-    return { message: 'Semantische zoekdienst niet bereikbaar; gebruik searchVacancies.' };
+    return RAG_DOWN;
   }
 }
 
@@ -227,12 +243,21 @@ export async function runTool(name: string, input: ToolInput, documents: Propose
   if (name === 'readSource') return byRef(input.ref ?? '') ?? { message: `Geen record "${input.ref}".` };
   if (name === 'vacancyTrend') return vacancyTrend(input.terms ?? []);
   if (name === 'searchVacancies') return searchVacancies(input.terms ?? [], input.limit);
-  if (name === 'semanticSearch') {
+  if (name === 'search_postings') {
     const { query, k, country, company, year_from, year_to } = input;
     const hits = await ragApi('/search_postings', { query, k, country, company, year_from, year_to });
+    if (hits === RAG_DOWN) {
+      // Keyword fallback: the longer words of the query as search terms.
+      const terms = (query ?? '').split(/\s+/).filter((w) => w.length > 3).slice(0, 8);
+      return searchVacancies(terms.length ? terms : [query ?? ''], Math.min(k ?? 5, 10));
+    }
     return Array.isArray(hits) ? hits.map((h) => ({ ...h, text: String(h.text ?? '').slice(0, 600) })) : hits;
   }
-  if (name === 'skillGap') return ragApi('/skill_gap', { function: input.function, job_title: input.job_title, k: input.k });
+  if (name === 'top_skills') {
+    const { company, country, year_from, year_to, title_contains, k } = input;
+    return ragApi('/top_skills', { company, country, year_from, year_to, title_contains, k });
+  }
+  if (name === 'skill_gap') return ragApi('/skill_gap', { function: input.function, job_title: input.job_title, k: input.k });
   if (name === 'searchKnowledge') return searchKnowledge(input.query ?? '', input.kind, input.limit);
   return { message: `Onbekende tool ${name}` };
 }

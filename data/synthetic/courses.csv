@@ -1,25 +1,25 @@
 course_id,course_title,skill_name,hours,category,is_mandatory,is_ai_related,available_from,provider,is_synthetic
 C001,Anti-Money Laundering & Financial Crime Awareness (annual),anti-money laundering screening,1.5,compliance,True,False,2023-01-01,External e-learning vendor (generic),True
-C002,Data Protection & GDPR Essentials (annual),data protection,1.0,compliance,True,False,2023-01-01,Northwind Academy (internal),True
-C003,Code of Conduct & Ethics (annual),comply with legal regulations,0.75,compliance,True,False,2023-01-01,Northwind Academy (internal),True
+C002,Data Protection & GDPR Essentials (annual),data protection,1.0,compliance,True,False,2023-01-01,Goldman Stanley Academy (internal),True
+C003,Code of Conduct & Ethics (annual),comply with legal regulations,0.75,compliance,True,False,2023-01-01,Goldman Stanley Academy (internal),True
 C004,AI Literacy for Everyone (EU AI Act Art. 4),use generative AI assistants responsibly,2.0,ai,True,True,2025-01-15,External e-learning vendor (generic),True
-C010,Generative AI at Northwind: Getting Started,use generative AI assistants responsibly,1.5,ai,False,True,2023-09-01,Northwind Academy (internal),True
-C011,Prompt Engineering Fundamentals,use generative AI assistants responsibly,3.0,ai,False,True,2023-11-01,Northwind Academy (internal),True
+C010,Generative AI at Goldman Stanley: Getting Started,use generative AI assistants responsibly,1.5,ai,False,True,2023-09-01,Goldman Stanley Academy (internal),True
+C011,Prompt Engineering Fundamentals,use generative AI assistants responsibly,3.0,ai,False,True,2023-11-01,Goldman Stanley Academy (internal),True
 C012,Responsible AI & Model Risk in Banking,AI model risk management,4.0,ai,False,True,2024-03-01,External e-learning vendor (generic),True
-C013,AI-Assisted Software Development,AI-assisted software development,6.0,ai,False,True,2023-06-01,Northwind Academy (internal),True
-C014,Building RAG Applications with LLMs,large language model application development,12.0,ai,False,True,2024-05-01,Northwind Academy (internal),True
+C013,AI-Assisted Software Development,AI-assisted software development,6.0,ai,False,True,2023-06-01,Goldman Stanley Academy (internal),True
+C014,Building RAG Applications with LLMs,large language model application development,12.0,ai,False,True,2024-05-01,Goldman Stanley Academy (internal),True
 C015,Machine Learning for Credit Risk,utilise machine learning,16.0,ai,False,True,2023-01-01,External e-learning vendor (generic),True
-C016,EU AI Act for Legal & Compliance Professionals,EU AI Act compliance,5.0,ai,False,True,2024-08-01,Northwind Academy (internal),True
-C017,AI Agents & Workflow Automation,AI use-case identification,6.0,ai,False,True,2025-03-01,Northwind Academy (internal),True
+C016,EU AI Act for Legal & Compliance Professionals,EU AI Act compliance,5.0,ai,False,True,2024-08-01,Goldman Stanley Academy (internal),True
+C017,AI Agents & Workflow Automation,AI use-case identification,6.0,ai,False,True,2025-03-01,Goldman Stanley Academy (internal),True
 C018,Generative AI for Customer Conversations,customer service,2.5,ai,False,True,2024-02-01,External e-learning vendor (generic),True
-C020,Python for Data Analysis,Python (computer programming),20.0,technical,False,False,2023-01-01,Northwind Academy (internal),True
-C021,SQL Foundations,SQL,8.0,technical,False,False,2023-01-01,Northwind Academy (internal),True
+C020,Python for Data Analysis,Python (computer programming),20.0,technical,False,False,2023-01-01,Goldman Stanley Academy (internal),True
+C021,SQL Foundations,SQL,8.0,technical,False,False,2023-01-01,Goldman Stanley Academy (internal),True
 C022,Cloud Fundamentals,cloud technologies,10.0,technical,False,False,2023-01-01,External e-learning vendor (generic),True
-C023,Secure Coding Practices,cyber security,6.0,technical,False,False,2023-01-01,Northwind Academy (internal),True
-C024,Agile Ways of Working,Agile project management,4.0,ways of working,False,False,2023-01-01,Northwind Academy (internal),True
+C023,Secure Coding Practices,cyber security,6.0,technical,False,False,2023-01-01,Goldman Stanley Academy (internal),True
+C024,Agile Ways of Working,Agile project management,4.0,ways of working,False,False,2023-01-01,Goldman Stanley Academy (internal),True
 C025,Credit Risk Fundamentals,analyse financial risk,8.0,banking,False,False,2023-01-01,External e-learning vendor (generic),True
-C026,Mortgage Advice Certification Refresher,mortgage loans,6.0,banking,False,False,2023-01-01,Northwind Academy (internal),True
-C027,Handling Complaints with Empathy,handle customer complaints,3.0,customer,False,False,2023-01-01,Northwind Academy (internal),True
+C026,Mortgage Advice Certification Refresher,mortgage loans,6.0,banking,False,False,2023-01-01,Goldman Stanley Academy (internal),True
+C027,Handling Complaints with Empathy,handle customer complaints,3.0,customer,False,False,2023-01-01,Goldman Stanley Academy (internal),True
 C028,Leadership Essentials,plan teamwork,12.0,leadership,False,False,2023-01-01,External e-learning vendor (generic),True
-C029,Financial Statement Analysis,interpret financial statements,10.0,banking,False,False,2023-01-01,Northwind Academy (internal),True
-C030,Process Improvement with Lean,improve business processes,6.0,ways of working,False,False,2023-01-01,Northwind Academy (internal),True
+C029,Financial Statement Analysis,interpret financial statements,10.0,banking,False,False,2023-01-01,Goldman Stanley Academy (internal),True
+C030,Process Improvement with Lean,improve business processes,6.0,ways of working,False,False,2023-01-01,Goldman Stanley Academy (internal),True

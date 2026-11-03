@@ -1,7 +1,7 @@
 {
-  "company": { "name": "Vandenberg Verzekeringen (fictief)", "sector": "Verzekeringen", "employees": 45 },
+  "company": { "name": "Goldman Stanley (gesimuleerd)", "sector": "Bankwezen", "employees": 45 },
   "market_trends": [
-    { "id": "mt1", "skill": "AI-zoeksystemen en kennisassistenten (RAG)", "growth_pct_yoy": 85, "postings": 12400, "note": "Vooral in klantenservice en schadebehandeling bij vergelijkbare bedrijven." },
+    { "id": "mt1", "skill": "AI-zoeksystemen en kennisassistenten (RAG)", "growth_pct_yoy": 85, "postings": 12400, "note": "Vooral in klantenservice en kredietverlening bij vergelijkbare bedrijven." },
     { "id": "mt2", "skill": "Beoordelen en controleren van AI-antwoorden", "growth_pct_yoy": 62, "postings": 8100, "note": "Broncontrole en kwaliteitsbewaking." },
     { "id": "mt3", "skill": "Dataverwerking en -analyse (Excel, SQL, Python)", "growth_pct_yoy": 28, "postings": 31200, "note": "Stabiel groeiend over alle sectoren." },
     { "id": "mt4", "skill": "Procesautomatisering (workflow-tools)", "growth_pct_yoy": 41, "postings": 15600, "note": "Repetitieve administratie wordt geautomatiseerd." },
@@ -10,14 +10,14 @@
   "internal_skills": [
     { "id": "is1", "department": "Klantenservice", "skill": "Klantcommunicatie", "people": 12, "level": "hoog" },
     { "id": "is2", "department": "Klantenservice", "skill": "AI-zoeksystemen en kennisassistenten (RAG)", "people": 0, "level": "geen" },
-    { "id": "is3", "department": "Schadebehandeling", "skill": "Dataverwerking en -analyse (Excel, SQL, Python)", "people": 3, "level": "basis" },
+    { "id": "is3", "department": "Kredietverlening", "skill": "Dataverwerking en -analyse (Excel, SQL, Python)", "people": 3, "level": "basis" },
     { "id": "is4", "department": "Administratie", "skill": "Procesautomatisering (workflow-tools)", "people": 1, "level": "basis" },
     { "id": "is5", "department": "IT", "skill": "Dataverwerking en -analyse (Excel, SQL, Python)", "people": 2, "level": "gevorderd" },
     { "id": "is6", "department": "IT", "skill": "Beoordelen en controleren van AI-antwoorden", "people": 0, "level": "geen" }
   ],
   "software": [
     { "id": "sw1", "name": "Microsoft 365", "category": "werkomgeving", "ai_features": "Copilot beschikbaar, niet geactiveerd", "used_by": "alle afdelingen" },
-    { "id": "sw2", "name": "ClaimsPro", "category": "schadebeheer", "ai_features": "geen", "used_by": "Schadebehandeling" },
+    { "id": "sw2", "name": "LoanDesk", "category": "kredietbeheer", "ai_features": "geen", "used_by": "Kredietverlening" },
     { "id": "sw3", "name": "Interne wiki (SharePoint)", "category": "kennisbeheer", "ai_features": "alleen trefwoordzoeken", "used_by": "Klantenservice" },
     { "id": "sw4", "name": "ChatGPT (gratis, op eigen initiatief)", "category": "algemene AI", "ai_features": "chat", "used_by": "4 medewerkers, onofficieel" }
   ],
@@ -27,8 +27,8 @@
     { "id": "tr3", "title": "Introductie AI op het werk", "department": "Alle afdelingen", "participants": 5, "year": 2026 }
   ],
   "tasks": [
-    { "id": "tk1", "department": "Klantenservice", "task": "Procedures en polisvoorwaarden terugvinden in de wiki", "hours_per_week": 38, "repetitive": true },
-    { "id": "tk2", "department": "Schadebehandeling", "task": "Gegevens uit schadeformulieren overtypen in ClaimsPro", "hours_per_week": 22, "repetitive": true },
+    { "id": "tk1", "department": "Klantenservice", "task": "Procedures en productvoorwaarden terugvinden in de wiki", "hours_per_week": 38, "repetitive": true },
+    { "id": "tk2", "department": "Kredietverlening", "task": "Gegevens uit kredietaanvragen overtypen in LoanDesk", "hours_per_week": 22, "repetitive": true },
     { "id": "tk3", "department": "Administratie", "task": "Maandelijkse facturen controleren en doorsturen", "hours_per_week": 14, "repetitive": true }
   ],
   "scores": {
