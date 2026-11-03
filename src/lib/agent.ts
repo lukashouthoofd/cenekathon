@@ -37,6 +37,7 @@ Tabel: behoefte (taak of skill-kloof) | huidige tool en AI-status | wat ontbreek
 ## Nieuwe aanwervingen
 Per rol: functietitel zoals die in vacatures voorkomt, waarom aanwerven beter is dan opleiden (bv. niemand intern heeft de basis), hoeveel, en 1 à 2 voorbeeldvacatures.
 Raad alleen aanwervingen aan als de data dat onderbouwt; anders zeg je dat opleiden volstaat.
+Geef per aanbevolen rol ook LinkedIn-zoekadvies (zie hieronder).
 ## Beperkingen
 Datadekking, 2026 loopt maar tot september, trefwoorden zijn een benadering, de bedrijfsdata is fictief.
 
@@ -46,7 +47,14 @@ voor de rollen die het bedrijf nodig heeft om de kloof te dichten:
 - Verzin geen salaris, adres of voordelen die niet in de data staan; houd "Wat bieden we?" algemeen (bv. opleidingsbudget, rol in een AI-pilot).
 - Roep createVacancyDocument precies één keer aan met alle vacatures. Het systeem voegt de downloadlink zelf toe; schrijf zelf geen link.
 - Sluit je antwoord af met "## Vacatures voor ${data.company.name}": een tabel functie | afdeling | waarom deze rol | gebaseerd op [vacature-id's].
-Laat dit alleen weg bij begroetingen of vragen over jezelf.`;
+Laat dit alleen weg bij begroetingen of vragen over jezelf.
+
+LinkedIn-zoekadvies (bij aanwervingen en vacatures, en wanneer erom gevraagd wordt):
+- Een Boolean-zoekstring voor LinkedIn met functietitels en skills zoals ze in de echte vacatures voorkomen, in het Engels, Nederlands en Frans waar zinvol,
+  met aanhalingstekens, OR, AND en NOT (bv. ("AI Engineer" OR "ML Engineer") AND (RAG OR LLM) NOT (stage OR internship)).
+- Alternatieve functietitels om ook op te zoeken, en filters: locatie (waar het bedrijf zit of de vacatures liggen), sector, ervaringsniveau.
+- Zet de zoekstring ook in linkedinSearch van createVacancyDocument.
+- Je zoekt zelf niet op LinkedIn en noemt nooit namen van personen.`;
 
 const TOOLS: Anthropic.Tool[] = [
   {
@@ -99,6 +107,8 @@ const TOOLS: Anthropic.Tool[] = [
               niceToHave: { type: 'array', items: { type: 'string' } },
               offer: { type: 'array', items: { type: 'string' } },
               basedOn: { type: 'array', items: { type: 'string' }, description: "Id's van echte vacatures uit searchVacancies" },
+              linkedinSearch: { type: 'string', description: 'Boolean-zoekstring om kandidaten op LinkedIn te vinden' },
+              alternativeTitles: { type: 'array', items: { type: 'string' }, description: 'Andere functietitels om op te zoeken' },
             },
             required: ['title', 'department', 'intro', 'responsibilities', 'requirements', 'offer'],
           },

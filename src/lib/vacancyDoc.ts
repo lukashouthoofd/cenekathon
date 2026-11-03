@@ -14,6 +14,9 @@ export type VacancyDraft = {
   offer: string[];
   /** Ids of real market vacancies this draft is based on. */
   basedOn?: string[];
+  /** Boolean search string for finding candidates on LinkedIn. */
+  linkedinSearch?: string;
+  alternativeTitles?: string[];
 };
 
 // Files on disk (not in memory) so the download route can read them from any route bundle.
@@ -47,6 +50,13 @@ export async function buildVacancyDocx(company: string, vacancies: VacancyDraft[
             ...list('Wat vragen we?', v.requirements),
             ...list('Mooi meegenomen', v.niceToHave),
             ...list('Wat bieden we?', v.offer),
+            ...(v.linkedinSearch
+              ? [
+                  new Paragraph({ text: 'Zoeken op LinkedIn (voor de recruiter)', heading: HeadingLevel.HEADING_3 }),
+                  new Paragraph({ children: [new TextRun({ text: v.linkedinSearch, font: 'Consolas' })] }),
+                ]
+              : []),
+            ...list('Ook zoeken op deze titels', v.alternativeTitles),
             ...(v.basedOn?.length
               ? [new Paragraph({ children: [new TextRun({ text: `Gebaseerd op marktvacatures: ${v.basedOn.join(', ')}`, size: 18, color: '666666' })] })]
               : []),

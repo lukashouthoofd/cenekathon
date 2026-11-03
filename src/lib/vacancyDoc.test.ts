@@ -10,6 +10,8 @@ const draft = {
   requirements: ['Ervaring met RAG'],
   offer: ['Opleidingsbudget'],
   basedOn: ['v2'],
+  linkedinSearch: '("AI Engineer" OR "ML Engineer") AND RAG',
+  alternativeTitles: ['LLM Engineer'],
 };
 
 test('a saved document can be read back as a .docx (zip) file', async () => {
