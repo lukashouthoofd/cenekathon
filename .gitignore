@@ -37,3 +37,6 @@ src/backend/summary.json
 # Local IDE settings and external workshop material (not part of the repo)
 .vscode/
 TechWolf*.md
+
+# Vercel CLI link (local only)
+.vercel

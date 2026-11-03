@@ -42,6 +42,8 @@ def build() -> None:
             "INSERT INTO build_info VALUES (?, ?, ?)",
             [datetime.datetime.now(), SOURCE.name, row_count],
         )
+        # Flush the WAL into the file, so no .wal is left next to the database for readers to trip over.
+        con.execute("CHECKPOINT")
     finally:
         con.close()
 

@@ -5,13 +5,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --experimental-strip-types --test src/lib/data.test.ts src/lib/vacancies.test.ts src/lib/vacancyDoc.test.ts"
+    "test": "node --experimental-strip-types --test src/lib/data.test.ts src/lib/vacancies.test.ts src/lib/vacancyDoc.test.ts src/lib/rag.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.4.0",
-    "@duckdb/node-api": "^2.0.0-r.1",
+    "@duckdb/node-api": "1.5.6-r.2",
     "docx": "^9.15.1",
-    "next": "15.5.4",
+    "next": "15.5.28",
     "react": "19.1.1",
     "react-dom": "19.1.1"
   },

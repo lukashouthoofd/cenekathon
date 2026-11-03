@@ -1,4 +1,4 @@
-"""Normalize the yearly vacancy parquet files (2022-2026) into one dataset.
+"""Normalize the yearly vacancy parquet files (2021-2026) into one dataset.
 
 Rerun with:  py -3 normalize_vacancies.py
 Put the raw vacancies_<year>.parquet files in IN_DIR (raw/ next to this script). They are read only.
@@ -17,7 +17,8 @@ import pyarrow.parquet as pq
 
 OUT_DIR = pathlib.Path(__file__).resolve().parent
 IN_DIR = OUT_DIR / "raw"
-YEARS = [2022, 2023, 2024, 2025, 2026]  # explicit list: 2021 files exist but are out of scope
+# 2021 is included; whether to use it is still open, so downstream filters on year (e.g. RAG build --years).
+YEARS = [2021, 2022, 2023, 2024, 2025, 2026]
 OUT_PARQUET = OUT_DIR / "vacancies_normalized.parquet"
 OUT_CSV = OUT_DIR / "vacancies_normalized.csv"
 
@@ -157,8 +158,10 @@ def main():
         offset += n_in
         assert (seg["source_file"] == path.name).all()
 
-        df = t.to_pandas()
-        for col in ["vacancy_id", "title", "company", "description", "country"]:
+        # Description stays exactly as delivered (no strip, no truncation): the RAG build cleans it itself.
+        # Kept as an Arrow column, which also avoids a multi-GB pandas copy per year.
+        df = t.drop(["description"]).to_pandas()
+        for col in ["vacancy_id", "title", "company", "country"]:
             df[col] = df[col].astype("string").str.strip().replace("", None)
         df["country"] = df["country"].str.upper()
         df["date_posted"] = pd.to_datetime(df["date_posted"]).dt.date
@@ -169,8 +172,11 @@ def main():
         df["possible_duplicate"] = seg["possible_duplicate"].to_numpy(dtype=bool)
         keep = ~seg["removed_dup_id"].to_numpy(dtype=bool)
 
-        out = df.loc[keep, [f.name for f in TARGET_SCHEMA]]
-        table = pa.Table.from_pandas(out, schema=TARGET_SCHEMA, preserve_index=False)
+        desc_idx = TARGET_SCHEMA.get_field_index("description")
+        out = df.loc[keep, [f.name for f in TARGET_SCHEMA if f.name != "description"]]
+        table = pa.Table.from_pandas(out, schema=TARGET_SCHEMA.remove(desc_idx), preserve_index=False)
+        desc = t.column("description").filter(pa.array(keep)).cast(pa.string())
+        table = table.add_column(desc_idx, TARGET_SCHEMA.field("description"), desc)
         writer.write_table(table)
         csv_writer.write_table(table)
 
@@ -179,8 +185,10 @@ def main():
             "rows_before": int(n_in),
             "removed_duplicate_vacancy_id": int((~keep).sum()),
             "rows_after": int(keep.sum()),
-            "date_min": str(min(out["date_posted"])) if len(out) else None,
-            "date_max": str(max(out["date_posted"])) if len(out) else None,
+            # 2021 has 271 rows without date_posted: they are kept (NULL date) and left out of min/max.
+            "date_min": str(min(out["date_posted"].dropna())) if out["date_posted"].notna().any() else None,
+            "date_max": str(max(out["date_posted"].dropna())) if out["date_posted"].notna().any() else None,
+            "date_null": int(out["date_posted"].isna().sum()),
             "date_year_not_equal_source_year": year_mismatch,
             "city_raw_non_null": int(df["city_raw"].notna().sum()),
             "city_null_after": int(out["city"].isna().sum()),

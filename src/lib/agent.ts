@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { byRef, data, search } from './data';
+import { searchKnowledge, type Kind } from './rag';
 import { searchVacancies, vacancyTrend } from './vacancies';
 import { saveVacancyDocument, type VacancyDraft } from './vacancyDoc';
 
@@ -24,6 +25,9 @@ prijzen of features die niet in de data staan.
 
 De vacaturedatabase bevat echte vacatures van financiële bedrijven in België, Nederland, Luxemburg en het VK (2022 tot september 2026).
 Zoek daarin met vacancyTrend en searchVacancies. Gebruik zoektermen in het Engels, Nederlands én Frans (bv. "RAG", "retrieval", "kennisassistent").
+Met searchKnowledge zoek je in vrije tekst (best passende eerst) in vacatures van 2025-2026, ESCO-skills (officiële skillnamen in EN/NL/FR)
+en AI-blootstelling per beroep (ILO, OpenAI GPTs-are-GPTs, Felten, Anthropic Economic Index). Gebruik het om een skill aan ESCO te koppelen
+en om te tonen hoe sterk een beroep aan AI blootgesteld is. Citeer met de ref uit het resultaat, bv. [esco:...] of [ILO:isco08_4d:2411].
 
 Vraagt de gebruiker een rapport over opleidingen en/of nieuwe aanwervingen, schrijf dan een volledig rapport met deze secties:
 ## Samenvatting
@@ -91,6 +95,19 @@ const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: 'searchKnowledge',
+    description: 'Full-text zoeken (BM25, best passende eerst) in vacatures 2025-2026, ESCO-skills en AI-blootstelling per beroep. Geeft ref, soort, titel, fragment en score terug.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Zoekvraag in gewone woorden, bv. "prompt engineering" of "claims handler"' },
+        kind: { type: 'string', enum: ['vacancy', 'skill', 'ai_exposure'], description: 'Optioneel: zoek in één soort' },
+        limit: { type: 'integer', description: '1-20, standaard 8' },
+      },
+      required: ['query'],
+    },
+  },
+  {
     name: 'createVacancyDocument',
     description: 'Maakt een downloadbaar Word-document met vacatureteksten op maat van het bedrijf. Eén keer per antwoord, met alle vacatures.',
     input_schema: {
@@ -121,7 +138,7 @@ const TOOLS: Anthropic.Tool[] = [
   },
 ];
 
-type ToolInput = { query?: string; ref?: string; terms?: string[]; limit?: number; vacancies?: VacancyDraft[] };
+type ToolInput = { query?: string; ref?: string; terms?: string[]; limit?: number; kind?: Kind; vacancies?: VacancyDraft[] };
 
 async function runTool(name: string, input: ToolInput, documents: ProposedVacancies[]): Promise<unknown> {
   if (name === 'createVacancyDocument') {
@@ -137,6 +154,7 @@ async function runTool(name: string, input: ToolInput, documents: ProposedVacanc
   if (name === 'readSource') return byRef(input.ref ?? '') ?? { message: `Geen record "${input.ref}".` };
   if (name === 'vacancyTrend') return vacancyTrend(input.terms ?? []);
   if (name === 'searchVacancies') return searchVacancies(input.terms ?? [], input.limit);
+  if (name === 'searchKnowledge') return searchKnowledge(input.query ?? '', input.kind, input.limit);
   return { message: `Onbekende tool ${name}` };
 }
 
