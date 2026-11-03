@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { byRef, data, search } from './data';
 import { searchVacancies, vacancyTrend } from './vacancies';
+import { saveVacancyDocument, type VacancyDraft } from './vacancyDoc';
 
 export type ChatMessage = { role: 'user' | 'assistant'; content: string };
 
@@ -28,7 +29,15 @@ Tabel: opleiding | afdeling | voor wie / hoeveel mensen | waarom (marktsignaal +
 Per rol: functietitel zoals die in vacatures voorkomt, waarom aanwerven beter is dan opleiden (bv. niemand intern heeft de basis), hoeveel, en 1 à 2 voorbeeldvacatures.
 Raad alleen aanwervingen aan als de data dat onderbouwt; anders zeg je dat opleiden volstaat.
 ## Beperkingen
-Datadekking, 2026 loopt maar tot september, trefwoorden zijn een benadering, de bedrijfsdata is fictief.`;
+Datadekking, 2026 loopt maar tot september, trefwoorden zijn een benadering, de bedrijfsdata is fictief.
+
+Bij ELK inhoudelijk antwoord (ook korte antwoorden en het rapport) schrijf je zelf 1 à 3 vacatures op maat van ${data.company.name}
+voor de rollen die het bedrijf nodig heeft om de kloof te dichten:
+- Baseer ze op de interne behoefte (afdeling, taken, software van het bedrijf) en gebruik echte vacatures uit searchVacancies als inspiratie; zet hun id's in basedOn.
+- Verzin geen salaris, adres of voordelen die niet in de data staan; houd "Wat bieden we?" algemeen (bv. opleidingsbudget, rol in een AI-pilot).
+- Roep createVacancyDocument precies één keer aan met alle vacatures. Het systeem voegt de downloadlink zelf toe; schrijf zelf geen link.
+- Sluit je antwoord af met "## Vacatures voor ${data.company.name}": een tabel functie | afdeling | waarom deze rol | gebaseerd op [vacature-id's].
+Laat dit alleen weg bij begroetingen of vragen over jezelf.`;
 
 const TOOLS: Anthropic.Tool[] = [
   {
@@ -62,11 +71,43 @@ const TOOLS: Anthropic.Tool[] = [
       required: ['terms'],
     },
   },
+  {
+    name: 'createVacancyDocument',
+    description: 'Maakt een downloadbaar Word-document met vacatureteksten op maat van het bedrijf. Eén keer per antwoord, met alle vacatures.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        vacancies: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              title: { type: 'string' },
+              department: { type: 'string' },
+              intro: { type: 'string', description: '2-3 zinnen over de rol en waarom het bedrijf haar nu zoekt' },
+              responsibilities: { type: 'array', items: { type: 'string' } },
+              requirements: { type: 'array', items: { type: 'string' } },
+              niceToHave: { type: 'array', items: { type: 'string' } },
+              offer: { type: 'array', items: { type: 'string' } },
+              basedOn: { type: 'array', items: { type: 'string' }, description: "Id's van echte vacatures uit searchVacancies" },
+            },
+            required: ['title', 'department', 'intro', 'responsibilities', 'requirements', 'offer'],
+          },
+        },
+      },
+      required: ['vacancies'],
+    },
+  },
 ];
 
-type ToolInput = { query?: string; ref?: string; terms?: string[]; limit?: number };
+type ToolInput = { query?: string; ref?: string; terms?: string[]; limit?: number; vacancies?: VacancyDraft[] };
 
-async function runTool(name: string, input: ToolInput): Promise<unknown> {
+async function runTool(name: string, input: ToolInput, documents: string[]): Promise<unknown> {
+  if (name === 'createVacancyDocument') {
+    const id = await saveVacancyDocument(data.company.name, input.vacancies ?? []);
+    documents.push(id);
+    return { message: `Document gemaakt met ${input.vacancies!.length} vacature(s). De downloadlink wordt automatisch toegevoegd.` };
+  }
   if (name === 'searchData') {
     const hits = search(input.query ?? '');
     return hits.length ? hits : { message: 'Geen resultaten. Probeer andere trefwoorden.' };
@@ -86,20 +127,25 @@ export async function answer(history: ChatMessage[]): Promise<string> {
   const client = new Anthropic({ apiKey: AI_API_KEY });
 
   const messages: Anthropic.MessageParam[] = [...history];
+  const documents: string[] = [];
+  // The link is added here, not by the model, so it can never point to a document that doesn't exist.
+  const withLinks = (text: string) =>
+    text + documents.map((id) => `\n\n**[Download vacatures (Word)](/api/documents/${id})**`).join('');
+
   for (let step = 0; step < MAX_STEPS; step++) {
     const response = await client.messages.create({ model: AI_MODEL, max_tokens: 16000, system: SYSTEM, tools: TOOLS, messages });
     messages.push({ role: 'assistant', content: response.content });
 
     const text = response.content.flatMap((b) => (b.type === 'text' ? [b.text] : [])).join('\n');
     if (response.stop_reason === 'refusal') return 'Ik kan deze vraag niet beantwoorden.';
-    if (response.stop_reason === 'max_tokens') return `${text}\n\n_(Antwoord afgekapt: te lang.)_`;
-    if (response.stop_reason !== 'tool_use') return text;
+    if (response.stop_reason === 'max_tokens') return withLinks(`${text}\n\n_(Antwoord afgekapt: te lang.)_`);
+    if (response.stop_reason !== 'tool_use') return withLinks(text);
 
     const calls = response.content.filter((b): b is Anthropic.ToolUseBlock => b.type === 'tool_use');
     const results = await Promise.all(
       calls.map(async (call): Promise<Anthropic.ToolResultBlockParam> => {
         try {
-          const result = await runTool(call.name, call.input as ToolInput);
+          const result = await runTool(call.name, call.input as ToolInput, documents);
           return { type: 'tool_result', tool_use_id: call.id, content: JSON.stringify(result) };
         } catch (err) {
           return { type: 'tool_result', tool_use_id: call.id, content: (err as Error).message, is_error: true };
