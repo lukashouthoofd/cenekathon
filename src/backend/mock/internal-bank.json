@@ -1,0 +1,74 @@
+{
+  "synthetic": true,
+  "label": "GESIMULEERDE INTERNE DATA: fictieve bank, niet echt",
+  "company": {
+    "id": "demo-bank",
+    "name": "Bank Vandermeulen (gesimuleerd)",
+    "industry": "Bankwezen",
+    "country": "BE"
+  },
+  "period": {
+    "from": "2026-01-01",
+    "to": "2026-06-30",
+    "comparisonFrom": "2025-01-01",
+    "comparisonTo": "2025-06-30"
+  },
+  "departments": [
+    { "name": "Risk", "headcount": 100, "employees_with_ai_tool_use_90d": 64 },
+    { "name": "Compliance", "headcount": 110, "employees_with_ai_tool_use_90d": 58 },
+    { "name": "Finance & Control", "headcount": 140, "employees_with_ai_tool_use_90d": 97 },
+    { "name": "Klantendienst", "headcount": 150, "employees_with_ai_tool_use_90d": null },
+    { "name": "IT", "headcount": 120, "employees_with_ai_tool_use_90d": 83 }
+  ],
+  "skills_inventory": [
+    { "skillId": "modelmonitoring", "name": "Modelmonitoring", "department": "Risk", "employees_with_skill": 12, "internal_coverage": 0.12 },
+    { "skillId": "ai-act", "name": "AI Act-compliance", "department": "Compliance", "employees_with_skill": 20, "internal_coverage": 0.18 },
+    { "skillId": "python-data", "name": "Python voor data-analyse", "department": "Finance & Control", "employees_with_skill": 43, "internal_coverage": 0.31 },
+    { "skillId": "prompt-engineering", "name": "Prompt engineering / LLM-gebruik", "department": "Klantendienst", "employees_with_skill": 6, "internal_coverage": 0.04 },
+    { "skillId": "data-governance", "name": "Data governance", "department": "IT", "employees_with_skill": null, "internal_coverage": null },
+    { "skillId": "mlops", "name": "MLOps", "department": "IT", "employees_with_skill": 11, "internal_coverage": 0.09 }
+  ],
+  "training_records": [
+    { "employee_anon_id": "E-0001", "department": "Risk", "course": "Modelmonitoring en drift-detectie in de praktijk", "skill_id": "modelmonitoring", "completed_on": "2026-01-14" },
+    { "employee_anon_id": "E-0002", "department": "Risk", "course": "Modelmonitoring en drift-detectie in de praktijk", "skill_id": "modelmonitoring", "completed_on": "2026-01-21" },
+    { "employee_anon_id": "E-0003", "department": "Risk", "course": "Datakwaliteit en herkomst van data", "skill_id": "data-governance", "completed_on": "2026-02-03" },
+    { "employee_anon_id": "E-0004", "department": "Risk", "course": "Modelmonitoring en drift-detectie in de praktijk", "skill_id": "modelmonitoring", "completed_on": "2026-02-18" },
+    { "employee_anon_id": "E-0005", "department": "Risk", "course": "Modelmonitoring en drift-detectie in de praktijk", "skill_id": "modelmonitoring", "completed_on": "2026-03-04" },
+    { "employee_anon_id": "E-0006", "department": "Risk", "course": "Datakwaliteit en herkomst van data", "skill_id": "data-governance", "completed_on": "2026-03-16" },
+    { "employee_anon_id": "E-0007", "department": "Risk", "course": "Modelmonitoring en drift-detectie in de praktijk", "skill_id": "modelmonitoring", "completed_on": "2026-04-08" },
+    { "employee_anon_id": "E-0008", "department": "Risk", "course": "Modelmonitoring en drift-detectie in de praktijk", "skill_id": "modelmonitoring", "completed_on": "2026-05-12" },
+    { "employee_anon_id": "E-0009", "department": "Compliance", "course": "AI Act: risicoclassificatie van AI-systemen", "skill_id": "ai-act", "completed_on": "2026-01-19" },
+    { "employee_anon_id": "E-0010", "department": "Compliance", "course": "AI Act: risicoclassificatie van AI-systemen", "skill_id": "ai-act", "completed_on": "2026-02-09" },
+    { "employee_anon_id": "E-0011", "department": "Compliance", "course": "AI Act: risicoclassificatie van AI-systemen", "skill_id": "ai-act", "completed_on": "2026-03-02" },
+    { "employee_anon_id": "E-0012", "department": "Compliance", "course": "Datagovernance voor compliance-teams", "skill_id": "data-governance", "completed_on": "2026-03-24" },
+    { "employee_anon_id": "E-0013", "department": "Compliance", "course": "AI Act: risicoclassificatie van AI-systemen", "skill_id": "ai-act", "completed_on": "2026-04-15" },
+    { "employee_anon_id": "E-0014", "department": "Compliance", "course": "AI Act: risicoclassificatie van AI-systemen", "skill_id": "ai-act", "completed_on": "2026-06-10" },
+    { "employee_anon_id": "E-0015", "department": "Finance & Control", "course": "Python voor rapportage-automatisering", "skill_id": "python-data", "completed_on": "2026-01-27" },
+    { "employee_anon_id": "E-0016", "department": "Finance & Control", "course": "Python voor rapportage-automatisering", "skill_id": "python-data", "completed_on": "2026-02-24" },
+    { "employee_anon_id": "E-0017", "department": "Finance & Control", "course": "Excel en SQL-basis voor controllers", "skill_id": null, "completed_on": "2026-03-10" },
+    { "employee_anon_id": "E-0018", "department": "Finance & Control", "course": "Python voor rapportage-automatisering", "skill_id": "python-data", "completed_on": "2026-04-21" },
+    { "employee_anon_id": "E-0019", "department": "Finance & Control", "course": "Excel en SQL-basis voor controllers", "skill_id": null, "completed_on": "2026-05-19" },
+    { "employee_anon_id": "E-0020", "department": "Klantendienst", "course": "Prompts schrijven voor AI-assistenten", "skill_id": "prompt-engineering", "completed_on": "2026-01-13" },
+    { "employee_anon_id": "E-0021", "department": "Klantendienst", "course": "Prompts schrijven voor AI-assistenten", "skill_id": "prompt-engineering", "completed_on": "2026-01-29" },
+    { "employee_anon_id": "E-0022", "department": "Klantendienst", "course": "Klantcontact en gespreksvoering", "skill_id": null, "completed_on": "2026-02-12" },
+    { "employee_anon_id": "E-0023", "department": "Klantendienst", "course": "Prompts schrijven voor AI-assistenten", "skill_id": "prompt-engineering", "completed_on": "2026-03-05" },
+    { "employee_anon_id": "E-0024", "department": "Klantendienst", "course": "Prompts schrijven voor AI-assistenten", "skill_id": "prompt-engineering", "completed_on": "2026-03-26" },
+    { "employee_anon_id": "E-0025", "department": "Klantendienst", "course": "Klantcontact en gespreksvoering", "skill_id": null, "completed_on": "2026-05-06" },
+    { "employee_anon_id": "E-0026", "department": "Klantendienst", "course": "Prompts schrijven voor AI-assistenten", "skill_id": "prompt-engineering", "completed_on": "2026-06-17" },
+    { "employee_anon_id": "E-0027", "department": "IT", "course": "MLOps-pijplijnen en modelregistratie", "skill_id": "mlops", "completed_on": "2026-01-08" },
+    { "employee_anon_id": "E-0028", "department": "IT", "course": "MLOps-pijplijnen en modelregistratie", "skill_id": "mlops", "completed_on": "2026-01-22" },
+    { "employee_anon_id": "E-0029", "department": "IT", "course": "Data governance in de praktijk", "skill_id": "data-governance", "completed_on": "2026-02-05" },
+    { "employee_anon_id": "E-0030", "department": "IT", "course": "MLOps-pijplijnen en modelregistratie", "skill_id": "mlops", "completed_on": "2026-02-26" },
+    { "employee_anon_id": "E-0031", "department": "IT", "course": "Data governance in de praktijk", "skill_id": "data-governance", "completed_on": "2026-03-18" },
+    { "employee_anon_id": "E-0032", "department": "IT", "course": "MLOps-pijplijnen en modelregistratie", "skill_id": "mlops", "completed_on": "2026-04-02" },
+    { "employee_anon_id": "E-0033", "department": "IT", "course": "Cloudbeveiliging voor ontwikkelaars", "skill_id": null, "completed_on": "2026-04-30" },
+    { "employee_anon_id": "E-0034", "department": "IT", "course": "MLOps-pijplijnen en modelregistratie", "skill_id": "mlops", "completed_on": "2026-05-14" },
+    { "employee_anon_id": "E-0035", "department": "IT", "course": "Data governance in de praktijk", "skill_id": "data-governance", "completed_on": "2026-06-03" },
+    { "employee_anon_id": "E-0036", "department": "IT", "course": "MLOps-pijplijnen en modelregistratie", "skill_id": "mlops", "completed_on": "2026-06-24" }
+  ],
+  "data_quality_notes": [
+    "Alle gegevens in dit bestand zijn gesimuleerd en fictief; Bank Vandermeulen en haar medewerkers bestaan niet.",
+    "Het gebruik van AI-tools wordt in de Klantendienst niet gelogd, daarom ontbreekt daar de waarde voor employees_with_ai_tool_use_90d.",
+    "Opleidingsregistraties bevatten alleen afgeronde cursussen, en voor data-governance is de interne dekking niet gemeten."
+  ]
+}
