@@ -1,9 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { ApiError, DEMO_MODE, LIVE_CHAT, getOverview, sendChat } from '../api'
 import type { ChatMessage, Overview } from '../types'
+import { AdviceCard } from './AdviceCard'
 import { DashboardView } from './DashboardView'
 import { ChatSidebar } from './ChatSidebar'
 import { Markdown } from './Markdown'
+
+// Splits off the last line starting with "Advies:" (after trimming) from an assistant reply.
+function splitAdvice(content: string): { body: string; advice: string | null } {
+  const lines = content.split('\n')
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const match = /^Advies:\s*(\S.*)$/.exec(lines[i].trim())
+    if (match) {
+      return { body: lines.filter((_, j) => j !== i).join('\n').trim(), advice: match[1].trim() }
+    }
+  }
+  return { body: content, advice: null }
+}
 
 export function ChatView() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -57,28 +70,35 @@ export function ChatView() {
         {messages.length === 0 && (
           <p className="text-body text-muted-foreground">
             {LIVE_CHAT
-              ? 'Welkom! Stel een vraag, bijvoorbeeld: geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.'
-              : 'Welkom! Stel een vraag of vraag om een dashboard, bijvoorbeeld: maak een dashboard van Bank Vandermeulen.'}
+              ? 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.'
+              : 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.'}
           </p>
         )}
-        {messages.map((m, i) => (
-          <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
-            <div
-              className={
-                m.role === 'user'
-                  ? 'max-w-[85%] rounded-lg bg-primary px-4 py-2 text-body text-primary-foreground'
-                  : 'w-full rounded-lg border border-border bg-surface px-4 py-3 text-body'
-              }
-            >
-              {m.role === 'assistant' ? (
-                <Markdown text={m.content} refs={overview?.refs} />
-              ) : (
-                <p className="whitespace-pre-wrap">{m.content}</p>
-              )}
-              {m.dashboard && <DashboardView dashboard={m.dashboard} />}
+        {messages.map((m, i) => {
+          const { body, advice } =
+            m.role === 'assistant' ? splitAdvice(m.content) : { body: m.content, advice: null }
+          return (
+            <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
+              <div
+                className={
+                  m.role === 'user'
+                    ? 'max-w-[85%] rounded-lg bg-primary px-4 py-2 text-body text-primary-foreground'
+                    : 'w-full rounded-lg border border-border bg-surface px-4 py-3 text-body'
+                }
+              >
+                {m.role === 'assistant' && <p className="text-caption text-muted-foreground">Json</p>}
+                {body &&
+                  (m.role === 'assistant' ? (
+                    <Markdown text={body} refs={overview?.refs} />
+                  ) : (
+                    <p className="whitespace-pre-wrap">{body}</p>
+                  ))}
+                {advice && <AdviceCard text={advice} />}
+                {m.dashboard && <DashboardView dashboard={m.dashboard} />}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
         {pending && (
           <p role="status" aria-live="polite" className="text-body text-muted-foreground">
             Aan het nadenken…
@@ -117,7 +137,7 @@ export function ChatView() {
           }}
           rows={2}
           aria-label="Bericht"
-          placeholder="Typ je bericht…"
+          placeholder={messages.length === 0 ? 'Stel Json een vraag…' : 'Typ je bericht…'}
           className="min-w-0 flex-1 resize-none rounded-md border border-border bg-surface px-3 py-2 text-body text-foreground"
         />
         <button

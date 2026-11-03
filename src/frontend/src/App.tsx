@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ActionCards } from './components/ActionCards'
 import { EmptyState, ErrorState, LoadingState } from './components/StateMessages'
 import { ChatView } from './components/ChatView'
@@ -22,6 +22,7 @@ export default function App() {
   const [planLoading, setPlanLoading] = useState(false)
 
   const [reloadKey, setReloadKey] = useState(0)
+  const planRequest = useRef(0)
   const [tab, setTab] = useState<'dashboard' | 'chat'>('dashboard')
 
   function loadCompanies() {
@@ -34,17 +35,22 @@ export default function App() {
       .catch((e: unknown) => setCompaniesError(messageOf(e)))
   }
 
-  useEffect(loadCompanies, [reloadKey])
+  // The company/readiness/analyze endpoints are only served in demo mode.
+  useEffect(() => {
+    if (DEMO_MODE) loadCompanies()
+  }, [reloadKey])
 
   // Reset the plan and load readiness whenever the company changes.
   useEffect(() => {
-    if (!companyId) return
+    if (!DEMO_MODE || !companyId) return
     let stale = false
     setReadiness(null)
     setReadinessError(null)
     setReadinessLoading(true)
+    planRequest.current++
     setPlan(null)
     setPlanError(null)
+    setPlanLoading(false)
     getReadiness(companyId)
       .then((r) => !stale && setReadiness(r))
       .catch((e: unknown) => !stale && setReadinessError(messageOf(e)))
@@ -59,10 +65,11 @@ export default function App() {
     setPlanLoading(true)
     setPlanError(null)
     setPlan(null)
+    const id = ++planRequest.current
     analyze(companyId)
-      .then(setPlan)
-      .catch((e: unknown) => setPlanError(messageOf(e)))
-      .finally(() => setPlanLoading(false))
+      .then((p) => id === planRequest.current && setPlan(p))
+      .catch((e: unknown) => id === planRequest.current && setPlanError(messageOf(e)))
+      .finally(() => id === planRequest.current && setPlanLoading(false))
   }
 
   const company = companies?.find((c) => c.id === companyId)
@@ -90,17 +97,29 @@ export default function App() {
               onClick={() => setTab(t)}
               className={`rounded-md px-3 py-1.5 text-body ${tab === t ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}
             >
-              {t === 'dashboard' ? 'Dashboard' : 'Chat'}
+              {t === 'dashboard' ? 'Dashboard' : 'Json'}
             </button>
           ))}
         </div>
       </nav>
 
-      {tab === 'chat' ? (
+      {/* Kept mounted so chat history and any pending request survive tab switches. */}
+      <div className={tab === 'chat' ? 'mx-auto max-w-6xl px-6 py-6' : 'hidden'}>
+        <ChatView />
+      </div>
+
+      {tab === 'dashboard' && !DEMO_MODE && (
         <div className="mx-auto max-w-6xl px-6 py-6">
-          <ChatView />
+          <section className="rounded-lg border border-border bg-surface p-4">
+            <h2 className="text-heading font-semibold">Dashboard alleen beschikbaar in demomodus</h2>
+            <p className="text-body-sm text-muted-foreground">
+              Dit dashboard toont gesimuleerde gegevens. Zet VITE_DEMO_MODE=true om het te gebruiken. De chat werkt op echte gegevens.
+            </p>
+          </section>
         </div>
-      ) : (
+      )}
+
+      {tab === 'dashboard' && DEMO_MODE && (
       <main className="mx-auto max-w-6xl px-6 py-6">
         <div className="min-w-0 space-y-6">
           <section className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-surface p-4">

@@ -20,3 +20,18 @@ out/
 .claude/worktrees/
 *.log
 .DS_Store
+
+# Vacancy data (large, licence: team use only)
+data/
+
+# Team documents with data links / large slide decks (keep local)
+*.docx
+*.pdf
+
+# Licensed vacancy data and derived summary (team use only, see data/README.md)
+/data/
+src/backend/summary.json
+
+# Local IDE settings and external workshop material (not part of the repo)
+.vscode/
+TechWolf*.md

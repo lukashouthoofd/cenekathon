@@ -1,0 +1,14 @@
+services:
+  backend:
+    build: ./src/backend
+    env_file: .env          # read at runtime, never copied into the image
+    restart: unless-stopped
+
+  frontend:
+    build: ./src/frontend
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
