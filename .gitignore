@@ -31,3 +31,7 @@ data/
 # Licensed vacancy data and derived summary (team use only, see data/README.md)
 /data/
 src/backend/summary.json
+
+# Local IDE settings and external workshop material (not part of the repo)
+.vscode/
+TechWolf*.md
