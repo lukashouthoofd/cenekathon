@@ -1,0 +1,10 @@
+# Local demo: Next.js agent + RAG API on the GPU VM.
+# First open the tunnel on the host:  ssh -N -L 8100:localhost:8000 team19
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      RAG_API_URL: http://host.docker.internal:8100
+    ports:
+      - "127.0.0.1:3000:3000"
