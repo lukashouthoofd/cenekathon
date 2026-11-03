@@ -20,6 +20,20 @@ if (existsSync(envFile)) {
 const CHAT_URL = process.env.CHAT_URL || 'http://localhost:8000/api/chat'
 const MAX_CHARS = 2000
 const ERROR_TEXT = 'Json kon het antwoord nu niet ophalen. Probeer het later opnieuw.'
+export const WELCOME_TEXT =
+  "Hoi, ik ben Json. Ik beantwoord vragen over AI-readiness en vacatures bij financiële bedrijven. De bedrijfscijfers zijn gesimuleerd. Typ 'hulp' voor voorbeeldvragen, of stel gewoon je vraag."
+export const HELP_TEXT = [
+  "Voorbeeldvragen (typ 'hulp' om deze lijst weer te zien):",
+  '- Welke skills missen we het meest bij Bank Vandermeulen?',
+  '- Hoe staat Bank Vandermeulen er voor op AI-gebruik?',
+  '- Welke vacatures vragen om AI-skills in 2025?',
+  '- Hoeveel vacatures noemen Python in 2025?',
+  '- Stuur de skill-gaps naar HR',
+  '- Wat moet HR als eerste doen?',
+  '',
+  'Voor HR: een voorstel naar het HR-kanaal gaat pas na jouw klik op Verstuur.',
+].join('\n')
+const seenUsers = new Set() // Slack-gebruikers die al een welkom hebben gehad, in geheugen
 
 // Goedkeuringsflow: Json stelt een bericht voor aan een team en verstuurt pas na een klik.
 const CHANNELS = {
@@ -108,8 +122,14 @@ async function fetchHrSummary() {
   return buildHrSummary(readiness, analyze)
 }
 
+// Een route vraagt een expliciete actie (sturen/aanvragen) plus een onderwerp. Vragen en losse statements zijn nooit een route.
+const ROUTE_ACTION = /\b(verstuur|stuur|meld|aanvra\w*)\b|\bwil graag\b|\bkun je\b.*\bnaar\b|\bzet\b.*\bdoor\b|\bvraag\b.*\baan\b/
+const QUESTION_START = /^(welke|hoeveel|hoe|wat|waarom|wanneer|wie|maak een dashboard)\b/
+
 export function detectRoute(text) {
-  const t = text.toLowerCase()
+  const t = text.trim().toLowerCase()
+  if (t.endsWith('?') || QUESTION_START.test(t)) return null
+  if (!ROUTE_ACTION.test(t)) return null
   const hit = ROUTE_KEYWORDS.find(([, words]) => words.some((w) => t.includes(w)))
   return hit ? hit[0] : null
 }
@@ -174,6 +194,10 @@ async function handle(text, threadTs, say) {
   if (route) {
     const id = remember(route, text)
     await say({ ...buildProposal(route, text, id), thread_ts: threadTs })
+    return
+  }
+  if (/\bhulp\b/i.test(text)) {
+    await say({ text: HELP_TEXT, thread_ts: threadTs })
     return
   }
   let reply
@@ -241,7 +265,12 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
 
   app.event('message', async ({ event, say }) => {
     if (event.channel_type !== 'im' || event.subtype || event.bot_id) return
-    await handle((event.text || '').trim(), event.thread_ts || event.ts, say)
+    const threadTs = event.thread_ts || event.ts
+    if (!seenUsers.has(event.user)) {
+      seenUsers.add(event.user)
+      await say({ text: WELCOME_TEXT, thread_ts: threadTs })
+    }
+    await handle((event.text || '').trim(), threadTs, say)
   })
 
   app.action('approve_send', (args) => decide(args, true))

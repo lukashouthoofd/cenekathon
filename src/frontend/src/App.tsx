@@ -1,14 +1,38 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ActionCards } from './components/ActionCards'
 import { EmptyState, ErrorState, LoadingState } from './components/StateMessages'
 import { ChatView } from './components/ChatView'
+import type { AskRequest } from './components/ChatView'
+import { Onboarding } from './components/Onboarding'
 import { ScoreCards } from './components/ScoreCards'
 import { SkillGaps } from './components/SkillGaps'
 import { SoftwareGaps } from './components/SoftwareGaps'
 import { ApiError, DEMO_MODE, analyze, getCompanies, getReadiness } from './api'
 import type { AnalyzeResponse, Company, Readiness } from './types'
 
+const ONBOARDING_KEY = 'json-onboarding-gezien'
+
+// localStorage can throw (for example when storage is disabled), so reads and writes are guarded.
+function onboardingSeen(): boolean {
+  try {
+    return window.localStorage.getItem(ONBOARDING_KEY) !== null
+  } catch {
+    return false
+  }
+}
+
+function markOnboardingSeen() {
+  try {
+    window.localStorage.setItem(ONBOARDING_KEY, '1')
+  } catch {
+    // Without storage the panel simply shows again on the next visit.
+  }
+}
+
 export default function App() {
+  const [showOnboarding, setShowOnboarding] = useState(() => !onboardingSeen())
+  const [askRequest, setAskRequest] = useState<AskRequest | null>(null)
+
   const [companies, setCompanies] = useState<Company[] | null>(null)
   const [companiesError, setCompaniesError] = useState<string | null>(null)
   const [companyId, setCompanyId] = useState('')
@@ -24,6 +48,17 @@ export default function App() {
   const [reloadKey, setReloadKey] = useState(0)
   const planRequest = useRef(0)
   const [tab, setTab] = useState<'dashboard' | 'chat'>('dashboard')
+
+  const closeOnboarding = useCallback(() => {
+    setShowOnboarding(false)
+    markOnboardingSeen()
+  }, [])
+
+  function pickQuestion(text: string) {
+    closeOnboarding()
+    setTab('chat')
+    setAskRequest({ text })
+  }
 
   function loadCompanies() {
     setCompaniesError(null)
@@ -84,11 +119,20 @@ export default function App() {
               Json <span className="text-caption font-normal text-muted-foreground">AI-readiness</span>
             </h1>
           </div>
-          {DEMO_MODE && (
-            <span className="rounded-md border border-caution px-2 py-1 text-caption text-caution-text">
-              Demomodus: gesimuleerde gegevens
-            </span>
-          )}
+          <div className="flex flex-wrap items-center gap-3">
+            {DEMO_MODE && (
+              <span className="rounded-md border border-caution px-2 py-1 text-caption text-caution-text">
+                Demomodus: gesimuleerde gegevens
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => setShowOnboarding(true)}
+              className="rounded-md border border-border px-3 py-1.5 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              Rondleiding
+            </button>
+          </div>
         </div>
       </header>
 
@@ -110,8 +154,10 @@ export default function App() {
 
       {/* Kept mounted so chat history and any pending request survive tab switches. */}
       <div className={tab === 'chat' ? 'mx-auto max-w-6xl px-6 py-6' : 'hidden'}>
-        <ChatView />
+        <ChatView askRequest={askRequest} />
       </div>
+
+      {showOnboarding && <Onboarding onClose={closeOnboarding} onPickQuestion={pickQuestion} />}
 
       {tab === 'dashboard' && !DEMO_MODE && (
         <div className="mx-auto max-w-6xl px-6 py-6">

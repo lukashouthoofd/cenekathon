@@ -5,6 +5,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { routeRequest, companiesFromSummary } from './router.ts'
+import { suggestFollowUps } from './suggestions.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = join(here, '..', '..')
@@ -41,6 +42,7 @@ try {
   // Malformed summary: no company names, the router still works.
 }
 const knownCompanies = companiesFromSummary(summaryJson)
+const SUGGESTION_COMPANIES = ['Bank Vandermeulen']
 
 const SYSTEM = `Je heet Json en bent de AI-readiness-assistent voor een demo over vacatures bij financiële bedrijven in België, Nederland, Luxemburg en het VK.
 Antwoord altijd in het Nederlands, kort en zakelijk.
@@ -153,7 +155,13 @@ export async function handle(method, url, getBody) {
     console.error(`route=${route.tier} model=${route.model} reason=${route.reason}`)
     const text = await callClaude(body.messages.map((m) => ({ role: m.role, content: m.content })), route)
     const reply = parseReply(text)
-    return { status: 200, body: { message: { role: 'assistant', ...reply }, mode: 'live' } }
+    const suggestions = suggestFollowUps({
+      userText: lastUser?.content ?? '',
+      replyText: reply.content,
+      hasDashboard: !!reply.dashboard,
+      companies: SUGGESTION_COMPANIES,
+    })
+    return { status: 200, body: { message: { role: 'assistant', ...reply, suggestions }, mode: 'live' } }
   } catch (e) {
     if (e?.name === 'TimeoutError') {
       return { status: 504, body: { error: 'De AI reageerde te traag (time-out). Probeer het opnieuw.' } }

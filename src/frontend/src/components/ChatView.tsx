@@ -5,6 +5,10 @@ import { AdviceCard } from './AdviceCard'
 import { DashboardView } from './DashboardView'
 import { ChatSidebar } from './ChatSidebar'
 import { Markdown } from './Markdown'
+import { EXAMPLE_QUESTIONS } from './Onboarding'
+
+// A question picked outside the chat (for example from the onboarding panel) to send as a user message.
+export type AskRequest = { text: string }
 
 // Splits off the last line starting with "Advies:" (after trimming) from an assistant reply.
 function splitAdvice(content: string): { body: string; advice: string | null } {
@@ -18,7 +22,7 @@ function splitAdvice(content: string): { body: string; advice: string | null } {
   return { body: content, advice: null }
 }
 
-export function ChatView() {
+export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [pending, setPending] = useState(false)
@@ -49,6 +53,11 @@ export function ChatView() {
       .finally(() => setPending(false))
   }
 
+  // Sends a question picked outside the chat (onboarding) after the existing history.
+  useEffect(() => {
+    if (askRequest && !pending) send([...messages, { role: 'user', content: askRequest.text }])
+  }, [askRequest])
+
   function submit() {
     const text = input.trim()
     if (!text || pending) return
@@ -59,6 +68,9 @@ export function ChatView() {
   function retry() {
     if (!pending) send(messages)
   }
+
+  // Vervolgvragen are only offered under the last assistant reply.
+  const lastAssistantIndex = messages.map((m) => m.role).lastIndexOf('assistant')
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[1fr_24rem]">
@@ -73,6 +85,20 @@ export function ChatView() {
               ? 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.'
               : 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.'}
           </p>
+        )}
+        {messages.length === 0 && (
+          <div className="flex flex-wrap gap-2">
+            {EXAMPLE_QUESTIONS.map((question) => (
+              <button
+                key={question}
+                type="button"
+                onClick={() => send([{ role: 'user', content: question }])}
+                className="rounded-full border border-border bg-surface px-3 py-1.5 text-left text-body-sm text-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              >
+                {question}
+              </button>
+            ))}
+          </div>
         )}
         {messages.map((m, i) => {
           const { body, advice } =
@@ -95,6 +121,22 @@ export function ChatView() {
                   ))}
                 {advice && <AdviceCard text={advice} />}
                 {m.dashboard && <DashboardView dashboard={m.dashboard} />}
+                {i === lastAssistantIndex && m.suggestions && m.suggestions.length > 0 && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="text-caption text-muted-foreground">Vervolgvragen</span>
+                    {m.suggestions.map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        type="button"
+                        disabled={pending}
+                        onClick={() => send([...messages, { role: 'user', content: suggestion }])}
+                        className="rounded-md border border-border bg-surface px-3 py-1.5 text-left text-body-sm text-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )
