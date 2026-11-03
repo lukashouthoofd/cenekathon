@@ -74,7 +74,9 @@ export function ChatView() {
   }
 
   const last = messages[messages.length - 1]
-  const suggestions = last?.role === 'assistant' && last.suggestions?.length ? last.suggestions : STARTERS
+  const followUp = last?.role === 'assistant' && !!last.suggestions?.length
+  const suggestions = followUp ? last.suggestions! : STARTERS
+  const label = followUp ? 'Goede vervolgvragen' : 'Ideeën om te vragen'
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[1fr_24rem]">
@@ -85,9 +87,7 @@ export function ChatView() {
       <div className="space-y-4">
         {messages.length === 0 && (
           <p className="text-body text-muted-foreground">
-            {LIVE_CHAT
-              ? 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.'
-              : 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.'}
+            Ik ben Json, de AI-readiness-assistent. Stel een vraag of kies een idee onder het invoerveld.
           </p>
         )}
         {messages.map((m, i) => {
@@ -133,20 +133,6 @@ export function ChatView() {
             </button>
           </div>
         )}
-        {!pending && !error && (
-          <div className="flex flex-wrap gap-2" aria-label="Voorbeeldvragen">
-            {suggestions.map((q) => (
-              <button
-                key={q}
-                type="button"
-                onClick={() => ask(q)}
-                className="rounded-md border border-border bg-surface px-3 py-1.5 text-body-sm text-foreground hover:bg-muted"
-              >
-                {q}
-              </button>
-            ))}
-          </div>
-        )}
         <div ref={endRef} />
       </div>
       <form
@@ -178,6 +164,25 @@ export function ChatView() {
           Verstuur
         </button>
       </form>
+      <section aria-label={label} className="-mt-1">
+        <p className="mb-2 text-caption font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+        <div className="flex flex-wrap gap-2">
+          {suggestions.map((q) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => ask(q)}
+              disabled={pending}
+              className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3.5 py-1.5 text-left text-body-sm text-foreground shadow-sm transition-colors hover:border-accent hover:bg-accent-soft hover:text-accent-text focus-visible:outline-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <span>{q}</span>
+              <span aria-hidden className="text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-text">
+                →
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
     </div>
     <ChatSidebar messages={messages} overview={overview} error={overviewError} />
     </div>
