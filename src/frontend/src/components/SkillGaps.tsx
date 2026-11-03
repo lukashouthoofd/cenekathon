@@ -32,7 +32,7 @@ export function SkillGaps({
     <section aria-labelledby="skillgaps-h" className="space-y-4">
       <h2 id="skillgaps-h" className="text-title text-foreground">Ontbrekende skills per afdeling</h2>
       {[...byDept].map(([dept, items]) => (
-        <div key={dept} className="rounded-md border border-border bg-surface">
+        <div key={dept} className="rounded-xl border border-border bg-surface">
           <h3 className="border-b border-border px-4 py-2 text-heading text-foreground">{dept}</h3>
           <ul className="divide-y divide-border">
             {items.map((g) => {

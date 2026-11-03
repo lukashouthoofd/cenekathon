@@ -28,7 +28,7 @@ const STARTERS = LIVE_CHAT
       'Geef de drie belangrijkste acties',
       'Welke opleidingen hebben we nodig en moeten we aanwerven?',
     ]
-  : ['Maak een dashboard van Goldman Stanley']
+  : ['Maak een dashboard van Goldman Stanley (gesimuleerd)']
 
 export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -106,8 +106,8 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
               <div
                 className={
                   m.role === 'user'
-                    ? 'max-w-[85%] rounded-lg bg-primary px-4 py-2 text-body text-primary-foreground'
-                    : 'w-full rounded-lg border border-border bg-surface px-4 py-3 text-body'
+                    ? 'max-w-[85%] rounded-[12px] bg-muted px-4 py-2 text-body text-foreground'
+                    : 'w-full rounded-[12px] border border-border bg-surface px-4 py-3 text-body'
                 }
               >
                 {m.role === 'assistant' && <p className="text-caption text-muted-foreground">Json</p>}
@@ -129,13 +129,13 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
           </p>
         )}
         {error && (
-          <div role="alert" className="rounded-lg border border-destructive bg-surface p-4">
-            <p className="text-body text-muted-foreground">{error}</p>
+          <div role="alert" className="rounded-[12px] border border-destructive bg-surface p-4">
+            <p className="text-body text-foreground">{error}</p>
             <button
               type="button"
               onClick={retry}
               disabled={pending}
-              className="mt-3 rounded-md bg-primary px-3 py-1.5 text-body text-primary-foreground disabled:opacity-50"
+              className="btn-primary mt-3 min-h-10 px-4 text-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50"
             >
               Opnieuw proberen
             </button>
@@ -162,12 +162,12 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
           rows={2}
           aria-label="Bericht"
           placeholder={messages.length === 0 ? 'Stel Json een vraag…' : 'Typ je bericht…'}
-          className="min-w-0 flex-1 resize-none rounded-md border border-border bg-surface px-3 py-2 text-body text-foreground"
+          className="min-w-0 flex-1 resize-none rounded-[8px] border border-border bg-surface px-3 py-2 text-body text-foreground placeholder:text-tertiary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         />
         <button
           type="submit"
           disabled={pending || input.trim() === ''}
-          className="rounded-md bg-primary px-4 py-2 text-body font-medium text-primary-foreground disabled:opacity-50"
+          className="btn-primary min-h-10 px-4 text-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50"
         >
           Verstuur
         </button>
@@ -181,12 +181,9 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
               type="button"
               onClick={() => ask(q)}
               disabled={pending}
-              className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3.5 py-1.5 text-left text-body-sm text-foreground shadow-sm transition-colors hover:border-accent hover:bg-accent-soft hover:text-accent-text focus-visible:outline-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50"
+              className="min-h-10 rounded-[8px] border border-border bg-transparent px-3 py-2 text-left text-body-sm text-foreground transition-colors hover:border-border-strong hover:bg-muted active:bg-muted-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <span>{q}</span>
-              <span aria-hidden className="text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-text">
-                →
-              </span>
+              {q}
             </button>
           ))}
         </div>

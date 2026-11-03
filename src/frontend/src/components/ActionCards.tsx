@@ -18,7 +18,8 @@ const TYPE_LABEL: Record<ActionType, string> = {
   internal_tool: 'Interne tool bouwen',
 }
 
-const btn = 'rounded-md border border-border px-3 py-1 text-body-sm hover:bg-muted'
+const btn =
+  'btn-secondary min-h-10 px-3 text-body-sm hover:bg-muted active:bg-muted-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring'
 
 export function ActionCards({ actions, companyId, summary, limitations, mode }: Props) {
   const [slackAction, setSlackAction] = useState<Action | null>(null)
@@ -31,7 +32,7 @@ export function ActionCards({ actions, companyId, summary, limitations, mode }: 
           Actieplan
         </h2>
         {mode === 'demo' && (
-          <span className="rounded-md border border-caution px-2 py-0.5 text-caption text-caution-text">
+          <span className="rounded-sm border border-caution px-2 py-0.5 text-caption text-caution-text">
             Voorbeeldvoorstel van Json, niet gecontroleerd
           </span>
         )}
@@ -56,10 +57,10 @@ export function ActionCards({ actions, companyId, summary, limitations, mode }: 
       ) : (
         <ol className="flex flex-col gap-4">
           {sorted.map((a) => (
-            <li key={a.id} className="flex flex-col gap-3 rounded-md border border-border bg-surface p-4">
+            <li key={a.id} className="flex flex-col gap-3 rounded-[12px] border border-border bg-surface p-4">
               <div className="flex flex-wrap items-center gap-2 text-caption">
-                <span className="rounded-md bg-accent-soft px-2 py-0.5 text-accent-text tabular-nums">Volgorde {formatNumber(a.rank)}</span>
-                <span className="text-muted-foreground">{TYPE_LABEL[a.type]}</span>
+                <span className="tabular-nums text-muted-foreground">Volgorde {formatNumber(a.rank)}</span>
+                <span className="text-muted-foreground">· {TYPE_LABEL[a.type]}</span>
               </div>
               <h3 className="text-heading font-semibold">{a.title}</h3>
               <dl className="flex flex-col gap-2 text-body">

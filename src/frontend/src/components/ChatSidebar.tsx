@@ -10,7 +10,7 @@ function proposedIn(messages: ChatMessage[]): { documentId: string; vacancies: P
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-lg border border-border bg-surface p-4">
+    <section className="rounded-[12px] border border-border bg-surface p-4">
       <h2 className="mb-3 text-heading font-semibold">{title}</h2>
       {children}
     </section>
@@ -49,7 +49,7 @@ export function ChatSidebar({
                     <span>{LABELS[s.dimension] ?? s.dimension}</span>
                     <span className="font-medium">{s.value === null ? 'Onbekend' : `${s.value} / 100`}</span>
                   </div>
-                  <div className="mt-1 h-1.5 overflow-hidden rounded-sm bg-muted-strong">
+                  <div className="mt-1 h-1 overflow-hidden rounded-sm bg-muted-strong">
                     <div className="h-full bg-accent" style={{ width: `${s.value ?? 0}%` }} />
                   </div>
                   <p className="mt-1 text-caption text-muted-foreground">Datadekking: {s.coverage}</p>
@@ -115,8 +115,10 @@ export function ChatSidebar({
                       {i === 0 && <p className="mt-1 text-caption">{v.intro}</p>}
                       {i === 0 && v.linkedinSearch && (
                         <details className="mt-1 text-caption">
-                          <summary className="cursor-pointer text-accent-text">LinkedIn-zoekstring</summary>
-                          <code className="mt-1 block break-words rounded-sm bg-muted p-2">{v.linkedinSearch}</code>
+                          <summary className="cursor-pointer rounded-sm text-accent-text underline underline-offset-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+                            LinkedIn-zoekstring
+                          </summary>
+                          <code className="mt-1 block break-words rounded-sm bg-muted p-2 font-mono">{v.linkedinSearch}</code>
                         </details>
                       )}
                       {i === 0 && v.basedOn && v.basedOn.length > 0 && (
@@ -127,7 +129,11 @@ export function ChatSidebar({
                     </li>
                   ))}
                 </ul>
-                <a href={`/api/documents/${doc.documentId}`} download className="text-body-sm text-accent-text underline">
+                <a
+                  href={`/api/documents/${doc.documentId}`}
+                  download
+                  className="inline-flex min-h-10 items-center rounded-sm text-body-sm text-accent-text underline underline-offset-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                >
                   Download vacatureteksten (Word)
                 </a>
               </li>

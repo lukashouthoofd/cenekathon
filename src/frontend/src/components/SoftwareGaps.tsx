@@ -10,7 +10,7 @@ export function SoftwareGaps({ gaps }: { gaps: SoftwareGap[] }) {
       <h2 id="softwaregaps-h" className="text-title text-foreground">Ontbrekende software per afdeling</h2>
       {gaps.length === 0 && <EmptyState title="Geen ontbrekende software gevonden" />}
       {[...byDept].map(([dept, items]) => (
-        <div key={dept} className="rounded-md border border-border bg-surface">
+        <div key={dept} className="rounded-xl border border-border bg-surface">
           <h3 className="border-b border-border px-4 py-2 text-heading text-foreground">{dept}</h3>
           <ul className="divide-y divide-border">
             {items.map((g) => (
