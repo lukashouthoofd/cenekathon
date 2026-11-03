@@ -67,7 +67,20 @@ LinkedIn-zoekadvies (bij aanwervingen en vacatures, en wanneer erom gevraagd wor
   met aanhalingstekens, OR, AND en NOT (bv. ("AI Engineer" OR "ML Engineer") AND (RAG OR LLM) NOT (stage OR internship)).
 - Alternatieve functietitels om ook op te zoeken, en filters: locatie (waar het bedrijf zit of de vacatures liggen), sector, ervaringsniveau.
 - Maak je vacatures, zet de zoekstring dan ook in linkedinSearch van createVacancyDocument.
-- Je zoekt zelf niet op LinkedIn en noemt nooit namen van personen.`;
+- Je zoekt zelf niet op LinkedIn en noemt nooit namen van personen.
+
+Sluit ELK antwoord af met één laatste regel in exact dit formaat (behalve bij "Ik ben JSON, ik kan daar niet op antwoorden."):
+Vervolgvragen: <vraag 1> | <vraag 2> | <vraag 3>
+Drie korte vervolgvragen (max 10 woorden) die de gebruiker logisch als volgende zou stellen over dit bedrijf en die jij met de data kunt beantwoorden.
+Schrijf ze vanuit de gebruiker (bv. "Welke opleiding helpt de analisten het meest?"), herhaal geen vraag die al gesteld is, en zet na deze regel niets meer.`;
+
+/** Splits the trailing "Vervolgvragen: a | b | c" line off a reply into clickable follow-up questions. */
+export function splitSuggestions(text: string): { content: string; suggestions: string[] } {
+  const match = /\n?[ \t]*\**Vervolgvragen:?\**:?[ \t]*(.+?)[ \t]*$/i.exec(text.trimEnd());
+  if (!match) return { content: text, suggestions: [] };
+  const suggestions = match[1].split('|').map((s) => s.trim()).filter(Boolean).slice(0, 3);
+  return { content: text.trimEnd().slice(0, match.index).trimEnd(), suggestions };
+}
 
 const TOOLS: Anthropic.Tool[] = [
   {
@@ -209,7 +222,9 @@ export async function runTool(name: string, input: ToolInput, documents: Propose
 const MAX_STEPS = 12;
 
 /** Manual tool-use loop against the Claude Messages API. */
-export async function answer(history: ChatMessage[]): Promise<{ content: string; proposed: ProposedVacancies[] }> {
+export async function answer(
+  history: ChatMessage[],
+): Promise<{ content: string; proposed: ProposedVacancies[]; suggestions?: string[] }> {
   const { AI_API_KEY, AI_MODEL } = process.env;
   if (!AI_API_KEY || !AI_MODEL) throw new Error('Zet AI_API_KEY en AI_MODEL in .env');
   const client = new Anthropic({ apiKey: AI_API_KEY });
@@ -218,10 +233,14 @@ export async function answer(history: ChatMessage[]): Promise<{ content: string;
   const documents: ProposedVacancies[] = [];
   // The link is added here, not by the model, so it can never point to a document that doesn't exist.
   // Safety net: strip internal refs like [mt1] or [is2, is5] in case the model still writes them.
-  const withLinks = (text: string) => ({
-    content: text.replace(/ ?\[[a-z]{2}\d+(?:\s*,\s*[a-z]{2}\d+)*\](?!\()/g, '') + documents.map((d) => `\n\n**[Download vacatures (Word)](/api/documents/${d.documentId})**`).join(''),
-    proposed: documents,
-  });
+  const withLinks = (reply: string) => {
+    const { content: text, suggestions } = splitSuggestions(reply);
+    return {
+      content: text.replace(/ ?\[[a-z]{2}\d+(?:\s*,\s*[a-z]{2}\d+)*\](?!\()/g, '') + documents.map((d) => `\n\n**[Download vacatures (Word)](/api/documents/${d.documentId})**`).join(''),
+      proposed: documents,
+      suggestions,
+    };
+  };
 
   for (let step = 0; step < MAX_STEPS; step++) {
     const response = await client.messages.create({ model: AI_MODEL, max_tokens: 16000, system: SYSTEM, tools: TOOLS, messages });
