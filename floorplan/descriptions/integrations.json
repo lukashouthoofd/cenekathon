@@ -1,0 +1,20 @@
+{
+  "files": {
+    "src/mcp/package.json": {
+      "name": "MCP server packages",
+      "description": "The list of packages the MCP server needs to run."
+    },
+    "src/mcp/server.mjs": {
+      "name": "MCP server",
+      "description": "Lets other AI tools, such as Claude Desktop, ask the same questions the web app answers."
+    },
+    "src/slackbot/bot.mjs": {
+      "name": "Slack bot",
+      "description": "A Slack bot that answers questions in a channel with the same logic as the web app."
+    },
+    "src/slackbot/package.json": {
+      "name": "Slack bot packages",
+      "description": "The list of packages the Slack bot needs to run."
+    }
+  }
+}

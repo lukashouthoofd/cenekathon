@@ -1,0 +1,282 @@
+{
+  "$schema": "floorplan/architecture@1",
+  "project": {
+    "name": "CenEkathon AI-readiness app",
+    "summary": "A web app that turns labour-market vacancy data and a company's own AI usage into an AI-readiness score and three ranked actions. A Claude-powered agent answers questions on top of DuckDB tables built from the hackathon vacancy data.",
+    "entrypoints": [
+      "src/app/page.tsx",
+      "src/backend/server.mjs",
+      "api/chat.mjs",
+      "scripts/data_prep/run_pipeline.py"
+    ]
+  },
+  "include": [
+    "code",
+    "data",
+    "config"
+  ],
+  "ignore": [
+    "data/external/**",
+    "data/metadata/**",
+    "data/company.json",
+    ".agents/**",
+    ".claude/**",
+    "next-env.d.ts"
+  ],
+  "nodes": [
+    {
+      "id": "web",
+      "label": "Web app",
+      "kind": "ui",
+      "summary": "What people see in the browser: the chat and the dashboard."
+    },
+    {
+      "id": "web.next",
+      "parent": "web",
+      "label": "Chat pages",
+      "kind": "feature",
+      "summary": "Next.js pages where a person asks a question and reads the answer.",
+      "paths": [
+        "src/app/**"
+      ],
+      "exclude": [
+        "src/app/api/**"
+      ]
+    },
+    {
+      "id": "web.vite",
+      "parent": "web",
+      "label": "Dashboard",
+      "kind": "feature",
+      "summary": "Vite-built dashboard that shows scores and trends.",
+      "paths": [
+        "src/frontend/**"
+      ]
+    },
+    {
+      "id": "api",
+      "label": "Chat API",
+      "kind": "service",
+      "summary": "The HTTP endpoints the web app calls. They pass questions on to the backend.",
+      "paths": [
+        "src/app/api/**",
+        "api/**"
+      ]
+    },
+    {
+      "id": "backend",
+      "label": "Analysis backend",
+      "kind": "service",
+      "summary": "Server that answers questions with the agent, the router and the readiness score, and reads the vacancy and internal tables.",
+      "paths": [
+        "src/backend/**",
+        "src/lib/**"
+      ]
+    },
+    {
+      "id": "integrations",
+      "label": "Slack and MCP bots",
+      "kind": "service",
+      "summary": "Optional entry points: a Slack bot and an MCP server that give other tools access to the same answers.",
+      "paths": [
+        "src/slackbot/**",
+        "src/mcp/**"
+      ]
+    },
+    {
+      "id": "db",
+      "label": "DuckDB store",
+      "kind": "data",
+      "summary": "Normalises the yearly vacancy files and builds the DuckDB database the backend queries.",
+      "paths": [
+        "src/data/**"
+      ]
+    },
+    {
+      "id": "pipeline",
+      "label": "Data preparation",
+      "kind": "script",
+      "summary": "Scripts that inspect the hackathon Parquet files, clean them, and collect public datasets. They are run by hand, not by the app.",
+      "paths": [
+        "scripts/data_prep/**"
+      ]
+    },
+    {
+      "id": "synthetic",
+      "label": "Synthetic bank data",
+      "kind": "data",
+      "summary": "Made-up internal data for Northwind Bank: headcount, AI usage, learning and recruiting. Every row is marked synthetic.",
+      "paths": [
+        "data/synthetic/**"
+      ]
+    },
+    {
+      "id": "infra",
+      "label": "Deploy and checks",
+      "kind": "infra",
+      "summary": "Docker, Compose, Vercel config and the shell checks that run in the project.",
+      "paths": [
+        "compose.yaml",
+        "vercel.json",
+        "next.config.ts",
+        "package.json",
+        "tsconfig*.json",
+        ".github/**",
+        "scripts/*.sh",
+        "**/Dockerfile",
+        ".env.example"
+      ]
+    },
+    {
+      "id": "claude",
+      "label": "Claude API",
+      "kind": "external",
+      "summary": "The language model that writes answers and labels.",
+      "packages": [
+        "npm:@anthropic-ai/sdk"
+      ]
+    },
+    {
+      "id": "slack",
+      "label": "Slack",
+      "kind": "external",
+      "summary": "The workspace the Slack bot talks in.",
+      "packages": [
+        "npm:@slack/bolt"
+      ]
+    },
+    {
+      "id": "typesafe",
+      "label": "Jev decision API",
+      "kind": "external",
+      "summary": "TypeSafe's decision model. It picks one option from a list and returns a probability for each.",
+      "hosts": [
+        "api.typesafe.ai"
+      ]
+    },
+    {
+      "id": "open_data",
+      "label": "Public data sources",
+      "kind": "external",
+      "summary": "Official datasets the preparation scripts download: ESCO, GLEIF, Eurostat, ONS, CBS, Statbel and Hugging Face.",
+      "hosts": [
+        "ec.europa.eu",
+        "api.gleif.org",
+        "www.ons.gov.uk",
+        "opendata.cbs.nl",
+        "statbel.fgov.be",
+        "huggingface.co",
+        "raw.githubusercontent.com"
+      ]
+    },
+    {
+      "id": "duckdb",
+      "label": "DuckDB",
+      "kind": "external",
+      "summary": "The embedded database engine the store and the backend use.",
+      "packages": [
+        "pypi:duckdb",
+        "npm:@duckdb/node-api"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "open_data",
+      "to": "pipeline",
+      "kind": "http",
+      "label": "downloads",
+      "description": "The preparation scripts fetch public datasets over HTTP."
+    },
+    {
+      "from": "web.vite",
+      "to": "backend",
+      "kind": "http",
+      "label": "dashboard data",
+      "description": "The dashboard reads scores and tables from the backend."
+    }
+  ],
+  "annotations": [
+    {
+      "path": "src/backend/server.mjs",
+      "note": "Entry point for the analysis server. Every question from the app goes through here.",
+      "tags": [
+        "hotspot"
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "ask",
+      "title": "Asking a question",
+      "steps": [
+        {
+          "node": "web.next",
+          "note": "The person types a question in the chat"
+        },
+        {
+          "node": "api",
+          "note": "The chat endpoint receives it"
+        },
+        {
+          "node": "backend",
+          "note": "The agent decides which data to read and writes the answer"
+        },
+        {
+          "node": "claude",
+          "note": "The language model writes the answer text"
+        }
+      ]
+    },
+    {
+      "id": "prepare",
+      "title": "Preparing the data",
+      "steps": [
+        {
+          "node": "open_data",
+          "note": "Public datasets are downloaded and cached"
+        },
+        {
+          "node": "pipeline",
+          "note": "Scripts clean and combine the vacancy and external data"
+        },
+        {
+          "node": "db",
+          "note": "The cleaned data is loaded into the DuckDB store"
+        }
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "node": "web.next",
+      "title": "What people ask",
+      "note": "The chat pages are where a person asks a question about the labour market and their company."
+    },
+    {
+      "node": "api",
+      "title": "The endpoints",
+      "note": "The web app talks to the chat API, which forwards each question to the backend."
+    },
+    {
+      "node": "backend",
+      "title": "The brain",
+      "note": "The backend runs the agent, the readiness score and the queries against the data."
+    },
+    {
+      "node": "db",
+      "title": "The data store",
+      "note": "Vacancies from 2022 to 2026 are cleaned here and stored in DuckDB for fast queries."
+    },
+    {
+      "node": "synthetic",
+      "title": "The company's own data",
+      "note": "Northwind Bank's internal data is made up for the demo, so it can be shared freely."
+    },
+    {
+      "node": "claude",
+      "title": "The language model",
+      "note": "Claude writes the answers. It never gets raw vacancy data it isn't allowed to see."
+    }
+  ]
+}

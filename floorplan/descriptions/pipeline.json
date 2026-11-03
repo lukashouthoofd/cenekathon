@@ -1,0 +1,40 @@
+{
+  "files": {
+    "scripts/data_prep/collect_data_lake.py": {
+      "name": "Download open datasets",
+      "description": "Downloads the public datasets on AI and work, such as the Anthropic and TechWolf data, and keeps a copy."
+    },
+    "scripts/data_prep/collect_external_data.py": {
+      "name": "Download skills and company data",
+      "description": "Fetches skill, occupation and company data from public sources and adds a company-type label from the Jev model."
+    },
+    "scripts/data_prep/export_csv_chunks.py": {
+      "name": "Split the clean data",
+      "description": "Splits the cleaned vacancy data into CSV files small enough for GitHub."
+    },
+    "scripts/data_prep/generate_synthetic_data.py": {
+      "name": "Make the demo company",
+      "description": "Creates the made-up company data for Northwind Bank: its teams, jobs, people and AI usage."
+    },
+    "scripts/data_prep/inspect_parquet.py": {
+      "name": "Inspect the vacancy files",
+      "description": "Reads the hackathon vacancy files and lists their columns, row counts and missing values."
+    },
+    "scripts/data_prep/prepare_text_export.py": {
+      "name": "Clean the vacancy text",
+      "description": "Removes HTML tags and odd characters from the vacancy titles and descriptions, so the text is readable."
+    },
+    "scripts/data_prep/prepare_vacancies.py": {
+      "name": "Combine the vacancy files",
+      "description": "Puts all the yearly vacancy files together in one table and keeps the original values."
+    },
+    "scripts/data_prep/run_pipeline.py": {
+      "name": "Run the whole data preparation",
+      "description": "Runs the data preparation steps in order, from the raw files to the checked result."
+    },
+    "scripts/data_prep/validate_data.py": {
+      "name": "Check the prepared data",
+      "description": "Checks the prepared files for missing values, duplicates and row counts."
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "files": {
+    "src/app/chat.tsx": {
+      "name": "Chat window",
+      "description": "The chat box where a person types a question and reads the answer, with the earlier messages above it."
+    },
+    "src/app/globals.css": {
+      "name": "Page styling",
+      "description": "The shared look of the chat pages: colours, fonts and spacing."
+    },
+    "src/app/layout.tsx": {
+      "name": "Page frame",
+      "description": "The outer frame every page shares: the page title and the basic structure around the content."
+    },
+    "src/app/page.tsx": {
+      "name": "Home page",
+      "description": "The first page people see, which opens the chat."
+    }
+  }
+}

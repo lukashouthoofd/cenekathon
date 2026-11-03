@@ -1,0 +1,24 @@
+{
+  "files": {
+    ".env.example": {
+      "name": "Settings template",
+      "description": "An example of the settings the project needs. The real values go in a private file that is not shared."
+    },
+    ".github/workflows/aikido.yml": {
+      "name": "Security scan",
+      "description": "Runs an automatic security check on every change."
+    },
+    ".github/workflows/ci.yml": {
+      "name": "Automatic checks",
+      "description": "Runs the project checks automatically every time code changes."
+    },
+    "package.json": {
+      "name": "Project packages",
+      "description": "The list of packages the project needs and the commands to run it."
+    },
+    "tsconfig.json": {
+      "name": "TypeScript settings",
+      "description": "Settings for how the TypeScript code is checked."
+    }
+  }
+}

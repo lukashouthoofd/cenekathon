@@ -1,0 +1,12 @@
+{
+  "files": {
+    "src/data/build_duckdb.py": {
+      "name": "Build the database",
+      "description": "Loads the cleaned vacancies into the DuckDB database, so the app can query them quickly."
+    },
+    "src/data/normalize_vacancies.py": {
+      "name": "Clean the vacancy files",
+      "description": "Combines the yearly vacancy files into one, cleans the city names and flags possible duplicate ads."
+    }
+  }
+}

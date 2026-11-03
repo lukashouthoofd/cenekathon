@@ -1,0 +1,28 @@
+{
+  "files": {
+    "compose.yaml": {
+      "name": "Run everything together",
+      "description": "Starts the frontend and the backend together on one machine, the way they run in production."
+    },
+    "next.config.ts": {
+      "name": "Website settings",
+      "description": "Settings for how the Next.js site is built and served."
+    },
+    "scripts/check-skills.sh": {
+      "name": "Check skill files",
+      "description": "Checks that every skill file is complete and matches its copy."
+    },
+    "scripts/sync-skills.sh": {
+      "name": "Copy skill files",
+      "description": "Copies the skill files to the place where Claude Code reads them."
+    },
+    "scripts/verify.sh": {
+      "name": "Full project check",
+      "description": "Runs all the project checks in one go before a change goes in."
+    },
+    "vercel.json": {
+      "name": "Online hosting settings",
+      "description": "Tells the online host (Vercel) how to build and route the app."
+    }
+  }
+}

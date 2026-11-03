@@ -1,0 +1,136 @@
+{
+  "files": {
+    "src/frontend/.env.example": {
+      "name": "Dashboard settings template",
+      "description": "An example of the settings the dashboard needs."
+    },
+    "src/frontend/Dockerfile": {
+      "name": "Dashboard container",
+      "description": "The recipe that packages the dashboard so it runs the same way on any server."
+    },
+    "src/frontend/index.html": {
+      "name": "Dashboard page",
+      "description": "The starting page that loads the dashboard."
+    },
+    "src/frontend/nginx.conf": {
+      "name": "Dashboard web server",
+      "description": "Settings for the small web server that serves the dashboard."
+    },
+    "src/frontend/package.json": {
+      "name": "Dashboard packages",
+      "description": "The list of packages the dashboard needs and the commands to run it."
+    },
+    "src/frontend/src/api.ts": {
+      "name": "Connection to the backend",
+      "description": "The one place where the dashboard asks the backend for data, such as scores, the company list and chat replies."
+    },
+    "src/frontend/src/App.tsx": {
+      "name": "Dashboard",
+      "description": "The main dashboard screen that puts the scores, the gaps and the chat together."
+    },
+    "src/frontend/src/components/ActionCards.tsx": {
+      "name": "Recommended actions",
+      "description": "Shows the three actions the company should take first, ranked by impact."
+    },
+    "src/frontend/src/components/AdviceCard.tsx": {
+      "name": "Advice card",
+      "description": "A single card that shows one piece of advice with its reasons."
+    },
+    "src/frontend/src/components/ChatSidebar.tsx": {
+      "name": "Chat history list",
+      "description": "The side list of earlier chats, so a person can go back to them."
+    },
+    "src/frontend/src/components/ChatView.tsx": {
+      "name": "Chat on the dashboard",
+      "description": "The chat panel on the dashboard, where people ask questions and get answers with their sources."
+    },
+    "src/frontend/src/components/DashboardView.tsx": {
+      "name": "Dashboard layout",
+      "description": "Arranges the scores, gaps, actions and chat on the dashboard."
+    },
+    "src/frontend/src/components/Markdown.tsx": {
+      "name": "Formatted text",
+      "description": "Shows answers with headings, lists and bold text the way they were written."
+    },
+    "src/frontend/src/components/Onboarding.tsx": {
+      "name": "Starting questions",
+      "description": "Shows example questions to new visitors so they know what they can ask."
+    },
+    "src/frontend/src/components/ScoreCards.tsx": {
+      "name": "Score cards",
+      "description": "The cards that show the company's AI readiness score and its parts."
+    },
+    "src/frontend/src/components/SkillGaps.tsx": {
+      "name": "Skill gaps",
+      "description": "Lists the skills the company needs but does not have yet, with how big the gap is."
+    },
+    "src/frontend/src/components/SlackPreviewDialog.tsx": {
+      "name": "Slack preview",
+      "description": "Shows what a message would look like in Slack before it is sent."
+    },
+    "src/frontend/src/components/SoftwareGaps.tsx": {
+      "name": "Software gaps",
+      "description": "Lists the software tools the company is missing for the skills it needs."
+    },
+    "src/frontend/src/components/StateMessages.tsx": {
+      "name": "Loading and error messages",
+      "description": "The short messages shown while data loads, when there is nothing to show, or when something went wrong."
+    },
+    "src/frontend/src/components/VacancyDraft.tsx": {
+      "name": "Vacancy draft",
+      "description": "Shows a vacancy draft the agent wrote, with a button to download it as a Word file."
+    },
+    "src/frontend/src/fixtures/bank.ts": {
+      "name": "Demo bank figures",
+      "description": "The fixed figures the dashboard shows for the demo company, so it works without a live backend."
+    },
+    "src/frontend/src/fixtures/chat.ts": {
+      "name": "Demo chat answer",
+      "description": "A fixed example answer used in the demo when no live chat is available."
+    },
+    "src/frontend/src/fixtures/empty.ts": {
+      "name": "Empty state figures",
+      "description": "The figures shown when a company has no data yet."
+    },
+    "src/frontend/src/fixtures/index.ts": {
+      "name": "Demo data collection",
+      "description": "Collects the demo figures in one place for the dashboard."
+    },
+    "src/frontend/src/format.ts": {
+      "name": "Number formatting",
+      "description": "Shows numbers, percentages and scores in Dutch notation, and shows a missing score as unknown rather than zero."
+    },
+    "src/frontend/src/index.css": {
+      "name": "Dashboard styling",
+      "description": "The look of the dashboard: colours, spacing and layout."
+    },
+    "src/frontend/src/main.tsx": {
+      "name": "Dashboard start-up",
+      "description": "Starts the dashboard in the browser."
+    },
+    "src/frontend/src/types.ts": {
+      "name": "Data shapes",
+      "description": "Describes the data the backend sends, so the dashboard and the backend always agree on the format."
+    },
+    "src/frontend/src/vite-env.d.ts": {
+      "name": "Build helper types",
+      "description": "A small file that tells the build tool about the image and style files."
+    },
+    "src/frontend/tsconfig.app.json": {
+      "name": "Dashboard TypeScript settings",
+      "description": "Settings for how the dashboard code is checked."
+    },
+    "src/frontend/tsconfig.json": {
+      "name": "Dashboard TypeScript link",
+      "description": "Points the dashboard to its TypeScript settings."
+    },
+    "src/frontend/tsconfig.node.json": {
+      "name": "Build TypeScript settings",
+      "description": "Settings for how the build tool's own code is checked."
+    },
+    "src/frontend/vite.config.ts": {
+      "name": "Dashboard build settings",
+      "description": "Settings for how the dashboard is built and started during development."
+    }
+  }
+}

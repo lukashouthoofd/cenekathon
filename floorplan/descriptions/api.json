@@ -1,0 +1,38 @@
+{
+  "files": {
+    "api/chat.mjs": {
+      "name": "Chat endpoint",
+      "description": "Receives a question from the web app when the app runs on Vercel and passes it on to the chat logic."
+    },
+    "api/health.mjs": {
+      "name": "Health check",
+      "description": "A simple yes/no answer that tells monitoring tools the service is up."
+    },
+    "src/app/api/chat/route.ts": {
+      "name": "Chat endpoint",
+      "description": "Receives a question from the chat page, asks the agent for an answer, and sends back the text with its sources."
+    },
+    "src/app/api/documents/[id]/route.ts": {
+      "name": "Download a vacancy document",
+      "description": "Lets a person download a vacancy draft they asked the agent to write, as a Word file."
+    },
+    "src/app/api/overview/route.ts": {
+      "name": "Company overview",
+      "description": "Gives the side panel next to the chat the company figures the agent uses, so the two always agree."
+    }
+  },
+  "routes": {
+    "POST /api/chat": {
+      "name": "Send a question",
+      "description": "Sends a question to the agent and gets back the answer and its sources."
+    },
+    "GET /api/documents/[id]": {
+      "name": "Download a vacancy draft",
+      "description": "Gives back a vacancy draft the agent wrote, as a Word file."
+    },
+    "GET /api/overview": {
+      "name": "Company overview figures",
+      "description": "Gives back the key company figures shown next to the chat."
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "files": {
+    "data/synthetic/ai_usage_logs.csv": {
+      "name": "AI usage per team",
+      "description": "Daily record of how each team of the demo company uses AI: requests, tokens and cost."
+    },
+    "data/synthetic/courses.csv": {
+      "name": "Training courses",
+      "description": "The courses the demo company offers its staff."
+    },
+    "data/synthetic/departments.csv": {
+      "name": "Teams and departments",
+      "description": "The departments and teams of the demo company and how they fit together."
+    },
+    "data/synthetic/employees.csv": {
+      "name": "Staff records",
+      "description": "The demo company's staff, identified only by a made-up number, with job, team and dates."
+    },
+    "data/synthetic/headcount_monthly.csv": {
+      "name": "Headcount per month",
+      "description": "How many people work in each team and job each month."
+    },
+    "data/synthetic/job_architecture.csv": {
+      "name": "Job roles",
+      "description": "The job roles of the demo company and their levels, linked to official occupation codes where possible."
+    },
+    "data/synthetic/job_skills.csv": {
+      "name": "Skills per job",
+      "description": "Which skills each job role needs, and how strongly."
+    },
+    "data/synthetic/learning_records.csv": {
+      "name": "Training completed",
+      "description": "Which staff followed which course, and when."
+    },
+    "data/synthetic/model_pricing.csv": {
+      "name": "AI model prices",
+      "description": "What each AI model costs per token over time, used to work out the demo company's spending."
+    },
+    "data/synthetic/recruiting_records.csv": {
+      "name": "Open vacancies",
+      "description": "The demo company's job openings: when they opened, when they were filled and how many applied."
+    }
+  }
+}
