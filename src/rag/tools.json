@@ -28,7 +28,7 @@
         },
         "company": {
           "type": "string",
-          "description": "Case-insensitive substring of the normalised company name (lowercase, legal suffixes like N.V./Ltd removed). Use a distinctive fragment, e.g. 'rabobank', 'kbc', 'abn amro'; very short fragments match unrelated companies."
+          "description": "Whole word(s) of the normalised company name (lowercase, legal suffixes removed), e.g. 'ing', 'abn amro', 'kbc'. 'ing' matches 'ing bank' but not 'lloyds banking'."
         },
         "year_from": {
           "type": "integer",
@@ -52,7 +52,7 @@
       "properties": {
         "company": {
           "type": "string",
-          "description": "Case-insensitive substring of the normalised company name (lowercase, legal suffixes removed). Use a distinctive fragment, e.g. 'ing bank', 'belfius'."
+          "description": "Whole word(s) of the normalised company name (lowercase, legal suffixes removed), e.g. 'ing', 'abn amro', 'kbc'. 'ing' matches 'ing bank' but not 'lloyds banking'."
         },
         "country": {
           "type": "string",
