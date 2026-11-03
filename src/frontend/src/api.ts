@@ -7,6 +7,7 @@ import type {
   ChatResponse,
   CompaniesResponse,
   Company,
+  Overview,
   Readiness,
   SlackPreviewResponse,
 } from './types'
@@ -87,6 +88,12 @@ export async function getSlackPreview(companyId: string, actionId: string): Prom
     return demoSlackPreview(companyId, actionId)
   }
   return (await request<SlackPreviewResponse>('/api/slack/preview', { companyId, actionId })).text
+}
+
+/** Null when the chat runs on demo data: there is no backend to ask. */
+export async function getOverview(): Promise<Overview | null> {
+  if (DEMO_MODE && !LIVE_CHAT) return null
+  return request<Overview>('/api/overview')
 }
 
 export async function sendChat(messages: ChatMessage[]): Promise<ChatResponse> {

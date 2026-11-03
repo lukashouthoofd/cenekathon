@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ApiError, DEMO_MODE, LIVE_CHAT, sendChat } from '../api'
 import type { ChatMessage } from '../types'
 import { DashboardView } from './DashboardView'
+import { ChatSidebar } from './ChatSidebar'
 import { Markdown } from './Markdown'
 
 export function ChatView() {
@@ -39,14 +40,17 @@ export function ChatView() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="grid items-start gap-6 lg:grid-cols-[1fr_20rem]">
+    <div className="flex min-w-0 flex-col gap-4">
       {DEMO_MODE && !LIVE_CHAT && (
         <p className="text-caption text-caution-text">Demo-modus: gesimuleerde gegevens</p>
       )}
       <div className="space-y-4">
         {messages.length === 0 && (
           <p className="text-body text-muted-foreground">
-            Welkom! Stel een vraag of vraag om een dashboard, bijvoorbeeld: maak een dashboard van Bank Vandermeulen.
+            {LIVE_CHAT
+              ? 'Welkom! Stel een vraag, bijvoorbeeld: geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.'
+              : 'Welkom! Stel een vraag of vraag om een dashboard, bijvoorbeeld: maak een dashboard van Bank Vandermeulen.'}
           </p>
         )}
         {messages.map((m, i) => (
@@ -116,6 +120,8 @@ export function ChatView() {
           Verstuur
         </button>
       </form>
+    </div>
+    <ChatSidebar messages={messages} />
     </div>
   )
 }

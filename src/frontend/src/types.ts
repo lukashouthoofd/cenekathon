@@ -97,3 +97,11 @@ export type ChatMessage = { role: 'user' | 'assistant'; content: string; dashboa
 export type ChatRequest = { messages: { role: 'user' | 'assistant'; content: string }[] }
 
 export type ChatResponse = { message: ChatMessage; mode: 'live' | 'demo' }
+
+/** GET /api/overview: the company the chat agent reasons over (side panel next to the chat). */
+export type Overview = {
+  company: { name: string; sector: string; employees: number }
+  scores: { dimension: string; value: number | null; explanation: string; coverage: string }[]
+  gaps: { skill: string; growthPct: number; internalPeople: number; ref: string }[]
+  synthetic: boolean
+}
