@@ -47,6 +47,7 @@ export default function App() {
 
   const [reloadKey, setReloadKey] = useState(0)
   const planRequest = useRef(0)
+  const planSection = useRef<HTMLDivElement>(null)
   const [tab, setTab] = useState<'dashboard' | 'chat'>('dashboard')
 
   const closeOnboarding = useCallback(() => {
@@ -94,6 +95,11 @@ export default function App() {
       stale = true
     }
   }, [companyId, reloadKey])
+
+  // The plan renders below the score cards; bring it into view when it is requested or arrives.
+  useEffect(() => {
+    if (planLoading || plan) planSection.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [planLoading, plan])
 
   function makePlan() {
     if (!companyId) return
@@ -239,16 +245,18 @@ export default function App() {
           {planError && (
             <ErrorState message={planError} onRetry={makePlan} />
           )}
-          {planLoading && <LoadingState />}
-          {plan && (
-            <ActionCards
-              actions={plan.actions}
-              companyId={companyId}
-              summary={plan.summary}
-              limitations={plan.limitations}
-              mode={plan.mode}
-            />
-          )}
+          <div ref={planSection} className="scroll-mt-6 space-y-6">
+            {planLoading && <LoadingState />}
+            {plan && (
+              <ActionCards
+                actions={plan.actions}
+                companyId={companyId}
+                summary={plan.summary}
+                limitations={plan.limitations}
+                mode={plan.mode}
+              />
+            )}
+          </div>
         </div>
       </main>
       )}
