@@ -48,7 +48,7 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
     sendChat(history)
       .then((r) => setMessages([...history, r.message]))
       .catch((e: unknown) =>
-        setError(e instanceof ApiError ? e.message : 'Er ging iets mis. Probeer het opnieuw.'),
+        setError(e instanceof ApiError ? e.message : 'Dit lukte niet. Probeer het zo nog eens.'),
       )
       .finally(() => setPending(false))
   }
