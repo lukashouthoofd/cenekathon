@@ -172,6 +172,11 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   }
 
   const app = new App({ token: BOT_TOKEN, appToken: APP_TOKEN, socketMode: true })
+  // Log only the event type and channel type, never the message text, so missing events are easy to diagnose.
+  app.use(async ({ body, next }) => {
+    console.log(`event: ${body?.event?.type ?? body?.type ?? 'unknown'} channel_type=${body?.event?.channel_type ?? '-'}`)
+    await next()
+  })
 
   app.event('app_mention', async ({ event, say }) => {
     if (event.bot_id) return
