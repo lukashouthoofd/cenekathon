@@ -4,6 +4,7 @@
 import { readFileSync, existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { routeRequest, companiesFromSummary } from './router.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = join(here, '..', '..')
@@ -24,6 +25,7 @@ function loadEnv(file) {
 const env = { ...loadEnv(join(root, '.env')), ...process.env }
 const BASE = (env.AI_BASE_URL || 'https://api.anthropic.com').replace(/\/$/, '')
 const MODEL = env.AI_MODEL || 'claude-haiku-5-5'
+const STRONG_MODEL = env.AI_MODEL_STRONG || 'claude-sonnet-5-5'
 
 // summary.json next to this file is the bundled copy (Vercel/Docker); data/summary.json is the local fallback.
 const bundled = join(here, 'summary.json')
@@ -31,6 +33,14 @@ const summaryFile = existsSync(bundled) ? bundled : join(root, 'data', 'summary.
 const summaryText = existsSync(summaryFile)
   ? readFileSync(summaryFile, 'utf8')
   : null
+
+let summaryJson = null
+try {
+  summaryJson = summaryText === null ? null : JSON.parse(summaryText)
+} catch {
+  // Malformed summary: no company names, the router still works.
+}
+const knownCompanies = companiesFromSummary(summaryJson)
 
 const SYSTEM = `Je heet Json en bent de AI-readiness-assistent voor een demo over vacatures bij financiële bedrijven in België, Nederland, Luxemburg en het VK.
 Antwoord altijd in het Nederlands, kort en zakelijk.
@@ -101,7 +111,7 @@ function parseReply(text) {
   return { content, dashboard }
 }
 
-async function callClaude(messages) {
+async function callClaude(messages, route) {
   const res = await fetch(`${BASE}/v1/messages`, {
     method: 'POST',
     headers: {
@@ -109,7 +119,7 @@ async function callClaude(messages) {
       'anthropic-version': '2023-06-01',
       'content-type': 'application/json',
     },
-    body: JSON.stringify({ model: MODEL, max_tokens: 2500, system: SYSTEM, messages }),
+    body: JSON.stringify({ model: route.model, max_tokens: route.maxTokens, system: SYSTEM, messages }),
     signal: AbortSignal.timeout(30_000),
   })
   if (!res.ok) throw new Error(`Claude-API gaf status ${res.status}.`)
@@ -134,7 +144,14 @@ export async function handle(method, url, getBody) {
     if (!validMessages(body?.messages)) {
       return { status: 400, body: { error: 'Ongeldige berichten.' } }
     }
-    const text = await callClaude(body.messages.map((m) => ({ role: m.role, content: m.content })))
+    const lastUser = [...body.messages].reverse().find((m) => m.role === 'user')
+    const route = routeRequest(lastUser?.content ?? '', {
+      fastModel: MODEL,
+      strongModel: STRONG_MODEL,
+      knownCompanies,
+    })
+    console.error(`route=${route.tier} model=${route.model} reason=${route.reason}`)
+    const text = await callClaude(body.messages.map((m) => ({ role: m.role, content: m.content })), route)
     const reply = parseReply(text)
     return { status: 200, body: { message: { role: 'assistant', ...reply }, mode: 'live' } }
   } catch (e) {
