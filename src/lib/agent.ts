@@ -4,6 +4,8 @@ import { searchVacancies, vacancyTrend } from './vacancies';
 import { saveVacancyDocument, type VacancyDraft } from './vacancyDoc';
 
 export type ChatMessage = { role: 'user' | 'assistant'; content: string };
+/** Vacancies written in one createVacancyDocument call, with the id of their Word document. */
+export type ProposedVacancies = { documentId: string; vacancies: VacancyDraft[] };
 
 const SYSTEM = `Je bent een AI-readiness-adviseur voor het bedrijf "${data.company.name}" (${data.company.employees} medewerkers, fictieve bedrijfsdata).
 Je antwoordt in het Nederlands, kort en concreet, in Markdown.
@@ -121,10 +123,11 @@ const TOOLS: Anthropic.Tool[] = [
 
 type ToolInput = { query?: string; ref?: string; terms?: string[]; limit?: number; vacancies?: VacancyDraft[] };
 
-async function runTool(name: string, input: ToolInput, documents: string[]): Promise<unknown> {
+async function runTool(name: string, input: ToolInput, documents: ProposedVacancies[]): Promise<unknown> {
   if (name === 'createVacancyDocument') {
-    const id = await saveVacancyDocument(data.company.name, input.vacancies ?? []);
-    documents.push(id);
+    const vacancies = input.vacancies ?? [];
+    const documentId = await saveVacancyDocument(data.company.name, vacancies);
+    documents.push({ documentId, vacancies });
     return { message: `Document gemaakt met ${input.vacancies!.length} vacature(s). De downloadlink wordt automatisch toegevoegd.` };
   }
   if (name === 'searchData') {
@@ -140,23 +143,25 @@ async function runTool(name: string, input: ToolInput, documents: string[]): Pro
 const MAX_STEPS = 12;
 
 /** Manual tool-use loop against the Claude Messages API. */
-export async function answer(history: ChatMessage[]): Promise<string> {
+export async function answer(history: ChatMessage[]): Promise<{ content: string; proposed: ProposedVacancies[] }> {
   const { AI_API_KEY, AI_MODEL } = process.env;
   if (!AI_API_KEY || !AI_MODEL) throw new Error('Zet AI_API_KEY en AI_MODEL in .env');
   const client = new Anthropic({ apiKey: AI_API_KEY });
 
   const messages: Anthropic.MessageParam[] = [...history];
-  const documents: string[] = [];
+  const documents: ProposedVacancies[] = [];
   // The link is added here, not by the model, so it can never point to a document that doesn't exist.
-  const withLinks = (text: string) =>
-    text + documents.map((id) => `\n\n**[Download vacatures (Word)](/api/documents/${id})**`).join('');
+  const withLinks = (text: string) => ({
+    content: text + documents.map((d) => `\n\n**[Download vacatures (Word)](/api/documents/${d.documentId})**`).join(''),
+    proposed: documents,
+  });
 
   for (let step = 0; step < MAX_STEPS; step++) {
     const response = await client.messages.create({ model: AI_MODEL, max_tokens: 16000, system: SYSTEM, tools: TOOLS, messages });
     messages.push({ role: 'assistant', content: response.content });
 
     const text = response.content.flatMap((b) => (b.type === 'text' ? [b.text] : [])).join('\n');
-    if (response.stop_reason === 'refusal') return 'Ik kan deze vraag niet beantwoorden.';
+    if (response.stop_reason === 'refusal') return { content: 'Ik kan deze vraag niet beantwoorden.', proposed: [] };
     if (response.stop_reason === 'max_tokens') return withLinks(`${text}\n\n_(Antwoord afgekapt: te lang.)_`);
     if (response.stop_reason !== 'tool_use') return withLinks(text);
 
@@ -173,5 +178,5 @@ export async function answer(history: ChatMessage[]): Promise<string> {
     );
     messages.push({ role: 'user', content: results });
   }
-  return 'Ik kon de vraag niet afronden binnen het aantal stappen. Probeer een specifiekere vraag.';
+  return { content: 'Ik kon de vraag niet afronden binnen het aantal stappen. Probeer een specifiekere vraag.', proposed: [] };
 }
