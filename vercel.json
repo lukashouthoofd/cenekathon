@@ -1,8 +1,5 @@
 {
   "installCommand": "npm ci --prefix src/frontend",
   "buildCommand": "npm run build --prefix src/frontend",
-  "outputDirectory": "src/frontend/dist",
-  "functions": {
-    "api/*.mjs": { "includeFiles": "src/backend/summary.json" }
-  }
+  "outputDirectory": "src/frontend/dist"
 }
