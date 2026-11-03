@@ -8,8 +8,8 @@ function buildDraft(gap: SkillGap) {
   const title = `Vacature-concept: ${gap.name} (${gap.department})`
   const intro =
     gap.marketShare === null
-      ? 'Het marktaandeel is onbekend'
-      : `Deze functie helpt het team ${gap.name} toe te passen, omdat de (gesimuleerde) markt ${formatPercent(gap.marketShare)} hiervoor vraagt`
+      ? 'Het aandeel in de vacatures is onbekend'
+      : `Deze functie helpt het team ${gap.name} toe te passen, omdat de semantische match in vacatures 2025 ${formatPercent(gap.marketShare, 2)} is`
   const coverage =
     gap.internalCoverage === null
       ? 'Intern is nog niet gemeten wie dit kan'

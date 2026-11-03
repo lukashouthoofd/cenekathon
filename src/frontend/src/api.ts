@@ -93,7 +93,12 @@ export async function getSlackPreview(companyId: string, actionId: string): Prom
 /** Null when the chat runs on demo data: there is no backend to ask. */
 export async function getOverview(): Promise<Overview | null> {
   if (DEMO_MODE && !LIVE_CHAT) return null
-  return request<Overview>('/api/overview')
+  // Temporary: without a reachable overview endpoint the sidebar shows its empty state.
+  try {
+    return await request<Overview>('/api/overview')
+  } catch {
+    return null
+  }
 }
 
 export async function sendChat(messages: ChatMessage[]): Promise<ChatResponse> {
@@ -102,5 +107,18 @@ export async function sendChat(messages: ChatMessage[]): Promise<ChatResponse> {
     return demoChatReply(messages)
   }
   const body: ChatRequest = { messages: messages.map(({ role, content }) => ({ role, content })) }
-  return request<ChatResponse>('/api/chat', body)
+  try {
+    return await request<ChatResponse>('/api/chat', body)
+  } catch {
+    // Temporary: the live chat is not reachable, so answer with the labelled simulated reply.
+    // Replace this fallback once the GPU-backed chat is served on /api/chat.
+    const reply = demoChatReply(messages)
+    return {
+      ...reply,
+      message: {
+        ...reply.message,
+        content: `[Gesimuleerd: de live chat is nu niet bereikbaar.]\n\n${reply.message.content}`,
+      },
+    }
+  }
 }
