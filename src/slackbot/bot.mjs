@@ -29,8 +29,8 @@ export const CHANNEL_WELCOME_TEXT = [
 ].join('\n\n')
 export const HELP_TEXT = [
   "Voorbeeldvragen (typ 'hulp' om deze lijst weer te zien):",
-  '- Welke skills missen we het meest bij Bank Vandermeulen?',
-  '- Hoe staat Bank Vandermeulen er voor op AI-gebruik?',
+  '- Welke skills missen we het meest bij Goldman Stanley?',
+  '- Hoe staat Goldman Stanley er voor op AI-gebruik?',
   '- Welke vacatures vragen om AI-skills in 2025?',
   '- Hoeveel vacatures noemen Python in 2025?',
   '- Stuur de skill-gaps naar HR',

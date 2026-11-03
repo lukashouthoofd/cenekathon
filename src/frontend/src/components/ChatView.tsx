@@ -83,7 +83,7 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
           <p className="text-body text-muted-foreground">
             {LIVE_CHAT
               ? 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.'
-              : 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.'}
+              : 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: maak een dashboard van Goldman Stanley.'}
           </p>
         )}
         {messages.length === 0 && (

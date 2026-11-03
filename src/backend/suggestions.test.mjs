@@ -3,14 +3,14 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { suggestFollowUps } from './suggestions.mjs'
 
-const companies = ['Bank Vandermeulen']
+const companies = ['Goldman Stanley']
 
 test('suggestFollowUps: company mention yields the two company questions', () => {
-  const r = suggestFollowUps({ userText: 'Hoe gaat het bij bank vandermeulen?', replyText: '', hasDashboard: false, companies })
+  const r = suggestFollowUps({ userText: 'Hoe gaat het bij goldman stanley?', replyText: '', hasDashboard: false, companies })
   assert.deepEqual(r, [
-    'Hoe staat Bank Vandermeulen er voor op AI-gebruik?',
-    'Maak een dashboard van Bank Vandermeulen',
-    'Welke skills missen we het meest bij Bank Vandermeulen?',
+    'Hoe staat Goldman Stanley er voor op AI-gebruik?',
+    'Maak een dashboard van Goldman Stanley',
+    'Welke skills missen we het meest bij Goldman Stanley?',
   ])
 })
 
@@ -19,7 +19,7 @@ test('suggestFollowUps: skill mention yields two skill questions', () => {
   assert.deepEqual(r, [
     'Hoeveel vacatures noemen Python in 2025?',
     'Hoe ontwikkelt het aantal vacatures met Python zich per jaar?',
-    'Welke skills missen we het meest bij Bank Vandermeulen?',
+    'Welke skills missen we het meest bij Goldman Stanley?',
   ])
 })
 
@@ -29,10 +29,10 @@ test('suggestFollowUps: dashboard adds the HR question', () => {
 })
 
 test('suggestFollowUps: never more than 3, no duplicates, never equal to userText', () => {
-  const userText = 'Maak een dashboard van Bank Vandermeulen over Python en SQL'
+  const userText = 'Maak een dashboard van Goldman Stanley over Python en SQL'
   const r = suggestFollowUps({
     userText,
-    replyText: 'cloud, machine learning, Bank Vandermeulen, AI act',
+    replyText: 'cloud, machine learning, Goldman Stanley, AI act',
     hasDashboard: true,
     companies,
   })
