@@ -6,6 +6,9 @@
 # Challenge data (confidential, ~2 GB): see docs/DATA.md
 data/
 *.parquet
+*.duckdb
+*.duckdb.wal
+*.duckdb.tmp
 
 # Dependencies
 node_modules/

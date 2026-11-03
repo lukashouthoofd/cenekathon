@@ -1,0 +1,8 @@
+duckdb>=1.5
+sentence-transformers>=6
+torch
+pyarrow
+pandas
+numpy
+fastapi
+uvicorn
