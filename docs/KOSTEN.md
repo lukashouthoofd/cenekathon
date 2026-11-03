@@ -6,10 +6,10 @@ Datum: 2026-11-03. Alle bedragen in USD, exclusief btw. Dit is een schatting, ge
 
 | Model | Input | Output | Cache-lezen | Bron |
 |---|---|---|---|---|
-| claude-haiku-5-5 | $0,10 (prompt tot 100k tokens) | $0,50 | niet gevonden | techenclave.com (nieuwsbericht, enige bron) |
-| claude-sonnet-5-5 | $2,00 | $10,00 | $0,20 of $0,10 (bronnen spreken elkaar tegen) | apidog.com, anotherwrapper.com, pricepertoken.com, techenclave.com |
+| claude-haiku-5-5 | $0,10 (prompt tot 100k tokens) | $0,50 | niet gevonden | https://claude.com/pricing, 2026-11-03 (officiële pagina; Haiku 5.5 ≤100k tokens) |
+| claude-sonnet-5-5 | $2,00 | $10,00 | $0,20 of $0,10 (bronnen spreken elkaar tegen) | https://claude.com/pricing, 2026-11-03 (officiële pagina, Sonnet 5.5) voor input/output; cacheprijs niet op die pagina bevestigd |
 
-Opgezocht via webzoekopdracht op 2026-11-03. Dit zijn secundaire bronnen; de officiele Anthropic-prijspagina is niet geraadpleegd. Controleer de prijzen daar voor je ze gebruikt. Prompt caching wordt in de app niet gebruikt (gemeten cache_read = 0), dus de cacheprijs telt niet mee in de raming.
+Opgezocht via webzoekopdracht op 2026-11-03. Input- en outputprijzen zijn op 2026-11-03 gecontroleerd op de officiële pagina https://claude.com/pricing (anthropic.com/pricing leidt daarheen door): Haiku 5.5 ≤100k tokens $0,10 / $0,50 en Sonnet 5.5 $2 / $10 komen overeen met de eerder gevonden bedragen. Cacheprijzen staan niet in de gelezen tekst van die pagina. Prompt caching wordt in de app niet gebruikt (gemeten cache_read = 0), dus de cacheprijs telt niet mee in de raming.
 
 ## (b) Gemeten tokens per verzoek (6 live calls, Haiku)
 
