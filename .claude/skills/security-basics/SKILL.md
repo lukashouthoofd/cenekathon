@@ -15,4 +15,6 @@ description: Use before deploying or pitching, and whenever handling API keys, u
 8. **Dependencies:** install only packages you've heard of; check the exact name (typosquats, hallucinated packages) — `npm view <pkg>` / `pip index versions <pkg>`.
 9. **Deploy:** HTTPS only (hosts do this), no debug mode in production, no verbose errors to users.
 
+10. **Aikido:** `.github/workflows/aikido.yml` scans every PR for new critical dependency vulnerabilities. Needs `AIKIDO_SECRET_KEY` (`gh secret set AIKIDO_SECRET_KEY`); skipped until set. Optional: Aikido Safe Chain (`npm i -g @aikidosec/safe-chain`) blocks malicious npm packages at install time.
+
 **Done when:** the grep is clean, `.env` is untracked, public endpoints have a size/rate cap, and the demo uses no real personal data.

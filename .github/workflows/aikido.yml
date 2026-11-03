@@ -1,0 +1,41 @@
+# Aikido Security PR scan — adapted from the official action README:
+# https://github.com/AikidoSec/github-actions-workflow
+#
+# Setup (one person, 2 min): connect the repo in Aikido, create a CI secret key, then
+#   gh secret set AIKIDO_SECRET_KEY
+# Until the secret exists the scan step is skipped, so PRs don't fail.
+# SAST / IaC gating is left off (paid-plan features).
+
+name: Aikido Security
+
+on:
+  pull_request:
+
+jobs:
+  aikido-security:
+    name: Aikido
+    runs-on: ubuntu-latest
+    env:
+      AIKIDO_SECRET_KEY: ${{ secrets.AIKIDO_SECRET_KEY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Detect new vulnerabilities
+        if: env.AIKIDO_SECRET_KEY != ''
+        uses: AikidoSec/github-actions-workflow@v1.0.13
+        with:
+          secret-key: ${{ secrets.AIKIDO_SECRET_KEY }}
+          fail-on-timeout: true
+          fail-on-dependency-scan: true
+          fail-on-sast-scan: false
+          fail-on-iac-scan: false
+          minimum-severity: 'CRITICAL'
+          timeout-seconds: 180
+          post-scan-status-comment: 'off'
+          post-sast-review-comments: 'off'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Note missing secret
+        if: env.AIKIDO_SECRET_KEY == ''
+        run: echo "AIKIDO_SECRET_KEY is not set; skipping the Aikido scan."

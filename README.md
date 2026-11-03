@@ -19,7 +19,7 @@ Team starter for the [CenEkathon](https://ceneka.be/activity/cenekathon) (CenEka
 | `.agents/roles/` | `architect`, `builder`, `reviewer` role prompts |
 | `docs/` | `CHALLENGE` · `PLAN` · `DECISIONS` · `TEAM` · `STACK` · `PITCH` · `SCHEDULE` — shared memory for humans and agents |
 | `scripts/` | `verify.sh` (the "done" contract), `check-skills.sh`, `sync-skills.sh` |
-| `.github/` | CI (runs `verify.sh`), PR template, task issue template |
+| `.github/` | CI (runs `verify.sh`), Aikido PR security scan (needs `AIKIDO_SECRET_KEY`), PR template, task issue template |
 
 ## Tools that don't read AGENTS.md automatically
 

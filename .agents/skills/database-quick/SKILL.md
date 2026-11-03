@@ -11,8 +11,11 @@ description: Use when the product needs to store data — choosing between JSON/
 | Static or read-only data | JSON/CSV file in the repo, loaded at startup |
 | Single-server persistence | SQLite (`better-sqlite3` / Python `sqlite3`) — caution: serverless hosts (Vercel) have no persistent disk |
 | Multi-user, hosted, auth, realtime | Supabase (free tier; Postgres + Auth + Storage + pgvector) |
+| Postgres only, deploying on Vercel | Neon via Vercel Marketplace (injects `DATABASE_URL`) |
 | Local Postgres in dev | `docker-compose-patterns` skill → `postgres:16` |
 | Embeddings / semantic search | pgvector (Supabase) or an in-memory index for < 10k items |
+
+**Default pick: Supabase** — Postgres plus auth, storage, realtime and pgvector in one project, so a team needs no extra services. Choose Neon + Vercel only when you need just a database.
 
 ## Rules
 - Write the schema as a SQL file (`db/schema.sql`) and a seed (`db/seed.sql` or a script) committed to the repo — the DB must be rebuildable in one command.
