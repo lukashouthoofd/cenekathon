@@ -7,6 +7,8 @@ Loads every CSV as a table (is_synthetic kept), then adds:
                                                               job_architecture.job_title and base_title
   job_skill_esco(job_id, skill_name, skill, match_score)      job_skills.skill_name -> rag `skills` label:
                                                               exact (case-insensitive), else ConTeXT cosine >= 0.8, else NULL
+  skill_equiv(market_skill, internal_skill, score)            every rag `skills` label equivalent to a job_skills.skill_name:
+                                                              exact (1.0) or ConTeXT cosine >= 0.75
   _meta(source, as_of)                                        as_of = last date in ai_usage_logs
 """
 import argparse
@@ -23,6 +25,7 @@ SOURCE = "SYNTHETIC - fictional Goldman Stanly for CenEkathon demo"
 TABLES = ["departments", "job_architecture", "job_skills", "employees", "headcount_monthly", "ai_usage_logs",
           "model_pricing", "courses", "learning_records", "recruiting_records"]
 SKILL_COS = 0.8
+EQUIV_COS = 0.75  # 0.75-0.78 pairs look equivalent ('advise on risk management' ~ 'risk management'); below is noisy
 
 
 def main():
@@ -57,17 +60,26 @@ def main():
     names = [n for (n,) in con.execute("SELECT DISTINCT skill_name FROM job_skills ORDER BY 1").fetchall()]
     mapping = {n: (by_lower[n.lower()], 1.0) for n in names if n.lower() in by_lower}
     rest = [n for n in names if n not in mapping]
-    if rest:
-        matcher = models.SkillMatcher(labels)
-        S = torch.nn.functional.normalize(matcher.S, dim=1)
-        Q = matcher.model.encode(rest, convert_to_tensor=True, normalize_embeddings=True).float()
-        best, idx = (Q @ S.T).max(dim=1)
-        for n, b, i in zip(rest, best.tolist(), idx.tolist()):
+    matcher = models.SkillMatcher(labels)
+    S = torch.nn.functional.normalize(matcher.S, dim=1)
+    Q = matcher.model.encode(names, convert_to_tensor=True, normalize_embeddings=True).float()
+    sim = Q @ S.T
+    best, idx = sim.max(dim=1)
+    for n, b, i in zip(names, best.tolist(), idx.tolist()):
+        if n not in mapping:
             mapping[n] = (labels[i], b) if b >= SKILL_COS else (None, b)
     m = pd.DataFrame([(n, s, round(v, 4)) for n, (s, v) in mapping.items()],
                      columns=["skill_name", "skill", "match_score"])
     con.execute("""CREATE TABLE job_skill_esco AS SELECT j.job_id, j.skill_name, m.skill, m.match_score,
                    true AS is_synthetic FROM job_skills j JOIN m USING (skill_name) ORDER BY 1, 2""")
+
+    # skill_equiv: every market label semantically equivalent to an internal skill name (exact or ConTeXT cosine)
+    eq = [(by_lower[n.lower()], n, 1.0) for n in names if n.lower() in by_lower]
+    for i, j in (sim >= EQUIV_COS).nonzero().tolist():
+        if labels[j].lower() != names[i].lower():
+            eq.append((labels[j], names[i], round(float(sim[i, j]), 4)))
+    se = pd.DataFrame(eq, columns=["market_skill", "internal_skill", "score"])
+    con.execute("CREATE TABLE skill_equiv AS SELECT *, true AS is_synthetic FROM se ORDER BY 2, 3 DESC")
 
     con.execute(f"CREATE TABLE _meta AS SELECT '{SOURCE}' AS source, max(date) AS as_of, true AS is_synthetic "
                 "FROM ai_usage_logs")

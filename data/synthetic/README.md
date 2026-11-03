@@ -1,6 +1,6 @@
-# Northwind Bank (synthetic): internal HR & AI-usage dataset
+# Goldman Stanly (synthetic): internal HR & AI-usage dataset
 
-**EVERYTHING IN THIS FOLDER IS SYNTHETIC.** "Northwind Bank" is a fictional company. No row describes a real
+**EVERYTHING IN THIS FOLDER IS SYNTHETIC.** "Goldman Stanly" is a fictional company. No row describes a real
 company, a real employee or real AI spend. Do not present any figure from here as real, as an industry
 benchmark, or as data about any named bank. Every file has an `is_synthetic=true` column.
 

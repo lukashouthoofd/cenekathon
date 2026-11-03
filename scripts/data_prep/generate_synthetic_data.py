@@ -1,4 +1,4 @@
-"""Generate a fully SYNTHETIC internal dataset for a fictional bank: "Northwind Bank (synthetic)".
+"""Generate a fully SYNTHETIC internal dataset for a fictional bank: "Goldman Stanly (synthetic)".
 
 Everything written to data/synthetic/ is invented. Only two things are grounded in real public data:
   * job titles: frequent normalised vacancy titles at banking employers (data/processed/vacancies_text.parquet)
@@ -32,7 +32,7 @@ ESCO_OCC_GLOB = os.path.join(ROOT, "data", "external", "raw", "esco", "occupatio
 
 START = date(2023, 1, 1)
 END = date(2026, 9, 30)
-COMPANY = "Northwind Bank (synthetic)"
+COMPANY = "Goldman Stanly (synthetic)"
 
 rng = np.random.default_rng(SEED)
 rnd = random.Random(SEED)
@@ -571,7 +571,7 @@ COURSES = [
     ("C002", "Data Protection & GDPR Essentials (annual)", "data protection", 1.0, "compliance", True, False, date(2023, 1, 1)),
     ("C003", "Code of Conduct & Ethics (annual)", "comply with legal regulations", 0.75, "compliance", True, False, date(2023, 1, 1)),
     ("C004", "AI Literacy for Everyone (EU AI Act Art. 4)", "use generative AI assistants responsibly", 2.0, "ai", True, True, date(2025, 1, 15)),
-    ("C010", "Generative AI at Northwind: Getting Started", "use generative AI assistants responsibly", 1.5, "ai", False, True, date(2023, 9, 1)),
+    ("C010", "Generative AI at Goldman Stanly: Getting Started", "use generative AI assistants responsibly", 1.5, "ai", False, True, date(2023, 9, 1)),
     ("C011", "Prompt Engineering Fundamentals", "use generative AI assistants responsibly", 3.0, "ai", False, True, date(2023, 11, 1)),
     ("C012", "Responsible AI & Model Risk in Banking", "AI model risk management", 4.0, "ai", False, True, date(2024, 3, 1)),
     ("C013", "AI-Assisted Software Development", "AI-assisted software development", 6.0, "ai", False, True, date(2023, 6, 1)),
@@ -606,7 +606,7 @@ def gen_learning(employees, jobs):
     courses = pd.DataFrame([c[:7] + (c[7].isoformat(),) for c in COURSES],
                            columns=["course_id", "course_title", "skill_name", "hours", "category", "is_mandatory",
                                     "is_ai_related", "available_from"])
-    courses["provider"] = ["Northwind Academy (internal)" if i % 3 else "External e-learning vendor (generic)" for i in range(len(courses))]
+    courses["provider"] = ["Goldman Stanly Academy (internal)" if i % 3 else "External e-learning vendor (generic)" for i in range(len(courses))]
     cinfo = {c[0]: c for c in COURSES}
     lvl = jobs.set_index("job_id").job_level.to_dict()
     rows = []

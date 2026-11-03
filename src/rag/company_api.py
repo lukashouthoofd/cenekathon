@@ -117,6 +117,12 @@ def skill_gap(r: GapReq):
             return {"synthetic": True, "error": "no active employees match"}
         internal = dict(q("""SELECT s.skill, count(DISTINCT emp.employee_id) FROM emp
             JOIN job_skill_esco s ON s.job_id = emp.job_id WHERE s.skill IS NOT NULL GROUP BY 1"""))
+        # market skill -> active employees whose job has an equivalent internal skill (exact, mapped or skill_equiv)
+        equiv = dict(q("""SELECT x.market_skill, count(DISTINCT emp.employee_id) FROM emp
+            JOIN job_skills j ON j.job_id = emp.job_id
+            JOIN (SELECT market_skill, internal_skill FROM skill_equiv UNION
+                  SELECT skill, skill_name FROM job_skill_esco WHERE skill IS NOT NULL) x
+              ON x.internal_skill = j.skill_name GROUP BY 1"""))
         tmap = q("""SELECT job_title, market_title_norm, n_postings, round(score, 3) FROM title_map
             WHERE job_title IN (SELECT base_title FROM job_architecture WHERE job_id IN (SELECT job_id FROM emp))
             ORDER BY job_title, score DESC""")
@@ -129,9 +135,12 @@ def skill_gap(r: GapReq):
                            [norms]).fetchall()
     out = {s: {"skill": s, "market_share": round(n / n_post, 3) if n_post else 0.0, "market_n_postings": n,
                "example_vacancy_id": v, "evidence": e} for s, n, v, e in market}
+    for s, d in out.items():
+        if s in equiv:
+            d["internal_share"] = round(equiv[s] / n_emp, 3)
     for s, k in internal.items():
-        out.setdefault(s, {"skill": s, "market_share": 0.0, "market_n_postings": 0})["internal_share"] = \
-            round(k / n_emp, 3)
+        out.setdefault(s, {"skill": s, "market_share": 0.0, "market_n_postings": 0,
+                           "internal_share": round(k / n_emp, 3)})
     for d in out.values():
         d.setdefault("internal_share", 0.0)
         d["gap"] = round(d["market_share"] - d["internal_share"], 3)
