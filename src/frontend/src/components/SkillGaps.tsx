@@ -49,7 +49,7 @@ export function SkillGaps({
                       <span className="flex flex-wrap items-baseline justify-between gap-x-4">
                         <span className="text-heading text-foreground">{g.name}</span>
                         <span className="text-body-sm text-muted-foreground">
-                          {g.marketShare === null ? 'Onbekend' : `${formatPercent(g.marketShare)} gesimuleerde vraag`}
+                          {g.marketShare === null ? 'Onbekend' : `${formatPercent(g.marketShare, 2)} semantische match in vacatures 2025`}
                           {' · '}
                           {g.internalCoverage === null ? 'Intern: onbekend' : `Intern: ${formatPercent(g.internalCoverage)}`}
                         </span>

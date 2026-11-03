@@ -11,20 +11,24 @@
 // - training: afdelingen met een tekortvaardigheid. Per afdeling tellen we distinct employee_anon_id met minstens
 //     een opleiding waarvan skill_id een tekortvaardigheid van diezelfde afdeling is (skill_id null telt niet).
 //     value = round(100 * totaal geteld / totaal headcount van die afdelingen); coverage = 1 als training_records niet leeg is, anders 0.
-// - marketShare komt uit skillGaps in src/frontend/src/fixtures/bank.ts (de mock bevat dat niet).
+// - marketShare komt uit data/skill_signal.json (share_2025 per skillId; de mock bevat dat niet).
 // - ev-missing-1 blijft alleen bij data-governance staan (de enige vaardigheid zonder interne dekking), zoals in de fixture.
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 
 const bank = JSON.parse(readFileSync(new URL('./mock/internal-bank.json', import.meta.url), 'utf8'))
 
-const MARKET_SHARE = {
-  modelmonitoring: 0.34,
-  'ai-act': 0.29,
-  'python-data': 0.41,
-  'prompt-engineering': 0.22,
-  'data-governance': 0.26,
-  mlops: 0.17,
+const SIGNAL_FILE = fileURLToPath(new URL('../../data/skill_signal.json', import.meta.url))
+
+// Marktaandeel per skillId: share_2025 uit data/skill_signal.json (semantische match op de GPU-embeddings).
+// Ontbreekt het bestand of een skill, dan is het null; zo'n vaardigheid telt niet mee in de vaardighedenscore.
+export function loadMarketShares(file = SIGNAL_FILE) {
+  if (!existsSync(file)) return {}
+  const signal = JSON.parse(readFileSync(file, 'utf8'))
+  return Object.fromEntries((signal.skills ?? []).map((s) => [s.skillId, s.share_2025 ?? null]))
 }
+
+const MARKET_SHARE = loadMarketShares()
 
 const SOFTWARE_GAPS = [
   { id: 'sw-risk', department: 'Risk', need: 'Modelmonitoring',
@@ -43,23 +47,25 @@ const SOFTWARE_GAPS = [
 
 const sum = (xs) => xs.reduce((a, x) => a + x, 0)
 const pct = (x) => Math.round(x * 100)
+const pctDec = (x) => (Math.round(x * 10000) / 100).toFixed(2).replace('.', ',')
 const round2 = (x) => Math.round(x * 100) / 100
 const deptId = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
-export function readinessFor(companyId) {
+export function readinessFor(companyId, marketShare = MARKET_SHARE) {
   if (companyId !== bank.company.id) return null
   const { departments, skills_inventory: skills, training_records: training } = bank
   const internalIds = (ds) => ds.map((d) => `ev-int-${deptId(d.name)}`)
 
   // skills
   const measuredSkills = skills.filter((s) => s.internal_coverage !== null)
-  const skillDen = sum(measuredSkills.map((s) => MARKET_SHARE[s.skillId]))
-  const skillNum = sum(measuredSkills.map((s) => MARKET_SHARE[s.skillId] * s.internal_coverage))
-  const skillsValue = measuredSkills.length ? Math.round((100 * skillNum) / skillDen) : null
+  const weighted = measuredSkills.filter((s) => marketShare[s.skillId] != null)
+  const skillDen = sum(weighted.map((s) => marketShare[s.skillId]))
+  const skillNum = sum(weighted.map((s) => marketShare[s.skillId] * s.internal_coverage))
+  const skillsValue = weighted.length ? Math.round((100 * skillNum) / skillDen) : null
   const skillsCoverage = round2(measuredSkills.length / skills.length)
   const skillsExplanation = skillsValue === null
     ? 'Onvoldoende interne gegevens om de vaardighedenscore te berekenen (gesimuleerd).'
-    : `Gewogen interne dekking van ${measuredSkills.length} van de ${skills.length} AI-vaardigheden, naar hun aandeel in vergelijkbare vacatures (gesimuleerd).`
+    : `Gewogen interne dekking van ${weighted.length} van de ${skills.length} AI-vaardigheden, naar hun marktaandeel (marktaandeel = aandeel van vacatures 2025 met een semantische match (drempel 0,85), gemeten op een steekproef van de GPU-embeddings); de interne dekking is gesimuleerd.`
 
   // ai_usage
   const measuredDepts = departments.filter((d) => d.employees_with_ai_tool_use_90d !== null)
@@ -98,10 +104,11 @@ export function readinessFor(companyId) {
   ]
 
   const skillGaps = skills.map((s) => {
-    const ms = MARKET_SHARE[s.skillId]
+    const ms = marketShare[s.skillId] ?? null
+    const demand = ms === null ? 'onbekend (geen semantische match in de steekproef)' : `${pctDec(ms)}%`
     const explanation = s.internal_coverage === null
-      ? `Vraag in vergelijkbare vacatures: ${pct(ms)}%; interne dekking is onbekend omdat die niet is gemeten (gesimuleerd).`
-      : `Vraag in vergelijkbare vacatures: ${pct(ms)}%; intern aanwezig bij ${pct(s.internal_coverage)}% van de profielen (gesimuleerd).`
+      ? `Marktaandeel (semantische match in vacatures 2025): ${demand}; interne dekking is onbekend omdat die niet is gemeten (gesimuleerd).`
+      : `Marktaandeel (semantische match in vacatures 2025): ${demand}; intern aanwezig bij ${pct(s.internal_coverage)}% van de profielen (gesimuleerd).`
     return {
       skillId: s.skillId,
       name: s.name,

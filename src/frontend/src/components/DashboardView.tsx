@@ -46,7 +46,7 @@ export function ReadinessDashboard({ readiness }: { readiness: Readiness }) {
     <div className="space-y-4">
       <ScoreCards scores={readiness.scores} />
       <div className="grid gap-4 min-[900px]:grid-cols-2">
-        <Panel title="Ontbrekende skills per afdeling" subtitle="Gemiddeld verschil tussen gesimuleerde vraag en interne dekking">
+        <Panel title="Ontbrekende skills per afdeling" subtitle="Gemiddeld verschil tussen de semantische match in vacatures 2025 en interne dekking (gesimuleerd)">
           <BarList ariaLabel="Ontbrekende skills per afdeling" items={skillGapsByDepartment(readiness.skillGaps)} />
         </Panel>
         <Panel title="Ontbrekende software" subtitle="Aandeel van de ontbrekende software per afdeling">
