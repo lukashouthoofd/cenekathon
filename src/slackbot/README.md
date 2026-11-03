@@ -23,6 +23,10 @@ Vraagt iemand om een vacature/aannemen/werving (HR), een interne tool/bouwen (En
 
 Nodig de bot uit in elk kanaal: `/invite @AI-readiness`.
 
+## HR-samenvatting
+
+Vraag om de skill-gaps en vacaturevoorstellen naar HR te sturen, bijvoorbeeld met "stuur skill gaps naar hr" of "stuur vacatures naar hr". Json haalt de readiness en analyse van `demo-bank` op (timeout 10 seconden) en zet de samenvatting als voorstel in de thread, met dezelfde verstuurknop. Is de backend niet bereikbaar, dan krijg je alleen een melding.
+
 ## Slack-app instellen
 
 1. Zet **Socket Mode** aan en maak een app-level token met scope `connections:write`.

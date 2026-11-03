@@ -66,6 +66,48 @@ async function ask(text) {
   return parts.join('\n\n')
 }
 
+const HR_COMPANY_ID = 'demo-bank'
+const HR_TIMEOUT_MS = 10_000
+
+export function isHrSummaryRequest(text) {
+  const t = text.toLowerCase()
+  const skillGaps = t.includes('skill') && (t.includes('gap') || t.includes('hiaten')) && (t.includes('hr') || t.includes('stuur'))
+  const vacatures = t.includes('vacature') && t.includes('hr') && t.includes('stuur')
+  return skillGaps || vacatures
+}
+
+const percentOrUnknown = (v) => (v === null || v === undefined ? 'onbekend' : `${Math.round(v * 100)}%`)
+
+export function buildHrSummary(readiness, analyze) {
+  const lines = [`Skill-gaps voor ${readiness.companyName} (gesimuleerd)`]
+  for (const g of readiness.skillGaps) {
+    lines.push(`- ${g.name} (${g.department}): markt ${percentOrUnknown(g.marketShare)}, intern ${percentOrUnknown(g.internalCoverage)}`)
+  }
+  const actions = analyze?.actions ?? []
+  if (actions.length) {
+    lines.push('Voorgestelde acties:')
+    for (const a of actions) lines.push(`- ${a.title}`)
+  }
+  const text = lines.join('\n')
+  return text.length > MAX_CHARS ? `${text.slice(0, MAX_CHARS - 1)}…` : text
+}
+
+async function fetchHrSummary() {
+  const base = new URL(CHAT_URL).origin
+  const get = async (path, init) => {
+    const res = await fetch(`${base}${path}`, { ...init, signal: AbortSignal.timeout(HR_TIMEOUT_MS) })
+    if (!res.ok) throw new Error(`status ${res.status}`)
+    return res.json()
+  }
+  const readiness = await get(`/api/companies/${HR_COMPANY_ID}/readiness`)
+  const analyze = await get('/api/analyze', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ companyId: HR_COMPANY_ID }),
+  }).catch(() => null)
+  return buildHrSummary(readiness, analyze)
+}
+
 export function detectRoute(text) {
   const t = text.toLowerCase()
   const hit = ROUTE_KEYWORDS.find(([, words]) => words.some((w) => t.includes(w)))
@@ -113,6 +155,19 @@ async function handle(text, threadTs, say) {
   if (!text) return
   if (text.length > MAX_CHARS) {
     await say({ text: `Je bericht is te lang (maximaal ${MAX_CHARS} tekens). Stel je vraag korter.`, thread_ts: threadTs })
+    return
+  }
+  if (isHrSummaryRequest(text)) {
+    let summary
+    try {
+      summary = await fetchHrSummary()
+    } catch (e) {
+      console.error(`Backend niet bereikbaar (${e?.name || 'fout'}).`)
+      await say({ text: 'Backend niet bereikbaar. Probeer het later opnieuw.', thread_ts: threadTs })
+      return
+    }
+    const id = remember('HR', summary)
+    await say({ ...buildProposal('HR', summary, id), thread_ts: threadTs })
     return
   }
   const route = detectRoute(text)
