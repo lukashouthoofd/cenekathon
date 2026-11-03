@@ -1,6 +1,9 @@
 // Local chat backend for the frontend (POST /api/chat on port 8000). Logic lives in chat.mjs.
 import { createServer } from 'node:http'
 import { handle, env, MODEL, summaryText } from './chat.mjs'
+import { readinessHandle } from './readiness.mjs'
+import { analyzeHandle } from './analyze.mjs'
+import { overviewHandle } from './overview.mjs'
 
 const PORT = Number(env.PORT ?? 8000)
 
@@ -28,7 +31,7 @@ function readBody(req) {
 }
 
 const server = createServer(async (req, res) => {
-  const { status, body } = await handle(req.method, req.url, () => readBody(req))
+  const { status, body } = readinessHandle(req.method, req.url) ?? overviewHandle(req.method, req.url) ?? (await analyzeHandle(req.method, req.url, () => readBody(req))) ?? (await handle(req.method, req.url, () => readBody(req)))
   sendJson(res, status, body)
 })
 

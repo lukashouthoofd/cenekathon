@@ -6,6 +6,9 @@ import { DashboardView } from './DashboardView'
 import { ChatSidebar } from './ChatSidebar'
 import { Markdown } from './Markdown'
 
+// A question picked outside the chat (for example from the onboarding panel) to send as a user message.
+export type AskRequest = { text: string }
+
 // Splits off the last line starting with "Advies:" (after trimming) from an assistant reply.
 function splitAdvice(content: string): { body: string; advice: string | null } {
   const lines = content.split('\n')
@@ -27,7 +30,7 @@ const STARTERS = LIVE_CHAT
     ]
   : ['Maak een dashboard van Bank Vandermeulen']
 
-export function ChatView() {
+export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [pending, setPending] = useState(false)
@@ -57,6 +60,11 @@ export function ChatView() {
       )
       .finally(() => setPending(false))
   }
+
+  // Sends a question picked outside the chat (onboarding) after the existing history.
+  useEffect(() => {
+    if (askRequest && !pending) send([...messages, { role: 'user', content: askRequest.text }])
+  }, [askRequest])
 
   function submit() {
     const text = input.trim()
