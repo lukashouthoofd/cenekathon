@@ -20,7 +20,7 @@ from pydantic import BaseModel, Field
 import models
 
 con = duckdb.connect(os.environ.get("RAG_DB", "rag.duckdb"), read_only=True)
-# SYNTHETIC internal company data (Goldman Stanly, data/synthetic via company.py): read-only, and SQL may not touch files.
+# SYNTHETIC internal company data (Goldman Stanley, data/synthetic via company.py): read-only, and SQL may not touch files.
 company = duckdb.connect(os.environ["COMPANY_DB"], read_only=True, config={"enable_external_access": False}) \
     if os.environ.get("COMPANY_DB") else None
 
@@ -194,7 +194,7 @@ def company_sql(r: SqlReq):
         with company.cursor() as cur:
             res = cur.execute(f"SELECT * FROM ({sql}) LIMIT 200")
             cols = [d[0] for d in res.description]
-            return {"source": "SYNTHETIC - fictional Goldman Stanly for CenEkathon demo", "columns": cols,
+            return {"source": "SYNTHETIC - fictional Goldman Stanley for CenEkathon demo", "columns": cols,
                     "rows": [[py(v) for v in row] for row in res.fetchall()]}
     except duckdb.Error as e:
         return {"error": str(e)}

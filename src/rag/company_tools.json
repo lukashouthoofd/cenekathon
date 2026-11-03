@@ -1,7 +1,7 @@
 [
   {
     "name": "company_profile",
-    "description": "Internal workforce snapshot of 'Goldman Stanly (synthetic)'. The company data is SYNTHETIC (a fictional bank generated for the demo; no real employees or real AI spend); always say so when you use it and never present it as real or as a benchmark. As of the last date in the data (as_of): active headcount and FTE by country and grade; AI usage in the last 90 days (requests, tokens, cost_eur, average daily active users per tool and top use cases; active users can double-count people using several tools); share of active employees who completed at least one AI-related course, with completions per AI course; recruiting requisitions by status and the open requisitions. No market data; use skill_gap to compare with the job market.",
+    "description": "Internal workforce snapshot of 'Goldman Stanley (synthetic)'. The company data is SYNTHETIC (a fictional bank generated for the demo; no real employees or real AI spend); always say so when you use it and never present it as real or as a benchmark. As of the last date in the data (as_of): active headcount and FTE by country and grade; AI usage in the last 90 days (requests, tokens, cost_eur, average daily active users per tool and top use cases; active users can double-count people using several tools); share of active employees who completed at least one AI-related course, with completions per AI course; recruiting requisitions by status and the open requisitions. No market data; use skill_gap to compare with the job market.",
     "input_schema": {
       "type": "object",
       "properties": {
@@ -14,7 +14,7 @@
   },
   {
     "name": "skill_gap",
-    "description": "Compares skills of 'Goldman Stanly (synthetic)' employees (SYNTHETIC, fictional internal data; say so) with real job-market postings for similar roles. Internal skills come from the job architecture (job_skills mapped to ESCO labels; non-ESCO AI skills are left out), so internal_share = share of active employees whose job requires the skill. Internal base titles are mapped to market titles (market_titles, with JobBERT similarity score); market_share = share of those postings tagged with the skill; gap = market_share - internal_share. Returns top gaps (skills to reskill or hire for) with an example vacancy_id and evidence sentence (cite the vacancy_id), and top strengths. Small market_n_postings means a weak signal.",
+    "description": "Compares skills of 'Goldman Stanley (synthetic)' employees (SYNTHETIC, fictional internal data; say so) with real job-market postings for similar roles. Internal skills come from the job architecture (job_skills mapped to ESCO labels; non-ESCO AI skills are left out), so internal_share = share of active employees whose job requires the skill. Internal base titles are mapped to market titles (market_titles, with JobBERT similarity score); market_share = share of those postings tagged with the skill; gap = market_share - internal_share. Returns top gaps (skills to reskill or hire for) with an example vacancy_id and evidence sentence (cite the vacancy_id), and top strengths. Small market_n_postings means a weak signal.",
     "input_schema": {
       "type": "object",
       "properties": {

@@ -15,7 +15,7 @@ data/synthetic/*.csv ─────────── company.py ─▶ company
   the chunk only; `country`, `year` are filter columns), `titles(title_norm, n_postings, emb)`
   (`TechWolf/JobBERT-v3`), `skills`, `posting_skills(vacancy_id, skill, score, evidence)` (ESCO skills
   per sentence via `TechWolf/ConTeXT-Skill-Extraction-base`, threshold 0.48). Only BE/NL/LU/GB rows are kept.
-- **`company.duckdb`** (internal data, **SYNTHETIC**): the team's fictional Goldman Stanly CSVs from
+- **`company.duckdb`** (internal data, **SYNTHETIC**): the team's fictional Goldman Stanley CSVs from
   `origin/main:data/synthetic` (one table each, `is_synthetic` kept), plus `title_map` (JobBERT top 5
   market titles per internal `job_title`/`base_title`), `job_skill_esco` (`job_skills.skill_name` ->
   ESCO label: exact match, else ConTeXT cosine >= 0.8, else NULL) and `_meta(source, as_of)`.
@@ -92,5 +92,5 @@ The API binds to localhost only (confidential data). Don't expose it. Forward ea
 - ConTeXT is English-trained: weaker on NL/FR postings.
 - Generic soft skills ("communication", "work in teams") rank high everywhere: compare **shares between
   segments**, not raw counts.
-- Company data is **SYNTHETIC** (fictional Goldman Stanly): label it so in UI and pitch, never as a benchmark.
+- Company data is **SYNTHETIC** (fictional Goldman Stanley): label it so in UI and pitch, never as a benchmark.
 - Internal skill shares come from job-level skills (job architecture), so per job they are often 0 or 1.

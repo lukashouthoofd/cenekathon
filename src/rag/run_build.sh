@@ -2,7 +2,7 @@
 # Build the RAG store on the GPU VM and (re)start the API, run FROM THE LAPTOP (Git Bash).
 #   bash src/rag/run_build.sh <source.duckdb|.csv|.parquet|vm:/path> [out_name]
 #   env overrides: API_PORT=8000 SESSION=live CODE_DIR=~/rag_live   (quote "~/..." or use an absolute path)
-# Pipeline in tmux: build.py -> company.py on the synthetic Goldman Stanly CSVs (origin/main:data/synthetic) -> only on success:
+# Pipeline in tmux: build.py -> company.py on the synthetic Goldman Stanley CSVs (origin/main:data/synthetic) -> only on success:
 #   stop whatever listens on API_PORT (by PID) and start uvicorn serve:app on 127.0.0.1:API_PORT.
 set -euo pipefail
 HOST=team19; VHOME=/home/team19

@@ -148,7 +148,7 @@ const TOOLS: Anthropic.Tool[] = [
   },
   {
     name: 'skill_gap',
-    description: 'Vergelijkt de skills die de markt vraagt in vergelijkbare rollen met de skills die aanwezig zijn bij het (synthetische) Goldman Stanly, per functie of functietitel. Geeft kloven en sterktes met marktaandeel, intern aandeel en een voorbeeldvacature als bewijs.',
+    description: 'Vergelijkt de skills die de markt vraagt in vergelijkbare rollen met de skills die aanwezig zijn bij het (synthetische) Goldman Stanley, per functie of functietitel. Geeft kloven en sterktes met marktaandeel, intern aandeel en een voorbeeldvacature als bewijs.',
     input_schema: {
       type: 'object',
       properties: {

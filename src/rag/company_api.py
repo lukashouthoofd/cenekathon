@@ -1,4 +1,4 @@
-"""Internal-company endpoints: SYNTHETIC Goldman Stanly data (company.duckdb from company.py) vs the job market (rag.duckdb).
+"""Internal-company endpoints: SYNTHETIC Goldman Stanley data (company.duckdb from company.py) vs the job market (rag.duckdb).
 
 In serve.py:  from company_api import router; app.include_router(router)
 Env: COMPANY_DB (default company.duckdb), RAG_DB (default rag.duckdb). Both opened read-only.

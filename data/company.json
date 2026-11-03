@@ -1,5 +1,5 @@
 {
-  "company": { "name": "Goldman Stanly (fictief)", "sector": "Bankwezen", "employees": 45 },
+  "company": { "name": "Goldman Stanley (gesimuleerd)", "sector": "Bankwezen", "employees": 45 },
   "market_trends": [
     { "id": "mt1", "skill": "AI-zoeksystemen en kennisassistenten (RAG)", "growth_pct_yoy": 85, "postings": 12400, "note": "Vooral in klantenservice en kredietverlening bij vergelijkbare bedrijven." },
     { "id": "mt2", "skill": "Beoordelen en controleren van AI-antwoorden", "growth_pct_yoy": 62, "postings": 8100, "note": "Broncontrole en kwaliteitsbewaking." },

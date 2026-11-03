@@ -96,7 +96,7 @@ before touching it** (location in worktrees, caveats, how to query with DuckDB).
   JobBERT-v3 title vectors, TechWolf ESCO skills) and `company.duckdb` on the GPU VM (`ssh team19`) with
   one command (`bash src/rag/run_build.sh <source>`), and serves 7 agent tools (`src/rag/tools.json`) on
   `localhost:8000` there. Tunnel with `ssh -N -L 8100:localhost:8000 team19` (8000 is the team backend locally).
-- **Internal company data is SYNTHETIC:** the team's fictional Goldman Stanly in `data/synthetic/` (see its
+- **Internal company data is SYNTHETIC:** the team's fictional Goldman Stanley in `data/synthetic/` (see its
   README), loaded into `company.duckdb` by `src/rag/company.py`. Always label it as synthetic in the UI and the pitch.
 
 ## Prime directives

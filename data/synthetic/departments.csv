@@ -1,5 +1,5 @@
 department_id,name,parent,country,org_level,is_synthetic
-NWB,Goldman Stanly (synthetic) Group,,GROUP,0,True
+NWB,Goldman Stanley (synthetic) Group,,GROUP,0,True
 DIV_RET,Retail Banking,NWB,GROUP,1,True
 DIV_CWB,"Corporate, Commercial & Wealth",NWB,GROUP,1,True
 DIV_TEC,Technology & Data,NWB,GROUP,1,True

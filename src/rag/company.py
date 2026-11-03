@@ -1,4 +1,4 @@
-"""Build company.duckdb: the SYNTHETIC Goldman Stanly tables (data/synthetic/*.csv) plus market-model enrichments.
+"""Build company.duckdb: the SYNTHETIC Goldman Stanley tables (data/synthetic/*.csv) plus market-model enrichments.
 
   python3 company.py --synthetic-dir data/synthetic --rag-db rag.duckdb --out company.duckdb
 
@@ -21,7 +21,7 @@ import torch
 
 import models
 
-SOURCE = "SYNTHETIC - fictional Goldman Stanly for CenEkathon demo"
+SOURCE = "SYNTHETIC - fictional Goldman Stanley for CenEkathon demo"
 TABLES = ["departments", "job_architecture", "job_skills", "employees", "headcount_monthly", "ai_usage_logs",
           "model_pricing", "courses", "learning_records", "recruiting_records"]
 SKILL_COS = 0.8
