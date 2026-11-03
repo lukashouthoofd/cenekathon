@@ -26,12 +26,16 @@ export function Onboarding({ onClose, onPickQuestion }: OnboardingProps) {
   onCloseRef.current = onClose
 
   useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null
     closeRef.current?.focus()
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') onCloseRef.current()
     }
     document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      if (opener && opener !== document.body && opener.isConnected) opener.focus()
+    }
   }, [])
 
   return (
