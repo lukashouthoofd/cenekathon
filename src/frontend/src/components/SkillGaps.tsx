@@ -5,11 +5,9 @@ const pct = (v: number) => `${Math.round(v * 100)}%`
 
 export function SkillGaps({
   gaps,
-  onSelectEvidence,
 }: {
   gaps: SkillGap[]
   evidenceCount?: number
-  onSelectEvidence?: (evidenceIds: string[]) => void
 }) {
   if (gaps.length === 0) return <EmptyState title="Geen skill gaps gevonden" />
 
@@ -25,11 +23,7 @@ export function SkillGaps({
           <ul className="divide-y divide-border">
             {items.map((g) => (
               <li key={`${g.skillId}-${g.department}`}>
-                <button
-                  type="button"
-                  onClick={() => onSelectEvidence?.(g.evidenceIds)}
-                  className="w-full px-4 py-3 text-left hover:bg-muted focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
-                >
+                <div className="px-4 py-3">
                   <span className="flex flex-wrap items-baseline justify-between gap-x-4">
                     <span className="text-heading text-foreground">{g.name}</span>
                     <span className="text-body-sm text-muted-foreground">
@@ -39,7 +33,7 @@ export function SkillGaps({
                     </span>
                   </span>
                   <span className="mt-1 block text-body-sm text-muted-foreground">{g.explanation}</span>
-                </button>
+                </div>
               </li>
             ))}
           </ul>

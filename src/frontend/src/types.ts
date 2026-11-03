@@ -34,6 +34,17 @@ export interface SkillGap {
   evidenceIds: string[]
 }
 
+export interface SoftwareGap {
+  id: string
+  department: string
+  /** The task or skill gap the software should support. */
+  need: string
+  currentTool: string
+  aiStatus: string
+  /** Type of software proposed (no brand names). */
+  suggestion: string
+}
+
 export type EvidenceSourceType = 'vacancy' | 'internal' | 'derived'
 
 export interface Evidence {
@@ -52,6 +63,7 @@ export interface Readiness {
   period: { from: string; to: string; comparisonFrom: string; comparisonTo: string }
   scores: Score[]
   skillGaps: SkillGap[]
+  softwareGaps: SoftwareGap[]
   evidence: Evidence[]
 }
 
@@ -103,5 +115,8 @@ export type Overview = {
   company: { name: string; sector: string; employees: number }
   scores: { dimension: string; value: number | null; explanation: string; coverage: string }[]
   gaps: { skill: string; growthPct: number; internalPeople: number; ref: string }[]
+  software: { name: string; usedBy: string; aiFeatures: string; repetitiveHoursPerWeek: number; ref: string }[]
+  /** Readable label per source reference (e.g. "is3"), used to explain citations in chat replies. */
+  refs: Record<string, string>
   synthetic: boolean
 }

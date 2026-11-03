@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-import { ApiError, getOverview } from '../api'
 import type { ChatMessage, Overview } from '../types'
 
 const LABELS: Record<string, string> = { skills: 'Vaardigheden', ai_usage: 'AI-gebruik', training: 'Opleiding' }
@@ -21,16 +19,15 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
   )
 }
 
-export function ChatSidebar({ messages }: { messages: ChatMessage[] }) {
-  const [overview, setOverview] = useState<Overview | null>(null)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    getOverview()
-      .then(setOverview)
-      .catch((e: unknown) => setError(e instanceof ApiError ? e.message : 'Overzicht kon niet geladen worden.'))
-  }, [])
-
+export function ChatSidebar({
+  messages,
+  overview,
+  error,
+}: {
+  messages: ChatMessage[]
+  overview: Overview | null
+  error: string | null
+}) {
   const documents = documentsIn(messages)
 
   return (
@@ -77,6 +74,25 @@ export function ChatSidebar({ messages }: { messages: ChatMessage[] }) {
                 </li>
               ))}
             </ul>
+          </Card>
+
+          <Card title="Software en AI">
+            <ul className="divide-y divide-border">
+              {overview.software.map((s) => (
+                <li key={s.ref} className="py-2 first:pt-0 last:pb-0">
+                  <p className="text-body-sm font-medium">{s.name}</p>
+                  <p className="text-caption text-muted-foreground">
+                    AI: {s.aiFeatures} · {s.usedBy}
+                  </p>
+                  {s.repetitiveHoursPerWeek > 0 && (
+                    <p className="text-caption text-caution-text">
+                      {s.repetitiveHoursPerWeek} u/week repetitief werk bij deze gebruikers
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-caption text-muted-foreground">Vraag in de chat welke software ontbreekt.</p>
           </Card>
         </>
       )}

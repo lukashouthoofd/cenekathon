@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { ActionCards } from './components/ActionCards'
 import { EmptyState, ErrorState, LoadingState } from './components/StateMessages'
-import { EvidencePanel, resolveEvidence } from './components/EvidencePanel'
 import { ChatView } from './components/ChatView'
 import { ScoreCards } from './components/ScoreCards'
 import { SkillGaps } from './components/SkillGaps'
+import { SoftwareGaps } from './components/SoftwareGaps'
 import { ApiError, DEMO_MODE, analyze, getCompanies, getReadiness } from './api'
 import type { AnalyzeResponse, Company, Readiness } from './types'
 
@@ -21,7 +21,6 @@ export default function App() {
   const [planError, setPlanError] = useState<string | null>(null)
   const [planLoading, setPlanLoading] = useState(false)
 
-  const [selectedEvidence, setSelectedEvidence] = useState<string[]>([])
   const [reloadKey, setReloadKey] = useState(0)
   const [tab, setTab] = useState<'dashboard' | 'chat'>('dashboard')
 
@@ -46,7 +45,6 @@ export default function App() {
     setReadinessLoading(true)
     setPlan(null)
     setPlanError(null)
-    setSelectedEvidence([])
     getReadiness(companyId)
       .then((r) => !stale && setReadiness(r))
       .catch((e: unknown) => !stale && setReadinessError(messageOf(e)))
@@ -67,7 +65,6 @@ export default function App() {
       .finally(() => setPlanLoading(false))
   }
 
-  const resolved = readiness ? resolveEvidence(selectedEvidence, readiness.evidence) : null
   const company = companies?.find((c) => c.id === companyId)
 
   return (
@@ -104,7 +101,7 @@ export default function App() {
           <ChatView />
         </div>
       ) : (
-      <main className="mx-auto grid max-w-6xl gap-6 px-6 py-6 lg:grid-cols-[1fr_20rem]">
+      <main className="mx-auto max-w-6xl px-6 py-6">
         <div className="min-w-0 space-y-6">
           <section className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-surface p-4">
             <label className="flex min-w-0 flex-1 flex-col gap-1 text-body-sm text-muted-foreground">
@@ -163,10 +160,8 @@ export default function App() {
               </section>
 
               <div className="grid gap-6 md:grid-cols-2">
-                <SkillGaps
-                  gaps={readiness.skillGaps}
-                  onSelectEvidence={setSelectedEvidence}
-                />
+                <SkillGaps gaps={readiness.skillGaps} />
+                <SoftwareGaps gaps={readiness.softwareGaps} />
               </div>
             </>
           )}
@@ -179,21 +174,12 @@ export default function App() {
             <ActionCards
               actions={plan.actions}
               companyId={companyId}
-              onShowEvidence={setSelectedEvidence}
               summary={plan.summary}
               limitations={plan.limitations}
               mode={plan.mode}
             />
           )}
         </div>
-
-        {readiness && (
-          <EvidencePanel
-            evidence={resolved && selectedEvidence.length > 0 ? resolved.found : readiness.evidence}
-            highlightIds={selectedEvidence}
-            missingIds={resolved?.missing}
-          />
-        )}
       </main>
       )}
     </div>

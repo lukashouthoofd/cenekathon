@@ -6,7 +6,6 @@ import { SlackPreviewDialog } from './SlackPreviewDialog'
 interface Props {
   actions: Action[]
   companyId: string
-  onShowEvidence: (ids: string[]) => void
   summary?: string
   limitations?: string[]
   mode: 'live' | 'demo'
@@ -20,7 +19,7 @@ const TYPE_LABEL: Record<ActionType, string> = {
 
 const btn = 'rounded-md border border-border px-3 py-1 text-body-sm hover:bg-muted'
 
-export function ActionCards({ actions, companyId, onShowEvidence, summary, limitations, mode }: Props) {
+export function ActionCards({ actions, companyId, summary, limitations, mode }: Props) {
   const [slackAction, setSlackAction] = useState<Action | null>(null)
   const sorted = [...actions].sort((a, b) => a.rank - b.rank)
 
@@ -95,13 +94,6 @@ export function ActionCards({ actions, companyId, onShowEvidence, summary, limit
                 </div>
               </dl>
               <div className="flex flex-wrap items-center gap-2">
-                {a.evidenceIds.length > 0 ? (
-                  <button type="button" className={btn} onClick={() => onShowEvidence(a.evidenceIds)}>
-                    Bekijk bewijs
-                  </button>
-                ) : (
-                  <span className="text-body-sm text-muted-foreground">Geen bewijs gekoppeld</span>
-                )}
                 <button type="button" className={btn} onClick={() => setSlackAction(a)}>
                   Bekijk Slack-bericht
                 </button>

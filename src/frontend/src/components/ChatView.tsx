@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { ApiError, DEMO_MODE, LIVE_CHAT, sendChat } from '../api'
-import type { ChatMessage } from '../types'
+import { ApiError, DEMO_MODE, LIVE_CHAT, getOverview, sendChat } from '../api'
+import type { ChatMessage, Overview } from '../types'
 import { DashboardView } from './DashboardView'
 import { ChatSidebar } from './ChatSidebar'
 import { Markdown } from './Markdown'
@@ -11,6 +11,14 @@ export function ChatView() {
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const endRef = useRef<HTMLDivElement>(null)
+  const [overview, setOverview] = useState<Overview | null>(null)
+  const [overviewError, setOverviewError] = useState<string | null>(null)
+
+  useEffect(() => {
+    getOverview()
+      .then(setOverview)
+      .catch((e: unknown) => setOverviewError(e instanceof ApiError ? e.message : 'Overzicht kon niet geladen worden.'))
+  }, [])
 
   useEffect(() => {
     endRef.current?.scrollIntoView?.({ block: 'end' })
@@ -63,7 +71,7 @@ export function ChatView() {
               }
             >
               {m.role === 'assistant' ? (
-                <Markdown text={m.content} />
+                <Markdown text={m.content} refs={overview?.refs} />
               ) : (
                 <p className="whitespace-pre-wrap">{m.content}</p>
               )}
@@ -121,7 +129,7 @@ export function ChatView() {
         </button>
       </form>
     </div>
-    <ChatSidebar messages={messages} />
+    <ChatSidebar messages={messages} overview={overview} error={overviewError} />
     </div>
   )
 }
