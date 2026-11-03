@@ -3,6 +3,7 @@ import { createServer } from 'node:http'
 import { handle, env, MODEL, summaryText } from './chat.mjs'
 import { readinessHandle } from './readiness.mjs'
 import { analyzeHandle } from './analyze.mjs'
+import { overviewHandle } from './overview.mjs'
 
 const PORT = Number(env.PORT ?? 8000)
 
@@ -14,6 +15,7 @@ function sendJson(res, status, body) {
 function readBody(req) {
   return new Promise((resolve, reject) => {
     let raw = ''
+    req.setEncoding('utf8') // decode per stream, so multi-byte characters split across chunks stay intact
     req.on('data', (c) => {
       raw += c
       if (raw.length > 200_000) reject(new Error('Verzoek is te groot.'))
@@ -30,7 +32,7 @@ function readBody(req) {
 }
 
 const server = createServer(async (req, res) => {
-  const { status, body } = readinessHandle(req.method, req.url) ?? (await analyzeHandle(req.method, req.url, () => readBody(req))) ?? (await handle(req.method, req.url, () => readBody(req)))
+  const { status, body } = readinessHandle(req.method, req.url) ?? overviewHandle(req.method, req.url) ?? (await analyzeHandle(req.method, req.url, () => readBody(req))) ?? (await handle(req.method, req.url, () => readBody(req)))
   sendJson(res, status, body)
 })
 

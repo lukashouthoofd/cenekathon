@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --experimental-strip-types --test src/lib/data.test.ts src/lib/vacancies.test.ts src/lib/vacancyDoc.test.ts src/lib/rag.test.ts"
+    "test": "node --experimental-strip-types --test src/lib/data.test.ts src/lib/vacancies.test.ts src/lib/vacancyDoc.test.ts src/lib/agent.test.ts src/lib/rag.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.4.0",

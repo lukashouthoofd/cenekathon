@@ -13,3 +13,5 @@ src/data/
 .claude
 .agents
 docs
+**/summary.json
+*.parquet

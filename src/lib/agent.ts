@@ -1,8 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { byRef, data, search } from './data';
-import { searchKnowledge, type Kind } from './rag';
-import { searchVacancies, vacancyTrend } from './vacancies';
-import { saveVacancyDocument, type VacancyDraft } from './vacancyDoc';
+import { byRef, data, search } from './data.ts';
+import { searchKnowledge, type Kind } from './rag.ts';
+import { searchVacancies, vacancyTrend } from './vacancies.ts';
+import { saveVacancyDocument, type VacancyDraft } from './vacancyDoc.ts';
 
 export type ChatMessage = { role: 'user' | 'assistant'; content: string };
 /** Vacancies written in one createVacancyDocument call, with the id of their Word document. */
@@ -32,6 +32,9 @@ prijzen of features die niet in de data staan.
 
 De vacaturedatabase bevat echte vacatures van financiële bedrijven in België, Nederland, Luxemburg en het VK (2022 tot september 2026).
 Zoek daarin met vacancyTrend en searchVacancies. Gebruik zoektermen in het Engels, Nederlands én Frans (bv. "RAG", "retrieval", "kennisassistent").
+Gebruik semanticSearch voor vragen over een concept (bv. "kennisassistent", "AI governance") en skillGap voor vragen over skills of readiness van een functie.
+Id's van vacatures uit semanticSearch mogen ook in basedOn van createVacancyDocument.
+Zeg altijd dat de interne bedrijfsdata synthetisch is.
 Met searchKnowledge zoek je in vrije tekst (best passende eerst) in vacatures van 2025-2026, ESCO-skills (officiële skillnamen in EN/NL/FR)
 en AI-blootstelling per beroep (ILO, OpenAI GPTs-are-GPTs, Felten, Anthropic Economic Index). Gebruik het om een skill aan ESCO te koppelen
 en om te tonen hoe sterk een beroep aan AI blootgesteld is. Citeer met de ref uit het resultaat, bv. [esco:...] of [ILO:isco08_4d:2411].
@@ -68,7 +71,20 @@ LinkedIn-zoekadvies (bij aanwervingen en vacatures, en wanneer erom gevraagd wor
   met aanhalingstekens, OR, AND en NOT (bv. ("AI Engineer" OR "ML Engineer") AND (RAG OR LLM) NOT (stage OR internship)).
 - Alternatieve functietitels om ook op te zoeken, en filters: locatie (waar het bedrijf zit of de vacatures liggen), sector, ervaringsniveau.
 - Maak je vacatures, zet de zoekstring dan ook in linkedinSearch van createVacancyDocument.
-- Je zoekt zelf niet op LinkedIn en noemt nooit namen van personen.`;
+- Je zoekt zelf niet op LinkedIn en noemt nooit namen van personen.
+
+Sluit ELK antwoord af met één laatste regel in exact dit formaat (behalve bij "Ik ben JSON, ik kan daar niet op antwoorden."):
+Vervolgvragen: <vraag 1> | <vraag 2> | <vraag 3>
+Drie korte vervolgvragen (max 10 woorden) die de gebruiker logisch als volgende zou stellen over dit bedrijf en die jij met de data kunt beantwoorden.
+Schrijf ze vanuit de gebruiker (bv. "Welke opleiding helpt de analisten het meest?"), herhaal geen vraag die al gesteld is, en zet na deze regel niets meer.`;
+
+/** Splits the trailing "Vervolgvragen: a | b | c" line off a reply into clickable follow-up questions. */
+export function splitSuggestions(text: string): { content: string; suggestions: string[] } {
+  const match = /\n?[ \t]*\**Vervolgvragen:?\**:?[ \t]*(.+?)[ \t]*$/i.exec(text.trimEnd());
+  if (!match) return { content: text, suggestions: [] };
+  const suggestions = match[1].split('|').map((s) => s.trim()).filter(Boolean).slice(0, 3);
+  return { content: text.trimEnd().slice(0, match.index).trimEnd(), suggestions };
+}
 
 const TOOLS: Anthropic.Tool[] = [
   {
@@ -103,6 +119,22 @@ const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: 'semanticSearch',
+    description: 'Zoekt echte vacatures op betekenis in plaats van trefwoorden, over Engels, Nederlands en Frans heen. Geeft id, titel, bedrijf, datum, land en een fragment terug. Gebruik ze als voorbeeld en bewijs en verwijs naar de vacancy_id (bv. in basedOn). Niet om te tellen: daarvoor is vacancyTrend.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string' },
+        k: { type: 'integer', description: '1-50, standaard 8' },
+        country: { type: 'string', enum: ['BE', 'NL', 'LU', 'GB'] },
+        company: { type: 'string', description: 'Deel van de bedrijfsnaam' },
+        year_from: { type: 'integer' },
+        year_to: { type: 'integer' },
+      },
+      required: ['query'],
+    },
+  },
+  {
     name: 'searchKnowledge',
     description: 'Full-text zoeken (BM25, best passende eerst) in vacatures 2025-2026, ESCO-skills en AI-blootstelling per beroep. Geeft ref, soort, titel, fragment en score terug.',
     input_schema: {
@@ -113,6 +145,18 @@ const TOOLS: Anthropic.Tool[] = [
         limit: { type: 'integer', description: '1-20, standaard 8' },
       },
       required: ['query'],
+    },
+  },
+  {
+    name: 'skillGap',
+    description: 'Vergelijkt de skills die de markt vraagt in vergelijkbare rollen met de skills die aanwezig zijn bij het (synthetische) Northwind Bank, per functie of functietitel. Geeft kloven en sterktes met marktaandeel, intern aandeel en een voorbeeldvacature als bewijs.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        function: { type: 'string', description: 'Functie of jobfamilie, bv. "Risk" of "Customer Service"' },
+        job_title: { type: 'string', description: 'Eén interne functietitel' },
+        k: { type: 'integer', description: '1-100, standaard 15' },
+      },
     },
   },
   {
@@ -146,9 +190,30 @@ const TOOLS: Anthropic.Tool[] = [
   },
 ];
 
-type ToolInput = { query?: string; ref?: string; terms?: string[]; limit?: number; kind?: Kind; vacancies?: VacancyDraft[] };
+type ToolInput = {
+  query?: string; ref?: string; terms?: string[]; limit?: number; kind?: Kind; vacancies?: VacancyDraft[];
+  k?: number; country?: string; company?: string; year_from?: number; year_to?: number; function?: string; job_title?: string;
+};
 
-async function runTool(name: string, input: ToolInput, documents: ProposedVacancies[]): Promise<unknown> {
+const RAG_API_URL = process.env.RAG_API_URL ?? 'http://localhost:8100';
+
+/** Calls the data team's RAG API (via SSH tunnel). Never throws, so the agent keeps working without it. */
+async function ragApi(path: string, body: unknown): Promise<unknown> {
+  try {
+    const res = await fetch(`${RAG_API_URL}${path}`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch {
+    return { message: 'Semantische zoekdienst niet bereikbaar; gebruik searchVacancies.' };
+  }
+}
+
+export async function runTool(name: string, input: ToolInput, documents: ProposedVacancies[]): Promise<unknown> {
   if (name === 'createVacancyDocument') {
     const vacancies = input.vacancies ?? [];
     const documentId = await saveVacancyDocument(data.company.name, vacancies);
@@ -162,6 +227,12 @@ async function runTool(name: string, input: ToolInput, documents: ProposedVacanc
   if (name === 'readSource') return byRef(input.ref ?? '') ?? { message: `Geen record "${input.ref}".` };
   if (name === 'vacancyTrend') return vacancyTrend(input.terms ?? []);
   if (name === 'searchVacancies') return searchVacancies(input.terms ?? [], input.limit);
+  if (name === 'semanticSearch') {
+    const { query, k, country, company, year_from, year_to } = input;
+    const hits = await ragApi('/search_postings', { query, k, country, company, year_from, year_to });
+    return Array.isArray(hits) ? hits.map((h) => ({ ...h, text: String(h.text ?? '').slice(0, 600) })) : hits;
+  }
+  if (name === 'skillGap') return ragApi('/skill_gap', { function: input.function, job_title: input.job_title, k: input.k });
   if (name === 'searchKnowledge') return searchKnowledge(input.query ?? '', input.kind, input.limit);
   return { message: `Onbekende tool ${name}` };
 }
@@ -169,7 +240,9 @@ async function runTool(name: string, input: ToolInput, documents: ProposedVacanc
 const MAX_STEPS = 12;
 
 /** Manual tool-use loop against the Claude Messages API. */
-export async function answer(history: ChatMessage[]): Promise<{ content: string; proposed: ProposedVacancies[] }> {
+export async function answer(
+  history: ChatMessage[],
+): Promise<{ content: string; proposed: ProposedVacancies[]; suggestions?: string[] }> {
   const { AI_API_KEY, AI_MODEL } = process.env;
   if (!AI_API_KEY || !AI_MODEL) throw new Error('Zet AI_API_KEY en AI_MODEL in .env');
   const client = new Anthropic({ apiKey: AI_API_KEY });
@@ -178,10 +251,14 @@ export async function answer(history: ChatMessage[]): Promise<{ content: string;
   const documents: ProposedVacancies[] = [];
   // The link is added here, not by the model, so it can never point to a document that doesn't exist.
   // Safety net: strip internal refs like [mt1] or [is2, is5] in case the model still writes them.
-  const withLinks = (text: string) => ({
-    content: text.replace(/ ?\[[a-z]{2}\d+(?:\s*,\s*[a-z]{2}\d+)*\](?!\()/g, '') + documents.map((d) => `\n\n**[Download vacatures (Word)](/api/documents/${d.documentId})**`).join(''),
-    proposed: documents,
-  });
+  const withLinks = (reply: string) => {
+    const { content: text, suggestions } = splitSuggestions(reply);
+    return {
+      content: text.replace(/ ?\[[a-z]{2}\d+(?:\s*,\s*[a-z]{2}\d+)*\](?!\()/g, '') + documents.map((d) => `\n\n**[Download vacatures (Word)](/api/documents/${d.documentId})**`).join(''),
+      proposed: documents,
+      suggestions,
+    };
+  };
 
   for (let step = 0; step < MAX_STEPS; step++) {
     const response = await client.messages.create({ model: AI_MODEL, max_tokens: 16000, system: SYSTEM, tools: TOOLS, messages });

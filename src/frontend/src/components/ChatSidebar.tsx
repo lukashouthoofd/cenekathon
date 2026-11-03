@@ -37,7 +37,7 @@ export function ChatSidebar({
           <Card title={overview.company.name}>
             <p className="text-body-sm text-muted-foreground">
               {overview.company.sector} · {overview.company.employees} medewerkers
-              {overview.synthetic && ' · fictieve bedrijfsdata'}
+              {overview.synthetic && ' · Fictief bedrijf: de cijfers zijn niet echt'}
             </p>
           </Card>
 
@@ -58,15 +58,17 @@ export function ChatSidebar({
             </ul>
           </Card>
 
-          <Card title="Grootste kloven">
+          <Card title="Grootste tekorten">
             <ul className="divide-y divide-border">
               {overview.gaps.map((g) => (
                 <li key={g.ref} className="py-2 first:pt-0 last:pb-0">
                   <p className="text-body-sm font-medium">{g.skill}</p>
                   <p className="text-caption text-muted-foreground">
-                    Markt +{formatNumber(g.growthPct)}% per jaar ·{' '}
+                    {g.growthPct === null ? 'Groei onbekend' : `Markt +${formatNumber(g.growthPct)}% per jaar`} ·{' '}
                     <span className={g.internalPeople === 0 ? 'text-caution-text' : undefined}>
-                      intern {g.internalPeople} {g.internalPeople === 1 ? 'persoon' : 'mensen'}
+                      {g.internalPeople === null
+                        ? 'intern onbekend'
+                        : `intern ${g.internalPeople} ${g.internalPeople === 1 ? 'persoon' : 'mensen'}`}
                     </span>
                   </p>
                 </li>
@@ -82,7 +84,7 @@ export function ChatSidebar({
                   <p className="text-caption text-muted-foreground">
                     AI: {s.aiFeatures} · {s.usedBy}
                   </p>
-                  {s.repetitiveHoursPerWeek > 0 && (
+                  {s.repetitiveHoursPerWeek !== null && s.repetitiveHoursPerWeek > 0 && (
                     <p className="text-caption text-caution-text">
                       {formatNumber(s.repetitiveHoursPerWeek)} u/week repetitief werk bij deze gebruikers
                     </p>
@@ -90,7 +92,7 @@ export function ChatSidebar({
                 </li>
               ))}
             </ul>
-            <p className="mt-3 text-caption text-muted-foreground">Vraag in de chat welke software ontbreekt.</p>
+            <p className="mt-3 text-caption text-muted-foreground">Vraag Json: „Welke software ontbreekt?”</p>
           </Card>
         </>
       )}

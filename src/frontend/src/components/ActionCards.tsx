@@ -32,14 +32,14 @@ export function ActionCards({ actions, companyId, summary, limitations, mode }: 
         </h2>
         {mode === 'demo' && (
           <span className="rounded-md border border-caution px-2 py-0.5 text-caption text-caution-text">
-            Demo-output van de agent
+            Voorbeeldvoorstel van Json, niet gecontroleerd
           </span>
         )}
       </div>
       {summary && <p className="text-body">{summary}</p>}
       {limitations && limitations.length > 0 && (
         <div>
-          <h3 className="text-body-sm font-semibold">Beperkingen</h3>
+          <h3 className="text-body-sm font-semibold">Let op: wat deze cijfers niet zeggen</h3>
           <ul className="list-disc pl-5 text-body-sm text-muted-foreground">
             {limitations.map((l, i) => (
               <li key={i}>{l}</li>
@@ -58,7 +58,7 @@ export function ActionCards({ actions, companyId, summary, limitations, mode }: 
           {sorted.map((a) => (
             <li key={a.id} className="flex flex-col gap-3 rounded-md border border-border bg-surface p-4">
               <div className="flex flex-wrap items-center gap-2 text-caption">
-                <span className="rounded-md bg-accent-soft px-2 py-0.5 text-accent-text tabular-nums">Prioriteit {formatNumber(a.rank)}</span>
+                <span className="rounded-md bg-accent-soft px-2 py-0.5 text-accent-text tabular-nums">Volgorde {formatNumber(a.rank)}</span>
                 <span className="text-muted-foreground">{TYPE_LABEL[a.type]}</span>
               </div>
               <h3 className="text-heading font-semibold">{a.title}</h3>
@@ -86,17 +86,17 @@ export function ActionCards({ actions, companyId, summary, limitations, mode }: 
                   <dd>{a.department}</dd>
                 </div>
                 <div>
-                  <dt className="text-body-sm font-semibold">Pilot</dt>
+                  <dt className="text-body-sm font-semibold">Proefperiode</dt>
                   <dd className="line-clamp-4">{a.pilot}</dd>
                 </div>
                 <div>
-                  <dt className="text-body-sm font-semibold">Succescriterium</dt>
+                  <dt className="text-body-sm font-semibold">Wanneer is het gelukt?</dt>
                   <dd>{a.successMetric}</dd>
                 </div>
               </dl>
               <div className="flex flex-wrap items-center gap-2">
                 <button type="button" className={btn} onClick={() => setSlackAction(a)}>
-                  Bekijk Slack-bericht
+                  Bekijk bericht voor Slack (nog niet verstuurd)
                 </button>
               </div>
             </li>
