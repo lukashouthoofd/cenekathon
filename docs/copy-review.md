@@ -32,7 +32,7 @@ Paden zijn relatief aan `src/frontend/src/` (bot: `src/slackbot/`). Alleen gelez
 
 ## Extra bevindingen (buiten de 25 rijen)
 
-- ChatView.tsx:83-84: voorbeeldvraag is lang en noemt "AI-readiness-assistent". Korter: "Ik ben Json. Stel een vraag over vacatures en vaardigheden, bijvoorbeeld: Maak een dashboard van Bank Vandermeulen."
+- ChatView.tsx:83-84: voorbeeldvraag is lang en noemt "AI-readiness-assistent". Korter: "Ik ben Json. Stel een vraag over vacatures en vaardigheden, bijvoorbeeld: Maak een dashboard van Goldman Stanley."
 - ChatSidebar.tsx:124: "Gebaseerd op 3 echte vacatures" is correct (vacaturedata is echt), maar zet erbij dat het bedrijf fictief is.
 - bot.mjs:82: "Skill-gaps voor X (gesimuleerd)" gebruikt Engels jargon. Voorstel: "Ontbrekende vaardigheden voor X (voorbeeldcijfers)".
 - bot.mjs:84: "markt 40%, intern onbekend". Voorstel: "40% van vergelijkbare vacatures, intern niet gemeten".

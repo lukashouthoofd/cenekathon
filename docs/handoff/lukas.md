@@ -4,7 +4,7 @@
 
 - [x] `src/backend/build_summary.py`: leest `data/vacancies_*.parquet` met DuckDB, ontdubbelt op (title, company, date_posted, country), schrijft `data/summary.json`.
 - [x] `src/backend/company_names.py`: normaliseert bedrijfsnamen (suffixen weg, aliassen samengevoegd).
-- [x] Ontdubbeling: 1.542.169 ruwe rijen naar 1.341.284 (ruw aantal staat in `data/README.md`; 1.341.284 is opgave van het team, niet in code geverifieerd).
+- [x] Ontdubbeling: 1.542.169 ruwe rijen naar 1.341.284 (ruw aantal staat in `data/README.md`; 1.341.284 is uit onze eigen samenvatting (data/summary.json, na ontdubbeling), niet in code geverifieerd).
 - [ ] Passages splitsen voor de 512-tokenlimiet.
 - [ ] Embeddings met multilingual-e5-base op GPU.
 - [ ] Embeddings en labels opslaan voor hergebruik.

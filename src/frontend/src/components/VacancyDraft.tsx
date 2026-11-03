@@ -12,8 +12,8 @@ function buildDraft(gap: SkillGap) {
       : `Deze functie helpt het team ${gap.name} toe te passen, omdat de markt ${formatPercent(gap.marketShare)} van vergelijkbare vacatures hiervoor vraagt`
   const coverage =
     gap.internalCoverage === null
-      ? 'Interne dekking is onbekend en moet eerst gemeten worden'
-      : `Intern dekt ${formatPercent(gap.internalCoverage)} van de benodigde skill`
+      ? 'Intern is nog niet gemeten wie dit kan'
+      : `Intern kan ${formatPercent(gap.internalCoverage)} van de mensen dit al`
   const bullets = [
     `Wat je doet: ${gap.name} toepassen binnen ${gap.department}`,
     `Wat we vragen: ervaring met ${gap.name}`,
@@ -59,8 +59,7 @@ export function VacancyDraft({ gap }: { gap: SkillGap }) {
         </span>
       </div>
       <p className="mt-3 text-caption text-muted-foreground">
-        Concept — HR controleert functie-eisen, salaris en wettelijke vereisten voordat er iets gepubliceerd wordt. Dit is
-        geen gegenereerde vacature.
+        Dit is een eerste opzet. HR controleert eisen, salaris en wetgeving voor publicatie.
       </p>
     </div>
   )

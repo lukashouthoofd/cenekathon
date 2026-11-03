@@ -35,7 +35,7 @@ const evidence: Evidence[] = [
 
 export const bankReadiness: Readiness = {
   companyId: 'demo-bank',
-  companyName: 'Bank Vandermeulen (gesimuleerd)',
+  companyName: 'Goldman Stanley (gesimuleerd)',
   synthetic: true,
   period: { from: '2026-01-01', to: '2026-06-30', comparisonFrom: '2025-01-01', comparisonTo: '2025-06-30' },
   scores: [
@@ -88,7 +88,7 @@ export const bankReadiness: Readiness = {
 
 export const bankAnalyze: AnalyzeResponse = {
   companyId: 'demo-bank',
-  summary: 'Bank Vandermeulen heeft de grootste AI-vaardigheidstekorten in Risk, Compliance en Klantendienst. Drie gerichte acties, elk met een afgebakende pilot, pakken die als eerste aan.',
+  summary: 'Goldman Stanley heeft de grootste AI-vaardigheidstekorten in Risk, Compliance en Klantendienst. Drie gerichte acties, elk met een afgebakende pilot, pakken die als eerste aan.',
   actions: [
     { id: 'act-1', rank: 1, type: 'training', department: 'Risk',
       title: 'Opleiding modelmonitoring voor Risk',

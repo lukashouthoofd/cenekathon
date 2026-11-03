@@ -1,6 +1,6 @@
 # Profielen en skills voor vacatures (concept voor HR)
 
-> Gesimuleerde interne gegevens: de bank Vandermeulen is fictief. Marktcijfers zijn trefwoordtellingen uit echte vacatures, geen bewezen skills.
+> Gesimuleerde interne gegevens: de bank Goldman Stanley is fictief. Marktcijfers zijn trefwoordtellingen uit echte vacatures, geen bewezen skills.
 
 ## Hoe te lezen
 

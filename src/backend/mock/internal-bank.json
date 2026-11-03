@@ -3,7 +3,7 @@
   "label": "GESIMULEERDE INTERNE DATA: fictieve bank, niet echt",
   "company": {
     "id": "demo-bank",
-    "name": "Bank Vandermeulen (gesimuleerd)",
+    "name": "Goldman Stanley (gesimuleerd)",
     "industry": "Bankwezen",
     "country": "BE"
   },
@@ -67,7 +67,7 @@
     { "employee_anon_id": "E-0036", "department": "IT", "course": "MLOps-pijplijnen en modelregistratie", "skill_id": "mlops", "completed_on": "2026-06-24" }
   ],
   "data_quality_notes": [
-    "Alle gegevens in dit bestand zijn gesimuleerd en fictief; Bank Vandermeulen en haar medewerkers bestaan niet.",
+    "Alle gegevens in dit bestand zijn gesimuleerd en fictief; Goldman Stanley en haar medewerkers bestaan niet.",
     "Het gebruik van AI-tools wordt in de Klantendienst niet gelogd, daarom ontbreekt daar de waarde voor employees_with_ai_tool_use_90d.",
     "Opleidingsregistraties bevatten alleen afgeronde cursussen, en voor data-governance is de interne dekking niet gemeten."
   ]

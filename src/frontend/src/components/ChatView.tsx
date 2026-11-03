@@ -28,7 +28,7 @@ const STARTERS = LIVE_CHAT
       'Geef de drie belangrijkste acties',
       'Welke opleidingen hebben we nodig en moeten we aanwerven?',
     ]
-  : ['Maak een dashboard van Bank Vandermeulen']
+  : ['Maak een dashboard van Goldman Stanley']
 
 export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -56,7 +56,7 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
     sendChat(history)
       .then((r) => setMessages([...history, r.message]))
       .catch((e: unknown) =>
-        setError(e instanceof ApiError ? e.message : 'Er ging iets mis. Probeer het opnieuw.'),
+        setError(e instanceof ApiError ? e.message : 'Dit lukte niet. Probeer het zo nog eens.'),
       )
       .finally(() => setPending(false))
   }
