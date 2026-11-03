@@ -69,6 +69,20 @@ export const bankReadiness: Readiness = {
       explanation: 'Beperkte maar groeiende vraag; intern nauwelijks aanwezig.',
       evidenceIds: ['ev-vac-6'] },
   ],
+  softwareGaps: [
+    { id: 'sw-risk', department: 'Risk', need: 'Modelmonitoring',
+      currentTool: 'Handmatige Excel-rapportages', aiStatus: 'geen',
+      suggestion: 'Monitoringplatform voor modellen met automatische drift-meldingen' },
+    { id: 'sw-compliance', department: 'Compliance', need: 'AI Act-compliance',
+      currentTool: 'SharePoint-lijsten', aiStatus: 'geen',
+      suggestion: 'Register voor AI-toepassingen met risicoclassificatie' },
+    { id: 'sw-finance', department: 'Finance & Control', need: 'Maandrapportages automatiseren',
+      currentTool: 'Excel', aiStatus: 'geen',
+      suggestion: 'Rapportage-automatisering met AI-toelichting bij afwijkingen' },
+    { id: 'sw-klant', department: 'Klantendienst', need: 'Klantvragen sneller beantwoorden',
+      currentTool: 'CRM zonder AI-functies', aiStatus: 'geen',
+      suggestion: 'AI-assistent in het CRM die antwoorden met bronvermelding voorstelt' },
+  ],
   evidence,
 }
 

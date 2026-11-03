@@ -11,6 +11,7 @@ export const emptyReadiness: Readiness = {
     { dimension: 'training', value: null, coverage: 0, explanation: 'Geen opleidingsgegevens beschikbaar.', evidenceIds: [] },
   ],
   skillGaps: [],
+  softwareGaps: [],
   evidence: [],
 }
 

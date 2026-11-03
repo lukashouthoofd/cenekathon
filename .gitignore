@@ -34,3 +34,6 @@ src/backend/summary.json
 
 # Parquet data anywhere in the repo (licensed, team use only)
 *.parquet
+# Local IDE settings and external workshop material (not part of the repo)
+.vscode/
+TechWolf*.md
