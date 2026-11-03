@@ -33,6 +33,7 @@
   .row{position:absolute;display:flex;flex-wrap:wrap;gap:14px}
   .row .pill,.flow .pill{position:static}
   .center{text-align:center}
+  .pill.sec{position:static;display:inline-block;font-size:16px;letter-spacing:.06em;padding:6px 16px;margin-bottom:14px}
   .num{flex:none;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font:500 20px/44px var(--M);text-align:center}
   .step{display:flex;gap:36px}
   .step span:last-child{font-size:30px;line-height:1.3}
@@ -294,10 +295,35 @@
   </div>
 </section>
 
-<!-- 12 How we know it's correct -->
+<!-- 12 Security & privacy -->
+<section class="slide" style="background:var(--ink)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <circle cx="1920" cy="0" r="300" stroke="#2A416B" stroke-width="2"/><circle cx="1920" cy="0" r="190" stroke="#1FB57F" stroke-width="4"/>
+    <circle cx="1745" cy="120" r="12" fill="#1FB57F"/>
+    <rect x="959" y="360" width="2" height="620" fill="#2A416B"/>
+  </svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--mint)">11 — SECURITY &amp; PRIVACY</div>
+  <div class="a h" style="left:136px;top:185px;width:1500px;font-size:76px;line-height:1.04;letter-spacing:-.015em;color:#fff">Secure by default, from repo to Slack.</div>
+  <div class="a k" style="left:140px;top:360px;font-size:22px;color:var(--mint)">IN OUR REPO TODAY</div>
+  <div class="a k" style="left:1020px;top:360px;font-size:22px;color:var(--blueMid)">IN THE PRODUCT, BY DESIGN</div>
+  <div class="a" style="left:140px;top:420px;width:760px;color:var(--onDark);font-size:28px;line-height:1.3">
+    <div style="height:140px"><span class="pill sec" style="background:var(--amber);color:var(--text)">NEEDS AIKIDO KEY</span><div>Aikido scans every PR for critical dependency vulnerabilities</div></div>
+    <div style="height:140px"><span class="pill sec" style="background:var(--mintSoft);color:var(--text)">LIVE</span><div>CI blocks committed API keys, private keys and a tracked .env</div></div>
+    <div style="height:140px"><span class="pill sec" style="background:var(--mintSoft);color:var(--text)">LIVE</span><div>Keys live in a git-ignored .env; only .env.example is in git</div></div>
+    <div style="height:140px"><span class="pill sec" style="background:var(--mintSoft);color:var(--text)">LIVE</span><div>CI runs with read-only repository permissions</div></div>
+  </div>
+  <div class="a" style="left:1020px;top:420px;width:760px;color:var(--onDark);font-size:28px;line-height:1.3">
+    <div style="height:140px"><span class="pill sec" style="background:var(--blueSoft);color:var(--blue)">DESIGN</span><div>Humans approve: HR signs off every vacancy, engineers every tool build</div></div>
+    <div style="height:140px"><span class="pill sec" style="background:var(--blueSoft);color:var(--blue)">DESIGN</span><div>Job postings are untrusted input: model output never acts without a human click</div></div>
+    <div style="height:140px"><span class="pill sec" style="background:var(--blueSoft);color:var(--blue)">DESIGN</span><div>No named individuals: team-level aggregates, synthetic data in the demo</div></div>
+    <div style="height:140px"><span class="pill sec" style="background:var(--blueSoft);color:var(--blue)">DESIGN</span><div>Hard token caps per request, so the shared Claude quota survives</div></div>
+  </div>
+</section>
+
+<!-- 13 How we know it's correct -->
 <section class="slide" style="background:#fff">
   <svg class="bg" viewBox="0 0 1920 1080" fill="none"><circle cx="0" cy="1080" r="300" stroke="#DCE6FF" stroke-width="40"/></svg>
-  <div class="a k" style="left:140px;top:130px;color:var(--blue)">11 — HOW WE KNOW IT'S CORRECT</div>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">12 — HOW WE KNOW IT'S CORRECT</div>
   <div class="a h" style="left:136px;top:190px;width:620px;font-size:84px;line-height:1.04;letter-spacing:-.015em">Measured, not just demoed.</div>
   <div class="a" style="left:140px;top:440px;width:560px;font-size:30px;line-height:1.4;color:var(--muted)">Our answers to the jury's questions, with a number and an n.</div>
   <div class="a" style="left:860px;top:200px;width:440px"><div style="width:90px;height:8px;background:var(--blue)"></div><div class="h" style="font-size:60px;letter-spacing:0;color:var(--amberText);margin-top:28px">[x]% vs [y]%</div><div style="font-size:28px;line-height:1.4;margin-top:16px;width:420px">Our skill tagger vs. a keyword baseline, on a walled-off test set (n = [n])</div></div>
@@ -308,7 +334,7 @@
 
 <!-- 13 Status & roadmap -->
 <section class="slide" style="background:var(--paper)">
-  <div class="a k" style="left:140px;top:130px;color:var(--blue)">12 — STATUS &amp; ROADMAP</div>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">13 — STATUS &amp; ROADMAP</div>
   <div class="a h" style="left:136px;top:190px;font-size:84px;line-height:1.04;letter-spacing:-.015em">Built today. Next up.</div>
   <div class="a" style="left:140px;top:380px;width:90px;height:8px;background:var(--mint)"></div>
   <div class="a hm" style="left:140px;top:410px;font-size:38px">Real in the demo</div>
@@ -345,7 +371,7 @@
     <circle cx="1400" cy="640" r="22" fill="#1FB57F"/><circle cx="1400" cy="640" r="46" stroke="#1FB57F" stroke-width="3"/>
     <circle cx="152" cy="630" r="8" fill="#1FB57F"/><circle cx="152" cy="700" r="8" fill="#1FB57F"/>
   </svg>
-  <div class="a k" style="left:140px;top:150px;color:var(--mint)">13 — WHAT TO DO</div>
+  <div class="a k" style="left:140px;top:150px;color:var(--mint)">14 — WHAT TO DO</div>
   <div class="a h" style="left:136px;top:210px;width:1180px;font-size:104px;line-height:1.02;color:#fff">Ends in advice, not a dashboard.</div>
   <span class="pill" style="left:140px;top:500px;background:var(--amber);color:var(--text);font-size:26px">TODO (team): advice for the demo bank and its value</span>
   <div class="a" style="left:190px;top:610px;font-size:36px;color:var(--onDark)">Next: pilot Json on one bank's real HR data</div>
