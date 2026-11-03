@@ -41,7 +41,7 @@ export function suggestFollowUps({ userText, replyText, hasDashboard, companies 
 
   if (hasDashboard === true) add('Wat moet HR als eerste doen?')
 
-  if (out.length < MAX) add('Welke skills missen we het meest bij Bank Vandermeulen?')
+  if (out.length < MAX) add('Welke skills missen we het meest bij Goldman Stanley?')
   if (out.length < MAX) add('Welke vacatures vragen om AI-skills in 2025?')
 
   return out.slice(0, MAX)

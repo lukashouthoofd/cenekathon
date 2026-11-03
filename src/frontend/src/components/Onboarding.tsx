@@ -1,17 +1,17 @@
 import { useEffect, useRef } from 'react'
 
 export const EXAMPLE_QUESTIONS = [
-  'Welke skills missen we het meest bij Bank Vandermeulen?',
-  'Hoe staat Bank Vandermeulen er voor op AI-gebruik?',
+  'Welke skills missen we het meest bij Goldman Stanley?',
+  'Hoe staat Goldman Stanley er voor op AI-gebruik?',
   'Welke vacatures vragen om AI-skills in 2025?',
-  'Maak een dashboard van Bank Vandermeulen',
+  'Maak een dashboard van Goldman Stanley',
   'Hoeveel vacatures noemen Python in 2025?',
   'Wat moet HR als eerste doen?',
 ]
 
 const STEPS = [
   'Json beantwoordt vragen over AI-readiness en vacatures bij financiële bedrijven.',
-  'De bedrijfscijfers zijn gesimuleerd (Bank Vandermeulen). Marktcijfers zijn trefwoordtellingen, geen bewezen skills.',
+  'De bedrijfscijfers zijn gesimuleerd (Goldman Stanley). Marktcijfers zijn trefwoordtellingen, geen bewezen skills.',
   'Kies een voorbeeldvraag hieronder of typ je eigen vraag.',
 ]
 

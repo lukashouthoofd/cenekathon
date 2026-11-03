@@ -1,6 +1,6 @@
 import { test, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { runTool } from './agent.ts';
+import { runTool, splitSuggestions } from './agent.ts';
 
 const realFetch = globalThis.fetch;
 afterEach(() => {
@@ -39,4 +39,16 @@ test('an unreachable RAG API returns the fallback message instead of throwing', 
 
   globalThis.fetch = (async () => new Response('down', { status: 502 })) as typeof fetch;
   assert.deepEqual(await runTool('skill_gap', { job_title: 'Analist' }, []), FALLBACK);
+});
+
+test('splitSuggestions takes the trailing follow-up line off the reply', () => {
+  assert.deepEqual(splitSuggestions('Antwoord.\n\nVervolgvragen: Welke opleiding? | Wie aanwerven? | Welke software?\n'), {
+    content: 'Antwoord.',
+    suggestions: ['Welke opleiding?', 'Wie aanwerven?', 'Welke software?'],
+  });
+  assert.deepEqual(splitSuggestions('Antwoord.\n**Vervolgvragen:** A? | B?'), { content: 'Antwoord.', suggestions: ['A?', 'B?'] });
+  assert.deepEqual(splitSuggestions('Ik ben JSON, ik kan daar niet op antwoorden.'), {
+    content: 'Ik ben JSON, ik kan daar niet op antwoorden.',
+    suggestions: [],
+  });
 });

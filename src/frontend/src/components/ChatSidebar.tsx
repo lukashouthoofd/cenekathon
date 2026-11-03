@@ -37,7 +37,7 @@ export function ChatSidebar({
           <Card title={overview.company.name}>
             <p className="text-body-sm text-muted-foreground">
               {overview.company.sector} · {overview.company.employees} medewerkers
-              {overview.synthetic && ' · fictieve bedrijfsdata'}
+              {overview.synthetic && ' · Fictief bedrijf: de cijfers zijn niet echt'}
             </p>
           </Card>
 
@@ -58,7 +58,7 @@ export function ChatSidebar({
             </ul>
           </Card>
 
-          <Card title="Grootste kloven">
+          <Card title="Grootste tekorten">
             <ul className="divide-y divide-border">
               {overview.gaps.map((g) => (
                 <li key={g.ref} className="py-2 first:pt-0 last:pb-0">
@@ -92,7 +92,7 @@ export function ChatSidebar({
                 </li>
               ))}
             </ul>
-            <p className="mt-3 text-caption text-muted-foreground">Vraag in de chat welke software ontbreekt.</p>
+            <p className="mt-3 text-caption text-muted-foreground">Vraag Json: „Welke software ontbreekt?”</p>
           </Card>
         </>
       )}

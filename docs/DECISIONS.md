@@ -2,6 +2,31 @@
 
 One entry per decision. Newest first. Times not recorded for these entries. "None recorded" means no alternative is written down in the code or docs.
 
+## 2026-11-03 — Example bank named "Goldman Stanley (gesimuleerd)"
+- **Decision:** The example bank is called "Goldman Stanley (gesimuleerd)". Its data is fictional internal data and is labelled simulated everywhere it appears.
+- **Why:** The name resembles real banks, so the "gesimuleerd" label must stay on every screen and in every export.
+- **Alternatives rejected:** None recorded.
+
+## 2026-11-03 — Vercel deploy stays off
+- **Decision:** The app is not deployed to Vercel and runs local-only. The owner answered "Nee, alleen lokaal".
+- **Why:** The vacancy-data aggregates are licensed for team use only, and a public deploy would put them outside the team.
+- **Alternatives rejected:** Public Vercel deploy, rejected by the owner.
+
+## 2026-11-03 — TechWolf Hugging Face models not adopted now
+- **Decision:** The TechWolf models on Hugging Face are not adopted for now. JobBERT-v3 is a job-title embedder, Dutch is not listed on its model card, and no evaluation numbers are given.
+- **Why:** There is no evidence the model works for Dutch vacancy data.
+- **Alternatives rejected:** Adopting JobBERT-v3 now. Revisit only for job-title matching, on a GPU, with a labelled test set.
+
+## 2026-11-03 — Follow-up suggestions are deterministic
+- **Decision:** Follow-up suggestions are generated deterministically, with no extra AI call. The demo fixture carries them too.
+- **Why:** No extra model call per answer, and the demo shows the same kind of suggestions as the live app.
+- **Alternatives rejected:** None recorded.
+
+## 2026-11-03 — Google-style evidence panel restored next to skill gaps
+- **Decision:** The evidence panel sits next to the skill gaps, in the Google-style layout from the original brief.
+- **Why:** Restores the layout asked for in the original brief.
+- **Alternatives rejected:** None recorded.
+
 ## 2026-11-03 — Frontend has no backend calls in demo mode
 - **Decision:** With `VITE_DEMO_MODE=true`, every function in `src/frontend/src/api.ts` returns fixture data and makes no request.
 - **Why:** The demo runs without a backend or API key, and the simulated data is labelled as such.

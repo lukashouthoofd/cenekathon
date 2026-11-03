@@ -5,7 +5,6 @@ import { AdviceCard } from './AdviceCard'
 import { DashboardView } from './DashboardView'
 import { ChatSidebar } from './ChatSidebar'
 import { Markdown } from './Markdown'
-import { EXAMPLE_QUESTIONS } from './Onboarding'
 
 // A question picked outside the chat (for example from the onboarding panel) to send as a user message.
 export type AskRequest = { text: string }
@@ -21,6 +20,15 @@ function splitAdvice(content: string): { body: string; advice: string | null } {
   }
   return { body: content, advice: null }
 }
+
+// Shown at the start, and whenever the last reply has no follow-up questions of its own.
+const STARTERS = LIVE_CHAT
+  ? [
+      'Welke skills ontbreken het meest?',
+      'Geef de drie belangrijkste acties',
+      'Welke opleidingen hebben we nodig en moeten we aanwerven?',
+    ]
+  : ['Maak een dashboard van Goldman Stanley']
 
 export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -48,7 +56,7 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
     sendChat(history)
       .then((r) => setMessages([...history, r.message]))
       .catch((e: unknown) =>
-        setError(e instanceof ApiError ? e.message : 'Er ging iets mis. Probeer het opnieuw.'),
+        setError(e instanceof ApiError ? e.message : 'Dit lukte niet. Probeer het zo nog eens.'),
       )
       .finally(() => setPending(false))
   }
@@ -69,8 +77,14 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
     if (!pending) send(messages)
   }
 
-  // Vervolgvragen are only offered under the last assistant reply.
-  const lastAssistantIndex = messages.map((m) => m.role).lastIndexOf('assistant')
+  function ask(question: string) {
+    if (!pending) send([...messages, { role: 'user', content: question }])
+  }
+
+  const last = messages[messages.length - 1]
+  const followUp = last?.role === 'assistant' && !!last.suggestions?.length
+  const suggestions = followUp ? last.suggestions! : STARTERS
+  const label = followUp ? 'Goede vervolgvragen' : 'Ideeën om te vragen'
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[1fr_24rem]">
@@ -81,24 +95,8 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
       <div className="space-y-4">
         {messages.length === 0 && (
           <p className="text-body text-muted-foreground">
-            {LIVE_CHAT
-              ? 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.'
-              : 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.'}
+            Ik ben Json, de AI-readiness-assistent. Stel een vraag of kies een idee onder het invoerveld.
           </p>
-        )}
-        {messages.length === 0 && (
-          <div className="flex flex-wrap gap-2">
-            {EXAMPLE_QUESTIONS.map((question) => (
-              <button
-                key={question}
-                type="button"
-                onClick={() => send([{ role: 'user', content: question }])}
-                className="rounded-full border border-border bg-surface px-3 py-1.5 text-left text-body-sm text-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-              >
-                {question}
-              </button>
-            ))}
-          </div>
         )}
         {messages.map((m, i) => {
           const { body, advice } =
@@ -121,22 +119,6 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
                   ))}
                 {advice && <AdviceCard text={advice} />}
                 {m.dashboard && <DashboardView dashboard={m.dashboard} />}
-                {i === lastAssistantIndex && m.suggestions && m.suggestions.length > 0 && (
-                  <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <span className="text-caption text-muted-foreground">Vervolgvragen</span>
-                    {m.suggestions.map((suggestion) => (
-                      <button
-                        key={suggestion}
-                        type="button"
-                        disabled={pending}
-                        onClick={() => send([...messages, { role: 'user', content: suggestion }])}
-                        className="rounded-md border border-border bg-surface px-3 py-1.5 text-left text-body-sm text-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50"
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           )
@@ -190,6 +172,25 @@ export function ChatView({ askRequest }: { askRequest?: AskRequest | null }) {
           Verstuur
         </button>
       </form>
+      <section aria-label={label} className="-mt-1">
+        <p className="mb-2 text-caption font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+        <div className="flex flex-wrap gap-2">
+          {suggestions.map((q) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => ask(q)}
+              disabled={pending}
+              className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3.5 py-1.5 text-left text-body-sm text-foreground shadow-sm transition-colors hover:border-accent hover:bg-accent-soft hover:text-accent-text focus-visible:outline-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <span>{q}</span>
+              <span aria-hidden className="text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent-text">
+                →
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
     </div>
     <ChatSidebar messages={messages} overview={overview} error={overviewError} />
     </div>

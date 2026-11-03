@@ -1,4 +1,4 @@
-# Mock interne data: Bank Vandermeulen (demo-bank)
+# Mock interne data: Goldman Stanley (demo-bank)
 
 Gesimuleerde interne bankdata (afdelingen, vaardigheden, opleidingen) voor de demo; geen echte bank of personen.
 Alle waarden zijn fictief en bedoeld als vervanging van echte HR- en systeemdata.

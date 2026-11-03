@@ -11,3 +11,6 @@ data/
 .vscode
 *.docx
 *.pdf
+summary.json
+**/summary.json
+*.parquet
