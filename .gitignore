@@ -23,3 +23,7 @@ out/
 
 # Vacancy data (large, licence: team use only)
 data/
+
+# Team documents with data links / large slide decks (keep local)
+*.docx
+*.pdf
