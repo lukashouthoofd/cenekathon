@@ -1,17 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Building2, Download, Info } from 'lucide-react'
 import { ActionCards } from './components/ActionCards'
+import { ActionPlanModal } from './components/ActionPlanModal'
 import { EmptyState, ErrorState, LoadingState } from './components/StateMessages'
 import { ChatView } from './components/ChatView'
 import type { AskRequest } from './components/ChatView'
 import { EvidencePanel, resolveEvidence } from './components/EvidencePanel'
 import { Onboarding } from './components/Onboarding'
-import { ScoreCards } from './components/ScoreCards'
+import { ReadinessDashboard } from './components/DashboardView'
 import { SkillGaps } from './components/SkillGaps'
 import { SoftwareGaps } from './components/SoftwareGaps'
+import { exportReport, toReportData } from './export'
 import { ApiError, DEMO_MODE, analyze, getCompanies, getReadiness } from './api'
 import type { AnalyzeResponse, Company, Readiness } from './types'
 
 const ONBOARDING_KEY = 'json-onboarding-gezien'
+
+// Shown above the dashboard. The data period is fixed in the demo fixture.
+const REPORT_PERIOD = '1 jan – 30 jun 2026 · vergeleken met dezelfde periode in 2025'
 
 // localStorage can throw (for example when storage is disabled), so reads and writes are guarded.
 function onboardingSeen(): boolean {
@@ -46,6 +52,7 @@ export default function App() {
   const [plan, setPlan] = useState<AnalyzeResponse | null>(null)
   const [planError, setPlanError] = useState<string | null>(null)
   const [planLoading, setPlanLoading] = useState(false)
+  const [actionPlanOpen, setActionPlanOpen] = useState(false)
 
   const [reloadKey, setReloadKey] = useState(0)
   const planRequest = useRef(0)
@@ -116,45 +123,61 @@ export default function App() {
       .finally(() => id === planRequest.current && setPlanLoading(false))
   }
 
+  function handleExport() {
+    if (readiness) exportReport(toReportData(readiness))
+  }
+
   const resolved = readiness && selectedEvidence.length > 0 ? resolveEvidence(selectedEvidence, readiness.evidence) : null
   const company = companies?.find((c) => c.id === companyId)
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-surface px-6 py-4">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
+      <header className="border-b border-border bg-dark-section">
+        <div className="mx-auto flex min-h-[72px] max-w-[1360px] flex-wrap items-center justify-between gap-3 px-6 py-3 md:px-10">
           <div className="flex items-center gap-3">
-            <img src="/json-icon.svg" alt="" width="28" height="28" aria-hidden="true" />
-            <h1 className="text-title font-semibold">
-              Json <span className="text-caption font-normal text-muted-foreground">AI-readiness</span>
-            </h1>
+            <span
+              aria-hidden="true"
+              className="flex size-8 items-center justify-center rounded-md bg-accent text-heading font-bold text-accent-foreground"
+            >
+              J
+            </span>
+            <div className="flex flex-wrap items-baseline gap-x-2">
+              <span className="text-section font-semibold">Json</span>
+              <span className="label-caps">AI-readiness</span>
+            </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             {DEMO_MODE && (
               <span className="rounded-md border border-caution px-2 py-1 text-caption text-caution-text">
-                Demomodus: gesimuleerde gegevens
+                Demomodus: gesimuleerd
               </span>
             )}
             <button
               type="button"
+              aria-label="Rondleiding openen"
               onClick={() => setShowOnboarding(true)}
-              className="rounded-md border border-border px-3 py-1.5 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="btn-secondary"
             >
+              <Info aria-hidden="true" size={16} />
               Rondleiding
             </button>
           </div>
         </div>
       </header>
 
-      <nav className="border-b border-border bg-surface px-6 py-2">
-        <div className="mx-auto flex max-w-6xl gap-2">
+      <nav aria-label="Weergave" className="border-b border-border bg-background">
+        <div className="mx-auto flex max-w-[1360px] gap-6 px-6 md:px-10">
           {(['dashboard', 'chat'] as const).map((t) => (
             <button
               key={t}
               type="button"
               aria-pressed={tab === t}
               onClick={() => setTab(t)}
-              className={`rounded-md px-3 py-1.5 text-body ${tab === t ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}
+              className={`-mb-px border-b-2 px-1 py-3 text-body font-medium transition-colors ${
+                tab === t
+                  ? 'border-accent text-foreground'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
             >
               {t === 'dashboard' ? 'Dashboard' : 'Json'}
             </button>
@@ -162,116 +185,132 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Kept mounted so chat history and any pending request survive tab switches. */}
-      <div className={tab === 'chat' ? 'mx-auto max-w-6xl px-6 py-6' : 'hidden'}>
-        <ChatView askRequest={askRequest} />
-      </div>
-
-      {showOnboarding && <Onboarding onClose={closeOnboarding} onPickQuestion={pickQuestion} />}
-
-      {tab === 'dashboard' && !DEMO_MODE && (
-        <div className="mx-auto max-w-6xl px-6 py-6">
-          <section className="rounded-lg border border-border bg-surface p-4">
-            <h2 className="text-heading font-semibold">Dashboard alleen beschikbaar in demomodus</h2>
-            <p className="text-body-sm text-muted-foreground">
-              Dit dashboard toont gesimuleerde gegevens. Zet VITE_DEMO_MODE=true om het te gebruiken. De chat werkt op echte gegevens.
-            </p>
-          </section>
+      <main>
+        {/* Kept mounted so chat history and any pending request survive tab switches. */}
+        <div className={tab === 'chat' ? 'mx-auto max-w-[1360px] px-6 py-7 md:px-10' : 'hidden'}>
+          <ChatView askRequest={askRequest} />
         </div>
-      )}
 
-      {tab === 'dashboard' && DEMO_MODE && (
-      <main className="mx-auto grid max-w-6xl gap-6 px-6 py-6 lg:grid-cols-[1fr_20rem]">
-        <div className="min-w-0 space-y-6">
-          <section className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-surface p-4">
-            <label className="flex min-w-0 flex-1 flex-col gap-1 text-body-sm text-muted-foreground">
-              Bedrijf
-              {companiesError ? (
-                <ErrorState message={companiesError} onRetry={loadCompanies} />
-              ) : companies === null ? (
-                <LoadingState />
-              ) : companies.length === 0 ? (
-                <EmptyState title="Geen bedrijven beschikbaar" />
-              ) : (
-                <select
-                  value={companyId}
-                  onChange={(e) => setCompanyId(e.target.value)}
-                  className="rounded-md border border-border bg-background px-3 py-2 text-body text-foreground"
-                >
-                  {companies.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                      {c.synthetic ? ' (gesimuleerd)' : ''}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </label>
-            <button
-              type="button"
-              onClick={makePlan}
-              disabled={!companyId || planLoading}
-              className="rounded-md bg-primary px-4 py-2 text-body font-medium text-primary-foreground disabled:opacity-50"
-            >
-              {planLoading ? 'Actieplan wordt gemaakt…' : 'Maak actieplan'}
-            </button>
-          </section>
-
-          {readinessLoading && <LoadingState />}
-          {readinessError && (
-            <ErrorState
-              message={readinessError}
-              onRetry={() => setReloadKey((k) => k + 1)}
-            />
-          )}
-
-          {readiness && (
-            <>
-              <section className="space-y-3">
-                <div>
-                  <h2 className="text-heading font-semibold">{readiness.companyName}</h2>
-                  <p className="text-body-sm text-muted-foreground">
-                    Periode {readiness.period.from} t/m {readiness.period.to} vergeleken met{' '}
-                    {readiness.period.comparisonFrom} t/m {readiness.period.comparisonTo}
-                    {(readiness.synthetic || company?.synthetic) && ' · gesimuleerde gegevens'}
-                  </p>
-                </div>
-                <ScoreCards scores={readiness.scores} />
-              </section>
-
-              <div className="grid gap-6 md:grid-cols-2">
-                <SkillGaps gaps={readiness.skillGaps} onSelectEvidence={setSelectedEvidence} />
-                <SoftwareGaps gaps={readiness.softwareGaps} />
-              </div>
-            </>
-          )}
-
-          {planError && (
-            <ErrorState message={planError} onRetry={makePlan} />
-          )}
-          <div ref={planSection} className="scroll-mt-6 space-y-6">
-            {planLoading && <LoadingState />}
-            {plan && (
-              <ActionCards
-                actions={plan.actions}
-                companyId={companyId}
-                summary={plan.summary}
-                limitations={plan.limitations}
-                mode={plan.mode}
-              />
-            )}
+        {tab === 'dashboard' && !DEMO_MODE && (
+          <div className="mx-auto max-w-[1360px] px-6 py-7 md:px-10">
+            <section className="rounded-lg border border-border bg-surface p-5">
+              <h2 className="text-section font-semibold">Dashboard alleen beschikbaar in demomodus</h2>
+              <p className="mt-1 text-body text-muted-foreground">
+                Dit dashboard toont gesimuleerde gegevens. Zet VITE_DEMO_MODE=true om het te gebruiken. De chat werkt op echte gegevens.
+              </p>
+            </section>
           </div>
-        </div>
+        )}
 
-        {readiness && (
-          <EvidencePanel
-            evidence={resolved ? resolved.found : readiness.evidence}
-            highlightIds={selectedEvidence}
-            missingIds={resolved?.missing}
-          />
+        {tab === 'dashboard' && DEMO_MODE && (
+          <div className="mx-auto max-w-[1360px] space-y-7 px-6 py-7 md:px-10">
+            <section className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-4 sm:flex-row sm:items-end">
+              <label className="flex min-w-0 flex-1 flex-col gap-1.5">
+                <span className="label-caps flex items-center gap-2">
+                  <Building2 aria-hidden="true" size={14} />
+                  Organisatie
+                </span>
+                {companiesError ? (
+                  <ErrorState message={companiesError} onRetry={loadCompanies} />
+                ) : companies === null ? (
+                  <LoadingState />
+                ) : companies.length === 0 ? (
+                  <EmptyState title="Geen bedrijven beschikbaar" />
+                ) : (
+                  <select
+                    value={companyId}
+                    onChange={(e) => setCompanyId(e.target.value)}
+                    className="min-h-10 w-full rounded-md border border-border-strong bg-background px-3 py-2 text-body text-foreground"
+                  >
+                    {companies.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                        {c.synthetic ? ' (gesimuleerd)' : ''}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </label>
+              <button
+                type="button"
+                onClick={() => setActionPlanOpen(true)}
+                disabled={!companyId || planLoading}
+                className="btn-primary w-full sm:w-auto"
+              >
+                {planLoading ? 'Actieplan wordt gemaakt…' : 'Maak actieplan'}
+              </button>
+            </section>
+
+            <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-9">
+              <div className="min-w-0 space-y-7">
+                {readinessLoading && <LoadingState />}
+                {readinessError && (
+                  <ErrorState message={readinessError} onRetry={() => setReloadKey((k) => k + 1)} />
+                )}
+
+                {readiness && (
+                  <>
+                    <section className="space-y-5">
+                      <div className="flex flex-wrap items-end justify-between gap-4">
+                        <div className="min-w-0 space-y-1.5">
+                          <p className="label-caps text-positive-text">Rapport beschikbaar</p>
+                          <h1 className="text-title font-bold break-words">{readiness.companyName}</h1>
+                          <p className="text-caption text-muted-foreground">
+                            {REPORT_PERIOD}
+                            {(readiness.synthetic || company?.synthetic) && ' · gesimuleerde gegevens'}
+                          </p>
+                        </div>
+                        <button type="button" onClick={handleExport} className="btn-secondary">
+                          <Download aria-hidden="true" size={16} />
+                          Exporteer rapport
+                        </button>
+                      </div>
+                      <ReadinessDashboard readiness={readiness} />
+                    </section>
+
+                    <div className="grid gap-7 md:grid-cols-2">
+                      <SkillGaps gaps={readiness.skillGaps} onSelectEvidence={setSelectedEvidence} />
+                      <SoftwareGaps gaps={readiness.softwareGaps} />
+                    </div>
+                  </>
+                )}
+
+                {planError && <ErrorState message={planError} onRetry={makePlan} />}
+                <div ref={planSection} className="scroll-mt-6 space-y-7">
+                  {planLoading && <LoadingState />}
+                  {plan && (
+                    <ActionCards
+                      actions={plan.actions}
+                      companyId={companyId}
+                      summary={plan.summary}
+                      limitations={plan.limitations}
+                      mode={plan.mode}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {readiness && (
+                <aside aria-label="Bewijsmateriaal" className="min-w-0 lg:sticky lg:top-6 lg:self-start">
+                  <EvidencePanel
+                    evidence={resolved ? resolved.found : readiness.evidence}
+                    highlightIds={selectedEvidence}
+                    missingIds={resolved?.missing}
+                  />
+                </aside>
+              )}
+            </div>
+
+            <ActionPlanModal
+              open={actionPlanOpen}
+              onClose={() => setActionPlanOpen(false)}
+              onGenerate={makePlan}
+            />
+          </div>
         )}
       </main>
-      )}
+
+      {showOnboarding && <Onboarding onClose={closeOnboarding} onPickQuestion={pickQuestion} />}
     </div>
   )
 }

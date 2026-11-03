@@ -19,6 +19,8 @@ export interface Score {
   dimension: ScoreDimension
   value: number | null
   coverage: number
+  /** Change versus the comparison period. Simulated in the demo only; absent in live responses. */
+  trend?: number
   explanation: string
   evidenceIds: string[]
 }

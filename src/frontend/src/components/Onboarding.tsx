@@ -39,42 +39,42 @@ export function Onboarding({ onClose, onPickQuestion }: OnboardingProps) {
   }, [])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 p-4">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="onboarding-title"
-        className="w-full max-w-xl space-y-4 rounded-lg border border-border bg-surface p-6"
+        className="w-full max-w-xl space-y-4 rounded-md border border-border bg-surface p-6 shadow-lg"
       >
         <div className="flex items-start justify-between gap-4">
-          <h2 id="onboarding-title" className="text-heading font-semibold">
+          <h2 id="onboarding-title" className="text-title font-semibold text-foreground">
             Welkom bij Json
           </h2>
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="rounded-md border border-border px-3 py-1.5 text-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="rounded-md border border-border px-3 py-1.5 text-body text-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             Sluiten
           </button>
         </div>
 
-        <ol className="list-decimal space-y-2 pl-5 text-body">
+        <ol className="list-decimal space-y-2 pl-5 text-body text-foreground">
           {STEPS.map((step) => (
             <li key={step}>{step}</li>
           ))}
         </ol>
 
         <div className="space-y-2">
-          <p className="text-body-sm text-muted-foreground">Voorbeeldvragen</p>
+          <p className="text-caption tracking-wider text-muted-foreground uppercase">Voorbeeldvragen</p>
           <div className="flex flex-col gap-2">
             {EXAMPLE_QUESTIONS.map((question) => (
               <button
                 key={question}
                 type="button"
                 onClick={() => onPickQuestion(question)}
-                className="rounded-md border border-border bg-background px-3 py-2 text-left text-body text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="rounded-md border border-border bg-background px-3 py-2 text-left text-body text-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 {question}
               </button>

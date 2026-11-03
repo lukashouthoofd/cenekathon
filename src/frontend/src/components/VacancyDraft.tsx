@@ -37,7 +37,7 @@ export function VacancyDraft({ gap }: { gap: SkillGap }) {
   }
 
   return (
-    <div className="rounded-md border border-border bg-muted p-3">
+    <div className="rounded-[12px] border border-border bg-surface p-4">
       <h4 className="text-heading text-foreground">{draft.title}</h4>
       <p className="mt-2 text-body-sm text-foreground">{draft.intro}.</p>
       <p className="mt-1 text-body-sm text-foreground">{draft.coverage}.</p>
@@ -50,7 +50,7 @@ export function VacancyDraft({ gap }: { gap: SkillGap }) {
         <button
           type="button"
           onClick={copyText}
-          className="rounded-md bg-primary px-3 py-1 text-body-sm text-primary-foreground hover:opacity-90"
+          className="btn-primary min-h-10 px-4 text-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         >
           Kopieer tekst
         </button>

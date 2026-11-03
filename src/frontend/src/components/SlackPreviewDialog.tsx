@@ -76,7 +76,7 @@ export function SlackPreviewDialog({ companyId, actionId, actionTitle, onClose }
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
@@ -88,7 +88,7 @@ export function SlackPreviewDialog({ companyId, actionId, actionTitle, onClose }
         aria-labelledby="slack-dialog-title"
         tabIndex={-1}
         onKeyDown={onKeyDown}
-        className="flex max-h-[90vh] w-full max-w-lg flex-col gap-4 overflow-y-auto rounded-lg border border-border bg-surface p-5 outline-none"
+        className="flex max-h-[90vh] w-full max-w-lg flex-col gap-4 overflow-y-auto rounded-[12px] border border-border bg-surface p-5 outline-none"
       >
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -100,7 +100,7 @@ export function SlackPreviewDialog({ companyId, actionId, actionTitle, onClose }
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-border px-3 py-1 text-body-sm hover:bg-muted"
+            className="btn-secondary min-h-10 px-3 text-body-sm hover:bg-muted active:bg-muted-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             Sluiten
           </button>
@@ -108,11 +108,11 @@ export function SlackPreviewDialog({ companyId, actionId, actionTitle, onClose }
 
         {error !== null ? (
           <div role="alert" className="flex flex-col items-start gap-2">
-            <p className="text-body text-destructive">{error}</p>
+            <p className="text-body text-foreground">{error}</p>
             <button
               type="button"
               onClick={() => setAttempt((n) => n + 1)}
-              className="rounded-md border border-border px-3 py-1 text-body-sm hover:bg-muted"
+              className="btn-primary min-h-10 px-4 text-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
             >
               Opnieuw proberen
             </button>
@@ -121,14 +121,14 @@ export function SlackPreviewDialog({ companyId, actionId, actionTitle, onClose }
           <LoadingState />
         ) : (
           <>
-            <pre className="whitespace-pre-wrap break-words rounded-md border border-border bg-muted p-3 font-mono text-body-sm">
+            <pre className="whitespace-pre-wrap break-words rounded-[8px] border border-border bg-muted p-3 font-mono text-body-sm text-foreground">
               {text}
             </pre>
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={copyText}
-                className="rounded-md bg-accent px-3 py-1 text-body-sm text-accent-foreground hover:opacity-90"
+                className="btn-primary min-h-10 px-4 text-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 Kopieer
               </button>

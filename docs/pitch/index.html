@@ -271,6 +271,36 @@
   </table>
 </section>
 
+<!-- 09b Floorplan -->
+<section class="slide" style="background:var(--paper)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <g stroke="#A9C0FF" stroke-width="3">
+      <line x1="500" y1="415" x2="690" y2="395"/>
+      <line x1="500" y1="635" x2="690" y2="615"/>
+      <line x1="320" y1="710" x2="320" y2="770"/>
+      <line x1="870" y1="460" x2="870" y2="510"/>
+      <line x1="1050" y1="620" x2="1240" y2="305"/>
+      <line x1="1050" y1="620" x2="1240" y2="455"/>
+      <line x1="1050" y1="620" x2="1240" y2="635"/>
+    </g>
+  </svg>
+  <div class="a k" style="left:140px;top:110px;color:var(--blue)">09b — FLOORPLAN</div>
+  <div class="a h" style="left:136px;top:160px;width:1640px;font-size:76px;line-height:1.04;letter-spacing:-.015em">How the app fits together</div>
+  <div class="a" style="left:140px;top:330px;width:360px;height:170px;border-radius:20px;background:var(--blue);color:#fff;padding:24px 26px"><div class="hm" style="font-size:30px">Web app</div><div style="font-size:22px;line-height:1.35;margin-top:10px">The chat and the dashboard people see in the browser.</div></div>
+  <div class="a" style="left:140px;top:560px;width:360px;height:150px;border-radius:20px;background:var(--ink);color:#fff;padding:24px 26px"><div class="hm" style="font-size:30px">Slack &amp; MCP bots</div><div style="font-size:22px;line-height:1.35;margin-top:10px;color:var(--onDark)">Optional entry points for Slack and MCP clients.</div></div>
+  <div class="a" style="left:140px;top:770px;width:360px;height:130px;border-radius:20px;background:#fff;border:2px solid var(--line);padding:16px 24px"><div class="hm" style="font-size:30px">Slack</div><div style="font-size:22px;line-height:1.35;margin-top:4px;color:var(--muted)">The workspace the bot talks in.</div></div>
+  <div class="a" style="left:690px;top:330px;width:360px;height:130px;border-radius:20px;background:var(--blueSoft);padding:16px 24px"><div class="hm" style="font-size:30px">Chat API</div><div style="font-size:22px;line-height:1.35;margin-top:4px;color:var(--muted)">HTTP endpoints the web app calls.</div></div>
+  <div class="a" style="left:690px;top:510px;width:360px;height:220px;border-radius:20px;background:var(--ink);color:#fff;padding:24px 26px"><div class="hm" style="font-size:30px">Analysis backend</div><div style="font-size:22px;line-height:1.35;margin-top:10px;color:var(--onDark)">Answers questions with the agent, the router and the readiness score.</div></div>
+  <div class="a" style="left:1240px;top:240px;width:320px;height:130px;border-radius:20px;background:#fff;border:2px solid var(--line);padding:16px 24px"><div class="hm" style="font-size:30px">Claude API</div><div style="font-size:22px;line-height:1.35;margin-top:4px;color:var(--muted)">Language model: answers and labels.</div></div>
+  <div class="a" style="left:1240px;top:400px;width:320px;height:120px;border-radius:20px;background:#fff;border:2px solid var(--line);padding:16px 24px"><div class="hm" style="font-size:30px">Jev decision API</div><div style="font-size:22px;line-height:1.35;margin-top:4px;color:var(--muted)">Picks one option, with a probability.</div></div>
+  <div class="a" style="left:1240px;top:560px;width:320px;height:150px;border-radius:20px;background:var(--mintSoft);padding:16px 24px"><div class="hm" style="font-size:30px">DuckDB store</div><div style="font-size:22px;line-height:1.35;margin-top:4px;color:var(--muted)">Vacancy and internal tables the backend queries.</div></div>
+  <div class="a" style="left:1240px;top:740px;width:320px;height:150px;border-radius:20px;background:var(--mintSoft);padding:16px 24px"><div class="hm" style="font-size:30px">Synthetic bank data</div><div style="font-size:22px;line-height:1.35;margin-top:4px;color:var(--muted)">Made-up internal data, marked synthetic.</div></div>
+  <div class="a" style="left:140px;top:922px;width:360px;height:124px;border-radius:20px;background:#fff;border:2px solid var(--line);padding:16px 24px"><div class="hm" style="font-size:26px">Public data sources</div><div style="font-size:20px;line-height:1.3;margin-top:6px;color:var(--muted)">ESCO, GLEIF, Eurostat, ONS, CBS, Statbel</div></div>
+  <div class="a" style="left:690px;top:930px;width:360px;height:110px;border-radius:20px;background:var(--amberSoft);padding:18px 26px"><div class="hm" style="font-size:26px">Data preparation</div><div style="font-size:20px;line-height:1.3;margin-top:6px;color:var(--amberText)">Run by hand, not by the app</div></div>
+  <div class="a" style="left:1240px;top:930px;width:320px;height:110px;border-radius:20px;background:#fff;border:2px solid var(--line);padding:18px 26px"><div class="hm" style="font-size:26px">Deploy and checks</div><div style="font-size:20px;line-height:1.3;margin-top:6px;color:var(--muted)">Docker, Compose, Vercel, CI</div></div>
+  <div class="a k" style="left:140px;top:1064px;font-size:14px;letter-spacing:0;color:var(--muted)">Source: generated codebase map, floorplan/index.html (branch feature/floorplan). Vacancy data is licensed, team use only.</div>
+</section>
+
 <!-- 11 Cost & scale -->
 <section class="slide" style="background:var(--paper)">
   <div class="a k" style="left:140px;top:130px;color:var(--blue)">10 — COST &amp; SCALE</div>
@@ -339,11 +369,11 @@
   <div class="a" style="left:140px;top:380px;width:90px;height:8px;background:var(--mint)"></div>
   <div class="a hm" style="left:140px;top:410px;font-size:38px">Real in the demo</div>
   <span class="pill" style="left:140px;top:490px;font-size:20px">Chat answers from the vacancy summary numbers, via the Anthropic API</span>
-  <span class="pill" style="left:140px;top:574px;font-size:20px">Dashboard on the simulated bank Vandermeulen, from fixtures in demo mode</span>
+  <span class="pill" style="left:140px;top:574px;font-size:20px">Dashboard on the simulated bank Goldman Stanley, from fixtures in demo mode</span>
   <span class="pill" style="left:140px;top:658px;font-size:20px">Refusal of off-topic questions</span>
   <div class="a" style="left:140px;top:748px;width:90px;height:8px;background:var(--ink)"></div>
   <div class="a hm" style="left:140px;top:778px;font-size:38px">Mocked or partial</div>
-  <span class="pill ph" style="left:140px;top:856px">Simulated bank Vandermeulen: internal data and readiness</span>
+  <span class="pill ph" style="left:140px;top:856px">Simulated bank Goldman Stanley: internal data and readiness</span>
   <span class="pill ph" style="left:140px;top:936px">Slack: preview only, no message is sent from the frontend</span>
   <span class="pill ph" style="left:140px;top:1016px">HR profiles: document, not a live system</span>
   <div class="a" style="left:1120px;top:0;width:800px;height:1080px;background:var(--ink);overflow:hidden;color:#fff">
@@ -359,6 +389,65 @@
     <div class="a" style="left:170px;top:580px;width:520px"><div class="hm" style="font-size:36px">Then</div><div style="font-size:28px;line-height:1.35;color:var(--onDark);margin-top:6px">Publish vacancies to LinkedIn and job boards</div></div>
     <div class="a" style="left:170px;top:750px;width:520px"><div class="hm" style="font-size:36px">Later</div><div style="font-size:28px;line-height:1.35;color:var(--onDark);margin-top:6px">More channels: Teams, HRIS and ATS integrations</div></div>
   </div>
+</section>
+
+<!-- 13b Next step (post-MVP) -->
+<section class="slide" style="background:#fff">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <circle cx="1920" cy="1080" r="360" stroke="#DCE6FF" stroke-width="40"/>
+  </svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">13b — NEXT STEP (POST-MVP)</div>
+  <div class="a h" style="left:136px;top:190px;width:1640px;font-size:76px;line-height:1.04;letter-spacing:-.015em">From hardcoded weights to evidence from 1.5M vacancies</div>
+  <span class="pill ph" style="left:140px;top:380px;font-size:20px">NOT BUILT · NOT IN THE DEMO</span>
+  <div class="a k" style="left:140px;top:450px;font-size:22px;color:var(--muted)">TODAY · MVP</div>
+  <div class="a hm" style="left:140px;top:500px;font-size:40px">Hardcoded market weights</div>
+  <div class="a" style="left:140px;top:555px;width:720px;font-size:28px;line-height:1.4;color:var(--muted)">Readiness uses weights we typed in, plus a mock bank. Scores are deterministic, but the market side can't be traced to real postings.</div>
+  <div class="a k" style="left:140px;top:700px;font-size:22px;color:var(--muted)">DATA WE HAVE · MEASURED</div>
+  <div class="a" style="left:140px;top:745px;width:720px;font-size:28px"><span class="h" style="font-size:44px;color:var(--blue);letter-spacing:0">1,542,169</span> vacancies, 2021–2026</div>
+  <div class="a" style="left:140px;top:805px;width:720px;font-size:28px"><span class="h" style="font-size:44px;color:var(--blue);letter-spacing:0">439,518</span> distinct job titles</div>
+  <div class="a" style="left:140px;top:865px;width:720px;font-size:28px"><span class="h" style="font-size:44px;color:var(--blue);letter-spacing:0">13,485</span> ESCO skills</div>
+  <div class="a h center" style="left:880px;top:560px;width:160px;font-size:80px;color:var(--blue)">→</div>
+  <div class="a" style="left:1060px;top:450px;width:740px;height:480px;border-radius:28px;background:var(--ink);color:#fff">
+    <div class="a k" style="left:56px;top:50px;font-size:22px;letter-spacing:.06em;color:var(--mint)">NEXT · POST-MVP</div>
+    <div class="a" style="left:56px;top:100px;width:640px"><div class="hm" style="font-size:32px">TechWolf JobBERT-v3</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Titles → ESCO occupations · <span class="k" style="font-size:20px;color:var(--mint)">vacancy_occupation</span></div></div>
+    <div class="a" style="left:56px;top:200px;width:640px"><div class="hm" style="font-size:32px">TechWolf ConTeXT</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Descriptions → ESCO skills · <span class="k" style="font-size:20px;color:var(--mint)">vacancy_skill</span></div></div>
+    <div class="a" style="left:56px;top:300px;width:640px"><div class="hm" style="font-size:32px">TypeSafe Jev</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Company AI-readiness level, with probabilities · <span class="k" style="font-size:20px;color:var(--mint)">company_ai_score</span></div></div>
+  </div>
+  <div class="a" style="left:140px;top:952px;width:1640px;font-size:32px;font-weight:500;line-height:1.3">Every score links back to real postings and ESCO codes — scalable to any company or sector.</div>
+  <div class="a k" style="left:140px;top:1034px;width:1640px;font-size:18px;letter-spacing:0;line-height:1.4;color:var(--muted)">ConTeXT has no published licence (to confirm with TechWolf); company scores are model inferences from public vacancies only.</div>
+  <aside class="notes" hidden>Today our readiness score uses weights we typed in by hand, and a mock bank. Next, we replace those weights with evidence. TechWolf's JobBERT maps each vacancy title to an ESCO occupation. ConTeXT pulls ESCO skills out of the descriptions. Jev gives each company a readiness level with probabilities. Everything lands in one DuckDB file, so every number links back to a posting and an ESCO code. This fits TechWolf's approach: skills on the ESCO standard, so an internal job architecture can be compared one-to-one with the market. To be clear: this is not built and not in the demo. We ran out of time.</aside>
+</section>
+
+<!-- 13c Team -->
+<section class="slide" style="background:var(--paper)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none"><circle cx="1920" cy="0" r="380" stroke="#DCE6FF" stroke-width="40"/></svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">13c — TEAM</div>
+  <div class="a h" style="left:136px;top:190px;width:1640px;font-size:76px;line-height:1.04;letter-spacing:-.015em">Four students, two teams, one product.</div>
+  <div class="a" style="left:140px;top:400px;width:390px;height:520px;border-radius:28px;background:#fff;padding:56px 44px">
+    <div class="h center" style="width:90px;height:90px;border-radius:50%;background:var(--blue);color:#fff;font-size:36px;line-height:90px;letter-spacing:0">LH</div>
+    <div class="hm" style="font-size:40px;margin-top:40px">Lukas Houthoofd</div>
+    <div class="k" style="font-size:20px;letter-spacing:.04em;color:var(--blue);margin-top:14px">COMPUTER ENGINEERING</div>
+    <div style="font-size:26px;line-height:1.4;color:var(--muted);margin-top:30px">Data &amp; analysis</div>
+  </div>
+  <div class="a" style="left:560px;top:400px;width:390px;height:520px;border-radius:28px;background:#fff;padding:56px 44px">
+    <div class="h center" style="width:90px;height:90px;border-radius:50%;background:var(--blue);color:#fff;font-size:36px;line-height:90px;letter-spacing:0">BZ</div>
+    <div class="hm" style="font-size:40px;margin-top:40px">Botond Zseli</div>
+    <div class="k" style="font-size:20px;letter-spacing:.04em;color:var(--blue);margin-top:14px">BUSINESS ENGINEERING</div>
+    <div style="font-size:26px;line-height:1.4;color:var(--muted);margin-top:30px">Data &amp; analysis</div>
+  </div>
+  <div class="a" style="left:980px;top:400px;width:390px;height:520px;border-radius:28px;background:#fff;padding:56px 44px">
+    <div class="h center" style="width:90px;height:90px;border-radius:50%;background:var(--mint);color:#fff;font-size:36px;line-height:90px;letter-spacing:0">LS</div>
+    <div class="hm" style="font-size:40px;margin-top:40px">Lucas Salaets</div>
+    <div class="k" style="font-size:20px;letter-spacing:.04em;color:var(--mint);margin-top:14px">ENGINEERING PHYSICS</div>
+    <div style="font-size:26px;line-height:1.4;color:var(--muted);margin-top:30px">Agent &amp; app</div>
+  </div>
+  <div class="a" style="left:1400px;top:400px;width:390px;height:520px;border-radius:28px;background:#fff;padding:56px 44px">
+    <div class="h center" style="width:90px;height:90px;border-radius:50%;background:var(--mint);color:#fff;font-size:36px;line-height:90px;letter-spacing:0">VT</div>
+    <div class="hm" style="font-size:40px;margin-top:40px">Victor Tavernier</div>
+    <div class="k" style="font-size:20px;letter-spacing:.04em;color:var(--mint);margin-top:14px">MEDICINE</div>
+    <div style="font-size:26px;line-height:1.4;color:var(--muted);margin-top:30px">Agent &amp; app</div>
+  </div>
+  <div class="a" style="left:140px;top:970px;font-size:28px;color:var(--muted)">Built in one day at CenEkathon 2026, with CenEka and TechWolf.</div>
 </section>
 
 <!-- 14 What to do -->
@@ -459,6 +548,17 @@
   <div class="a h center" style="left:1500px;top:410px;width:200px;font-size:38px;letter-spacing:0;color:var(--blue)">Json</div>
 </section>
 
+<!-- A5 Likely judge questions -->
+<section class="slide" style="background:#fff">
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">A5 — LIKELY JUDGE QUESTIONS</div>
+  <div class="a h" style="left:136px;top:190px;width:1640px;font-size:76px;line-height:1.04;letter-spacing:-.015em">Six questions we expect, with honest answers.</div>
+  <div class="a" style="left:140px;top:380px;width:780px"><div class="hm" style="font-size:32px">Is the vacancy data real?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">Yes: 1.34M deduplicated finance vacancies, licensed for team use only. Internal bank data is synthetic and labelled as such.</div></div>
+  <div class="a" style="left:1000px;top:380px;width:780px"><div class="hm" style="font-size:32px">Are the skill figures verified skills?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">No. They are keyword counts on titles and descriptions, and the chat tells the model to say so.</div></div>
+  <div class="a" style="left:140px;top:610px;width:780px"><div class="hm" style="font-size:32px">Why not just ask an LLM for everything?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">The numbers come from SQL. Claude reads about 20 summary numbers per company, which is cheaper and checkable.</div></div>
+  <div class="a" style="left:1000px;top:610px;width:780px"><div class="hm" style="font-size:32px">How reliable are the company AI scores?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">They are model inferences from public postings only. We never claim a company's real AI spend. Raw probabilities are kept for audit.</div></div>
+  <div class="a" style="left:140px;top:840px;width:780px"><div class="hm" style="font-size:32px">Is it privacy-safe?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">No named individuals. Team-level aggregates only, and synthetic data in the demo.</div></div>
+  <div class="a" style="left:1000px;top:840px;width:780px"><div class="hm" style="font-size:32px">What happens after the hackathon?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">A pilot on one bank's real HR data. TechWolf models for title and skill mapping are planned, not built yet (slide 13b).</div></div>
+</section>
 </div>
 <div class="hud" id="hud"></div>
 <script>

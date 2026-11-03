@@ -21,19 +21,24 @@ function componentsFor(refs: Record<string, string>): Components {
             title={label}
             aria-label={label}
             tabIndex={0}
-            className="mx-0.5 cursor-help rounded bg-accent-soft px-1 text-caption text-accent-text"
+            className="mx-0.5 cursor-help rounded-sm border border-border px-1 text-caption text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             {children}
           </span>
         )
       }
       return (
-        <a href={href} target="_blank" rel="noreferrer" className="text-accent-text underline">
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-sm text-accent-text underline underline-offset-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
           {children}
         </a>
       )
     },
-    code: ({ children }: { children?: ReactNode }) => <code className="rounded bg-muted px-1 font-mono text-body-sm">{children}</code>,
+    code: ({ children }: { children?: ReactNode }) => <code className="rounded-sm bg-muted px-1 font-mono text-body-sm">{children}</code>,
     table: ({ children }: { children?: ReactNode }) => (
       <div className="my-3 overflow-x-auto">
         <table className="w-full border-collapse text-body-sm">{children}</table>
