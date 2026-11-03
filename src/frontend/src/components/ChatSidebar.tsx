@@ -1,14 +1,11 @@
-import type { ChatMessage, Overview } from '../types'
+import type { ChatMessage, Overview, ProposedVacancy } from '../types'
 import { formatNumber } from '../format'
 
 const LABELS: Record<string, string> = { skills: 'Vaardigheden', ai_usage: 'AI-gebruik', training: 'Opleiding' }
 
-/** Download links the backend appended to assistant replies, newest first. */
-function documentsIn(messages: ChatMessage[]): string[] {
-  const urls = messages.flatMap((m) =>
-    m.role === 'assistant' ? [...m.content.matchAll(/\/api\/documents\/[0-9a-f-]{36}/g)].map((x) => x[0]) : [],
-  )
-  return [...new Set(urls)].reverse()
+/** Vacancies the agent proposed, newest reply first. */
+function proposedIn(messages: ChatMessage[]): { documentId: string; vacancies: ProposedVacancy[] }[] {
+  return messages.flatMap((m) => (m.role === 'assistant' ? (m.proposed ?? []) : [])).reverse()
 }
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
@@ -29,7 +26,7 @@ export function ChatSidebar({
   overview: Overview | null
   error: string | null
 }) {
-  const documents = documentsIn(messages)
+  const proposed = proposedIn(messages)
 
   return (
     <aside className="space-y-4" aria-label="Overzicht">
@@ -98,15 +95,38 @@ export function ChatSidebar({
         </>
       )}
 
-      <Card title="Vacaturedocumenten">
-        {documents.length === 0 ? (
-          <p className="text-body-sm text-muted-foreground">Nog geen documenten. Stel een vraag in de chat.</p>
+      <Card title="Voorgestelde vacatures">
+        {proposed.length === 0 ? (
+          <p className="text-body-sm text-muted-foreground">
+            Nog geen voorstellen. Vraag Json bijvoorbeeld welke rollen het bedrijf moet aanwerven.
+          </p>
         ) : (
-          <ul className="space-y-2">
-            {documents.map((url, i) => (
-              <li key={url}>
-                <a href={url} download className="text-body-sm text-accent-text underline">
-                  Vacatures (Word) #{documents.length - i}
+          <ul className="space-y-4">
+            {proposed.map((doc, i) => (
+              <li key={doc.documentId} className={i > 0 ? 'opacity-60' : undefined}>
+                {i === 1 && <p className="mb-2 text-caption text-muted-foreground">Eerdere voorstellen</p>}
+                <ul className="divide-y divide-border">
+                  {doc.vacancies.map((v) => (
+                    <li key={v.title} className="py-2 first:pt-0">
+                      <p className="text-body-sm font-medium">{v.title}</p>
+                      <p className="text-caption text-muted-foreground">{v.department}</p>
+                      {i === 0 && <p className="mt-1 text-caption">{v.intro}</p>}
+                      {i === 0 && v.linkedinSearch && (
+                        <details className="mt-1 text-caption">
+                          <summary className="cursor-pointer text-accent-text">LinkedIn-zoekstring</summary>
+                          <code className="mt-1 block break-words rounded-sm bg-muted p-2">{v.linkedinSearch}</code>
+                        </details>
+                      )}
+                      {i === 0 && v.basedOn && v.basedOn.length > 0 && (
+                        <p className="mt-1 text-caption text-muted-foreground">
+                          Gebaseerd op {v.basedOn.length} echte {v.basedOn.length === 1 ? 'vacature' : 'vacatures'}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                <a href={`/api/documents/${doc.documentId}`} download className="text-body-sm text-accent-text underline">
+                  Download vacatureteksten (Word)
                 </a>
               </li>
             ))}

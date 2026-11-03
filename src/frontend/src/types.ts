@@ -104,7 +104,22 @@ export type DashboardWidget =
 
 export type Dashboard = { title: string; widgets: DashboardWidget[] }
 
-export type ChatMessage = { role: 'user' | 'assistant'; content: string; dashboard?: Dashboard }
+/** A vacancy the chat agent wrote for the company (subset of VacancyDraft in src/lib/vacancyDoc.ts). */
+export type ProposedVacancy = {
+  title: string
+  department: string
+  intro: string
+  basedOn?: string[]
+  linkedinSearch?: string
+}
+
+export type ChatMessage = {
+  role: 'user' | 'assistant'
+  content: string
+  dashboard?: Dashboard
+  /** Vacancies proposed in this reply, per Word document. Only sent by the agent backend. */
+  proposed?: { documentId: string; vacancies: ProposedVacancy[] }[]
+}
 
 export type ChatRequest = { messages: { role: 'user' | 'assistant'; content: string }[] }
 

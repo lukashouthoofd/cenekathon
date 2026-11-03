@@ -61,7 +61,7 @@ export function ChatView() {
   }
 
   return (
-    <div className="grid items-start gap-6 lg:grid-cols-[1fr_20rem]">
+    <div className="grid items-start gap-6 lg:grid-cols-[1fr_24rem]">
     <div className="flex min-w-0 flex-col gap-4">
       {DEMO_MODE && !LIVE_CHAT && (
         <p className="text-caption text-caution-text">Demo-modus: gesimuleerde gegevens</p>
