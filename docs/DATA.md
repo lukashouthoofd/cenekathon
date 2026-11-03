@@ -6,13 +6,15 @@
 
 ## Where it is
 
+Aantallen per jaar zijn **na ontdubbeling** (deduplicated; zie `build_summary.py`), niet de ruwe rijen in de bestanden:
+
 ```
-data/vacancies_2021.parquet   ~131 MB   116,927 rows
-data/vacancies_2022.parquet   ~438 MB   319,367 rows
-data/vacancies_2023.parquet   ~497 MB   335,432 rows
-data/vacancies_2024.parquet   ~420 MB   337,222 rows
-data/vacancies_2025.parquet   ~290 MB   266,125 rows
-data/vacancies_2026.parquet   ~253 MB   167,096 rows (to 26 Sep)
+data/vacancies_2021.parquet   ~131 MB   95,298 vacatures (dedup)
+data/vacancies_2022.parquet   ~438 MB   266,701 vacatures (dedup)
+data/vacancies_2023.parquet   ~497 MB   285,505 vacatures (dedup)
+data/vacancies_2024.parquet   ~420 MB   314,874 vacatures (dedup)
+data/vacancies_2025.parquet   ~290 MB   237,436 vacatures (dedup)
+data/vacancies_2026.parquet   ~253 MB   141,207 vacatures (dedup, to 26 Sep)
 ```
 
 `data/` sits at the root of the main checkout (`C:\Users\lukas\cenekathon-starter\data`).

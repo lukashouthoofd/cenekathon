@@ -83,7 +83,7 @@ the human for it — do not invent a problem.
 
 ## Data
 
-The challenge dataset is **1.5M financial-sector job postings** (BE/NL/LU/GB, 2021–2026) in
+The challenge dataset is **1.542.169 ruwe rijen; na ontdubbeling 1.341.284 vacatures (zie build_summary.py)** of financial-sector job postings (BE/NL/LU/GB, 2021–2026) in
 `data/vacancies_<year>.parquet` (2021–2026, ~2 GB total). Columns: `vacancy_id`, `title`, `description`,
 `company`, `date_posted`, `country`, `city`. No labels or skill tags. **Read `docs/DATA.md`
 before touching it** (location in worktrees, caveats, how to query with DuckDB).
