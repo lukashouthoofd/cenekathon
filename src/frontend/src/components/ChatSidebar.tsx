@@ -64,9 +64,11 @@ export function ChatSidebar({
                 <li key={g.ref} className="py-2 first:pt-0 last:pb-0">
                   <p className="text-body-sm font-medium">{g.skill}</p>
                   <p className="text-caption text-muted-foreground">
-                    Markt +{formatNumber(g.growthPct)}% per jaar ·{' '}
+                    {g.growthPct === null ? 'Groei onbekend' : `Markt +${formatNumber(g.growthPct)}% per jaar`} ·{' '}
                     <span className={g.internalPeople === 0 ? 'text-caution-text' : undefined}>
-                      intern {g.internalPeople} {g.internalPeople === 1 ? 'persoon' : 'mensen'}
+                      {g.internalPeople === null
+                        ? 'intern onbekend'
+                        : `intern ${g.internalPeople} ${g.internalPeople === 1 ? 'persoon' : 'mensen'}`}
                     </span>
                   </p>
                 </li>
@@ -82,7 +84,7 @@ export function ChatSidebar({
                   <p className="text-caption text-muted-foreground">
                     AI: {s.aiFeatures} · {s.usedBy}
                   </p>
-                  {s.repetitiveHoursPerWeek > 0 && (
+                  {s.repetitiveHoursPerWeek !== null && s.repetitiveHoursPerWeek > 0 && (
                     <p className="text-caption text-caution-text">
                       {formatNumber(s.repetitiveHoursPerWeek)} u/week repetitief werk bij deze gebruikers
                     </p>
