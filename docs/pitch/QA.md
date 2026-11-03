@@ -1,8 +1,8 @@
 # Likely judge questions, and our answers
 
 > Prepared for the 19:00 pitch. Every answer uses only facts from this repo and the deck.
-> Numbers come from `docs/pitch/index.html`, `docs/FUTURE_TECHWOLF_MODELS.md` (measured
-> figures only) and `docs/PITCH.md`. If a number changes, change it here too.
+> Numbers come from `docs/pitch/index.html`, the measured counts in `data/summary.json`
+> and `docs/PITCH.md`. If a number changes, change it here too.
 
 ## Data
 
@@ -12,7 +12,7 @@ UK, Jan 2021 to Sep 2026 (1.54M raw rows). The licence is for team use only, so 
 `data/` (git-ignored) and is never pushed. Internal bank data is synthetic and labelled as such.
 
 **2. How many vacancies did you actually analyse, and how many were duplicates?**
-Measured: 1,542,169 raw vacancies, 2021–2026, 0 duplicate IDs, 145,608 content duplicates flagged.
+From `data/summary.json`: 1,542,169 raw vacancies, 2021–2026. 200,885 duplicate postings are removed, leaving 1,341,284.
 The deck's headline uses 1.34M after deduplication. Say which one you mean if asked.
 
 **3. How did you deduplicate?**
@@ -35,7 +35,7 @@ say so, and the data notes say the same.
 
 **7. Why not use an LLM for everything?**
 The counts, trends and benchmarks are exact SQL on DuckDB: free, repeatable and explainable.
-Claude only sees about 20 summary numbers per company, never the million rows. That keeps cost low
+Claude only sees the summary file, never the vacancy rows. That keeps cost low
 and keeps the reasoning checkable.
 
 **8. How accurate is the skill tagger?**

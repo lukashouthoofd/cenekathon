@@ -122,7 +122,7 @@
   <div class="a hm" style="left:700px;top:700px;width:500px;font-size:42px">Picks the fix</div>
   <div class="a" style="left:700px;top:770px;width:480px;font-size:29px;line-height:1.4;color:var(--muted)">Train, tool or hire, with the evidence behind the choice.</div>
   <div class="a" style="left:1260px;top:660px;width:500px;height:8px;background:var(--ink)"></div>
-  <div class="a hm" style="left:1260px;top:700px;width:500px;font-size:42px">Hands it off in Slack</div>
+  <div class="a hm" style="left:1260px;top:700px;width:500px;font-size:42px">Previews the hand-off in Slack</div>
   <div class="a" style="left:1260px;top:770px;width:480px;font-size:29px;line-height:1.4;color:var(--muted)">Sends the plan straight to L&amp;D, your engineers or HR.</div>
 </section>
 
@@ -184,7 +184,7 @@
   <svg class="bg" viewBox="0 0 1920 1080" fill="none"><circle cx="140" cy="1080" r="200" stroke="#2F6BFF" stroke-width="4"/></svg>
   <div class="a k" style="left:140px;top:130px;color:var(--blue)">06 — DEMO</div>
   <div class="a h" style="left:136px;top:190px;width:640px;font-size:82px;line-height:1.04;letter-spacing:-.015em">The demo, in 90 seconds.</div>
-  <div class="a" style="left:140px;top:520px;width:640px;font-size:32px;line-height:1.65">1&nbsp;&nbsp;Pick a bank, e.g. [bank]<br>2&nbsp;&nbsp;Json benchmarks its AI skills vs. peers<br>3&nbsp;&nbsp;It names the biggest gap<br>4&nbsp;&nbsp;It picks train, tool or hire, with the cost<br>5&nbsp;&nbsp;It hands off in Slack</div>
+  <div class="a" style="left:140px;top:520px;width:640px;font-size:32px;line-height:1.65">1&nbsp;&nbsp;Pick a bank, e.g. [bank]<br>2&nbsp;&nbsp;Json benchmarks its AI skills vs. peers<br>3&nbsp;&nbsp;It names the biggest gap<br>4&nbsp;&nbsp;It picks train, tool or hire, with the cost<br>5&nbsp;&nbsp;It previews the hand-off in Slack</div>
   <div class="a" style="left:880px;top:150px;width:900px;height:790px;border-radius:28px;background:#fff;border:2px solid var(--line)">
     <div class="a" style="left:54px;top:42px;font-size:28px;font-weight:700">#&nbsp;workforce-insights</div>
     <div class="a" style="left:0;top:102px;width:100%;height:2px;background:var(--line)"></div>
@@ -228,8 +228,8 @@
   <div class="a h center" style="left:1586px;top:489px;width:128px;font-size:48px;color:var(--blue)">5</div>
   <div class="a center" style="left:120px;top:660px;width:300px"><div class="hm" style="font-size:34px">Data sources</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">1.34M deduplicated finance vacancies plus internal company data</div></div>
   <div class="a center" style="left:465px;top:660px;width:300px"><div class="hm" style="font-size:34px">Processing</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Clean, normalise, extract skills, embed</div></div>
-  <div class="a center" style="left:810px;top:660px;width:300px"><div class="hm" style="font-size:34px">Two data stores</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Analytics DB for numbers, vector DB for evidence</div></div>
-  <div class="a center" style="left:1155px;top:660px;width:300px"><div class="hm" style="font-size:34px">Claude agent</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Calls SQL and retrieval tools, reasons, recommends</div></div>
+  <div class="a center" style="left:810px;top:660px;width:300px"><div class="hm" style="font-size:34px">Two data stores</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Analytics DB for numbers; vector DB planned for evidence</div></div>
+  <div class="a center" style="left:1155px;top:660px;width:300px"><div class="hm" style="font-size:34px">Claude agent</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Calls SQL tools, reasons, recommends</div></div>
   <div class="a center" style="left:1500px;top:660px;width:300px"><div class="hm" style="font-size:34px">Actions</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Slack hand-offs to L&amp;D, engineers and HR</div></div>
 </section>
 
@@ -250,7 +250,7 @@
   <div class="a" style="left:1110px;top:300px;width:720px">
     <div class="step" style="height:120px"><span class="num">1</span><span>Clean and deduplicate vacancies</span></div>
     <div class="step" style="height:120px"><span class="num">2</span><span>Normalise company names with GLEIF, tag recruiters as agencies</span></div>
-    <div class="step" style="height:120px"><span class="num">3</span><span>Extract skills, map them to ESCO with JobBERT-v3</span></div>
+    <div class="step" style="height:120px"><span class="num">3</span><span>Extract skills; ESCO mapping with JobBERT-v3 planned</span></div>
     <div class="step" style="height:120px"><span class="num">4</span><span>Jev decision model and small classifiers for yes/no calls</span></div>
     <div class="step" style="height:120px"><span class="num" style="background:var(--mint)">5</span><span>Embeddings for semantic search</span></div>
   </div>
@@ -264,10 +264,10 @@
     <tr><th>STEP</th><th>MODEL</th><th>WHY</th></tr>
     <tr><td>Dedupe, counts, trends, benchmarks</td><td>SQL on Parquet (DuckDB)</td><td><span class="tag" style="background:var(--mintSoft);color:var(--text)">NO AI</span>No AI needed: exact, free, explainable</td></tr>
     <tr><td>Company names and peers</td><td>Rules, fuzzy match and GLEIF; peers by company embeddings</td><td>Recruiters tagged as agencies, not employers</td></tr>
-    <tr><td>Skills and occupations</td><td>JobBERT-v3 embeddings → nearest ESCO label</td><td>Always a valid label; one GPU pass, no tokens</td></tr>
+    <tr><td>Skills and occupations</td><td>Planned: JobBERT-v3 embeddings → nearest ESCO label</td><td>Always a valid label; one GPU pass, no tokens</td></tr>
     <tr><td>Yes/no calls: AI skill? agency?</td><td>Jev decision model, or a small classifier on Claude labels</td><td>Cheap, and gives a probability to act on</td></tr>
-    <tr><td>Cases the cheap model is unsure about</td><td>Gemma 4 on our A100</td><td>No per-token cost; only the unsure share</td></tr>
-    <tr><td>Advice and vacancy drafts</td><td style="color:var(--mint)">Claude</td><td><span class="tag" style="background:var(--blueSoft);color:var(--blue)">LLM</span>Reads ~20 numbers per company, never a million rows</td></tr>
+    <tr><td>Cases the cheap model is unsure about</td><td>Planned: an open model on a GPU</td><td>No per-token cost; only the unsure share</td></tr>
+    <tr><td>Advice and vacancy drafts</td><td style="color:var(--mint)">Claude</td><td><span class="tag" style="background:var(--blueSoft);color:var(--blue)">LLM</span>Reads summary numbers per company, never the vacancy rows</td></tr>
   </table>
 </section>
 
@@ -339,10 +339,10 @@
   <div class="a k" style="left:140px;top:130px;color:var(--blue)">10 — COST &amp; SCALE</div>
   <div class="a h" style="left:136px;top:185px;width:1600px;font-size:76px;line-height:1.04;letter-spacing:-.015em">Cheap per company. Still works at 100×.</div>
   <div class="a h" style="left:130px;top:330px;width:780px;font-size:72px;line-height:1.1;letter-spacing:-.02em;color:var(--amberText)">TODO (team): € figure</div>
-  <div class="a" style="left:140px;top:510px;width:700px;font-size:30px;font-weight:500">per extra company, measured on the demo run</div>
+  <div class="a" style="left:140px;top:510px;width:700px;font-size:30px;font-weight:500">per extra company: estimate, not yet measured</div>
   <div class="a" style="left:140px;top:590px;width:680px;font-size:28px;line-height:1.3">
-    <div style="display:flex;gap:20px;height:90px"><span style="flex:none;width:16px;height:16px;border-radius:50%;background:var(--mint);margin-top:12px"></span><span>Claude only writes the advice: ~20 numbers per company</span></div>
-    <div style="display:flex;gap:20px;height:90px"><span style="flex:none;width:16px;height:16px;border-radius:50%;background:var(--mint);margin-top:12px"></span><span>Bulk work runs on our A100: encoders and Gemma 4, no per-token cost</span></div>
+    <div style="display:flex;gap:20px;height:90px"><span style="flex:none;width:16px;height:16px;border-radius:50%;background:var(--mint);margin-top:12px"></span><span>Claude only writes the advice, from summary numbers</span></div>
+    <div style="display:flex;gap:20px;height:90px"><span style="flex:none;width:16px;height:16px;border-radius:50%;background:var(--mint);margin-top:12px"></span><span>Planned: bulk work on a GPU, with encoders and an open model</span></div>
     <div style="display:flex;gap:20px;height:90px"><span style="flex:none;width:16px;height:16px;border-radius:50%;background:var(--mint);margin-top:12px"></span><span>A cascade: escalate to a bigger model only when unsure</span></div>
   </div>
   <div class="row" style="left:140px;top:900px">
@@ -350,11 +350,11 @@
   </div>
   <div class="a" style="left:960px;top:330px;width:820px;height:640px;border-radius:28px;background:var(--ink);color:#fff">
     <div class="a k" style="left:56px;top:50px;font-size:22px;letter-spacing:.06em;color:var(--mint)">WHAT BREAKS AT 100×, AND OUR FIX</div>
-    <div class="a" style="left:56px;top:110px;width:700px"><div class="hm" style="font-size:30px">LLM cost</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Just costs 100× more, still cents per company</div></div>
+    <div class="a" style="left:56px;top:110px;width:700px"><div class="hm" style="font-size:30px">LLM cost</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Costs grow with volume; per-company cost is an estimate</div></div>
     <div class="a" style="left:56px;top:214px;width:700px"><div class="hm" style="font-size:30px">API rate limits</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Bulk runs locally; Claude only sees summaries</div></div>
     <div class="a" style="left:56px;top:318px;width:700px"><div class="hm" style="font-size:30px">Memory</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">DuckDB streams Parquet, nothing loaded into RAM</div></div>
-    <div class="a" style="left:56px;top:422px;width:700px"><div class="hm" style="font-size:30px">Daily updates</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Cache by ID + content hash, process only new postings</div></div>
-    <div class="a" style="left:56px;top:526px;width:700px"><div class="hm" style="font-size:30px">Checking output</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">An LLM judge on a 1% sample, plus hand checks</div></div>
+    <div class="a" style="left:56px;top:422px;width:700px"><div class="hm" style="font-size:30px">Daily updates</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Planned: cache by ID + content hash, new postings only</div></div>
+    <div class="a" style="left:56px;top:526px;width:700px"><div class="hm" style="font-size:30px">Checking output</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Planned: LLM judge on a 1% sample, plus hand checks</div></div>
   </div>
 </section>
 
@@ -401,7 +401,7 @@
   <div class="a h" style="left:136px;top:190px;font-size:84px;line-height:1.04;letter-spacing:-.015em">Built today. Next up.</div>
   <div class="a" style="left:140px;top:380px;width:90px;height:8px;background:var(--mint)"></div>
   <div class="a hm" style="left:140px;top:410px;font-size:38px">Real in the demo</div>
-  <span class="pill" style="left:140px;top:490px;font-size:20px">Chat answers from the vacancy summary numbers, via the Anthropic API</span>
+  <span class="pill" style="left:140px;top:490px;font-size:20px">Chat answers from the vacancy summary numbers, via the Anthropic API (simulated reply if offline)</span>
   <span class="pill" style="left:140px;top:574px;font-size:20px">Dashboard on the simulated bank Goldman Stanley, from fixtures in demo mode</span>
   <span class="pill" style="left:140px;top:658px;font-size:20px">Refusal of off-topic questions</span>
   <div class="a" style="left:140px;top:708px;width:90px;height:8px;background:var(--ink)"></div>
@@ -438,7 +438,7 @@
   <div class="a k" style="left:140px;top:700px;font-size:22px;color:var(--muted)">DATA WE HAVE · MEASURED</div>
   <div class="a" style="left:140px;top:745px;width:720px;font-size:28px"><span class="h" style="font-size:44px;color:var(--blue);letter-spacing:0">1,542,169</span> vacancies, 2021–2026</div>
   <div class="a" style="left:140px;top:805px;width:720px;font-size:28px"><span class="h" style="font-size:44px;color:var(--blue);letter-spacing:0">439,518</span> distinct job titles</div>
-  <div class="a" style="left:140px;top:865px;width:720px;font-size:28px"><span class="h" style="font-size:44px;color:var(--blue);letter-spacing:0">13,485</span> ESCO skills</div>
+  <div class="a" style="left:140px;top:865px;width:720px;font-size:28px"><span class="h" style="font-size:44px;color:var(--blue);letter-spacing:0">13,485</span> ESCO skills in the reference list</div>
   <div class="a h center" style="left:880px;top:560px;width:160px;font-size:80px;color:var(--blue)">→</div>
   <div class="a" style="left:1060px;top:450px;width:740px;height:480px;border-radius:28px;background:var(--ink);color:#fff">
     <div class="a k" style="left:56px;top:50px;font-size:22px;letter-spacing:.06em;color:var(--mint)">NEXT · POST-MVP</div>
@@ -536,7 +536,7 @@
   <div class="a" style="left:1110px;top:470px;width:760px;color:#fff">
     <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">01</span><div><div class="hm" style="font-size:36px">SQL analytics tools</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Counts, trends and benchmarks via SQL</div></div></div>
     <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">02</span><div><div class="hm" style="font-size:36px">Summary lookup</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Vacancy summary numbers from DuckDB over Parquet; no vector search yet</div></div></div>
-    <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">03</span><div><div class="hm" style="font-size:36px">Action router</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Picks train, tool or hire, and messages the right team</div></div></div>
+    <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">03</span><div><div class="hm" style="font-size:36px">Action router</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Picks train, tool or hire, and drafts the message for the right team</div></div></div>
     <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">04</span><div><div class="hm" style="font-size:36px">Vacancy writer</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Drafts custom vacancies from real market postings</div></div></div>
   </div>
 </section>
@@ -587,7 +587,7 @@
   <div class="a h" style="left:136px;top:190px;width:1640px;font-size:76px;line-height:1.04;letter-spacing:-.015em">Six questions we expect, with honest answers.</div>
   <div class="a" style="left:140px;top:380px;width:780px"><div class="hm" style="font-size:32px">Is the vacancy data real?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">Yes: 1.34M deduplicated finance vacancies, licensed for team use only. Internal bank data is synthetic and labelled as such.</div></div>
   <div class="a" style="left:1000px;top:380px;width:780px"><div class="hm" style="font-size:32px">Are the skill figures verified skills?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">No. They are keyword counts on titles and descriptions, and the chat tells the model to say so.</div></div>
-  <div class="a" style="left:140px;top:610px;width:780px"><div class="hm" style="font-size:32px">Why not just ask an LLM for everything?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">The numbers come from SQL. Claude reads about 20 summary numbers per company, which is cheaper and checkable.</div></div>
+  <div class="a" style="left:140px;top:610px;width:780px"><div class="hm" style="font-size:32px">Why not just ask an LLM for everything?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">The numbers come from SQL. Claude reads summary numbers per company, never the vacancy rows, which keeps it checkable.</div></div>
   <div class="a" style="left:1000px;top:610px;width:780px"><div class="hm" style="font-size:32px">How reliable are the company AI scores?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">They are model inferences from public postings only. We never claim a company's real AI spend. Raw probabilities are kept for audit.</div></div>
   <div class="a" style="left:140px;top:840px;width:780px"><div class="hm" style="font-size:32px">Is it privacy-safe?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">No named individuals. Team-level aggregates only, and synthetic data in the demo.</div></div>
   <div class="a" style="left:1000px;top:840px;width:780px"><div class="hm" style="font-size:32px">What happens after the hackathon?</div><div style="font-size:24px;line-height:1.4;color:var(--muted);margin-top:8px">A pilot on one bank's real HR data. TechWolf models for title and skill mapping are planned, not built yet (slide 13b).</div></div>
