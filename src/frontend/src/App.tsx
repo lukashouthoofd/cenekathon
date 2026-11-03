@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ActionCards } from './components/ActionCards'
 import { EmptyState, ErrorState, LoadingState } from './components/StateMessages'
 import { EvidencePanel, resolveEvidence } from './components/EvidencePanel'
@@ -23,6 +23,7 @@ export default function App() {
 
   const [selectedEvidence, setSelectedEvidence] = useState<string[]>([])
   const [reloadKey, setReloadKey] = useState(0)
+  const planRequest = useRef(0)
   const [tab, setTab] = useState<'dashboard' | 'chat'>('dashboard')
 
   function loadCompanies() {
@@ -44,8 +45,10 @@ export default function App() {
     setReadiness(null)
     setReadinessError(null)
     setReadinessLoading(true)
+    planRequest.current++
     setPlan(null)
     setPlanError(null)
+    setPlanLoading(false)
     setSelectedEvidence([])
     getReadiness(companyId)
       .then((r) => !stale && setReadiness(r))
@@ -61,10 +64,11 @@ export default function App() {
     setPlanLoading(true)
     setPlanError(null)
     setPlan(null)
+    const id = ++planRequest.current
     analyze(companyId)
-      .then(setPlan)
-      .catch((e: unknown) => setPlanError(messageOf(e)))
-      .finally(() => setPlanLoading(false))
+      .then((p) => id === planRequest.current && setPlan(p))
+      .catch((e: unknown) => id === planRequest.current && setPlanError(messageOf(e)))
+      .finally(() => id === planRequest.current && setPlanLoading(false))
   }
 
   const resolved = readiness ? resolveEvidence(selectedEvidence, readiness.evidence) : null

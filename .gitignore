@@ -27,3 +27,7 @@ data/
 # Team documents with data links / large slide decks (keep local)
 *.docx
 *.pdf
+
+# Licensed vacancy data and derived summary (team use only, see data/README.md)
+/data/
+src/backend/summary.json

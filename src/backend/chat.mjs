@@ -47,9 +47,22 @@ Regels:
 ]}}
 \`\`\`
 Gebruik alleen deze twee widgettypes. Geef "bar"-waarden als getal.
+- Elk dashboard-antwoord eindigt met een korte regel die begint met "Advies:" (na het json-blok mag niets staan, dus zet die regel in de zin vóór het blok): één concrete aanbevolen actie, met de reden uit de data (met cijfer). Een dashboard is geen oplossing; sluit af met advies. Baseer het advies alleen op de data en noem trefwoordtellingen geen bewezen skills.
 
 DATA (geaggregeerd uit de vacaturebestanden):
 ${summaryText ?? 'NIET BESCHIKBAAR: draai eerst src/backend/build_summary.py. Zeg aan de gebruiker dat er nog geen cijfers zijn.'}`
+
+const finite = (n) => typeof n === 'number' && Number.isFinite(n)
+const str = (s) => typeof s === 'string' && s.length > 0
+
+// Keeps only well-formed metric/bar widgets; anything else is dropped.
+function validWidget(w) {
+  if (w?.type === 'metric') return str(w.label) && str(w.value)
+  if (w?.type === 'bar') {
+    return str(w.title) && Array.isArray(w.items) && w.items.every((i) => str(i?.label) && finite(i.value))
+  }
+  return false
+}
 
 function validMessages(list) {
   return (
@@ -74,7 +87,10 @@ function parseReply(text) {
   let dashboard
   try {
     const parsed = JSON.parse(last[1])
-    if (parsed?.dashboard && Array.isArray(parsed.dashboard.widgets)) dashboard = parsed.dashboard
+    if (parsed?.dashboard && Array.isArray(parsed.dashboard.widgets)) {
+      const widgets = parsed.dashboard.widgets.filter(validWidget)
+      if (widgets.length > 0) dashboard = { ...parsed.dashboard, widgets }
+    }
   } catch {
     // Not valid JSON: show the reply as plain text.
   }
@@ -92,6 +108,7 @@ async function callClaude(messages) {
       'content-type': 'application/json',
     },
     body: JSON.stringify({ model: MODEL, max_tokens: 1200, system: SYSTEM, messages }),
+    signal: AbortSignal.timeout(30_000),
   })
   if (!res.ok) throw new Error(`Claude-API gaf status ${res.status}.`)
   const data = await res.json()
@@ -119,8 +136,12 @@ export async function handle(method, url, getBody) {
     const reply = parseReply(text)
     return { status: 200, body: { message: { role: 'assistant', ...reply }, mode: 'live' } }
   } catch (e) {
-    return { status: 502, body: { error: e.message || 'Er ging iets mis.' } }
+    if (e?.name === 'TimeoutError') {
+      return { status: 504, body: { error: 'De AI reageerde te traag (time-out). Probeer het opnieuw.' } }
+    }
+    const msg = String(e?.message || 'Er ging iets mis.')
+    return { status: 502, body: { error: env.AI_API_KEY ? msg.split(env.AI_API_KEY).join('***') : msg } }
   }
 }
 
-export { env, MODEL, summaryText }
+export { env, MODEL, summaryText, parseReply, validMessages }

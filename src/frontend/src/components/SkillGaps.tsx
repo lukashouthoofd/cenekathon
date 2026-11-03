@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { SkillGap } from '../types'
 import { EmptyState } from './StateMessages'
 
@@ -11,6 +12,8 @@ export function SkillGaps({
   evidenceCount?: number
   onSelectEvidence?: (evidenceIds: string[]) => void
 }) {
+  const [noEvidenceFor, setNoEvidenceFor] = useState<string | null>(null)
+
   if (gaps.length === 0) return <EmptyState title="Geen skill gaps gevonden" />
 
   const byDept = new Map<string, SkillGap[]>()
@@ -27,7 +30,10 @@ export function SkillGaps({
               <li key={`${g.skillId}-${g.department}`}>
                 <button
                   type="button"
-                  onClick={() => onSelectEvidence?.(g.evidenceIds)}
+                  onClick={() => {
+                    setNoEvidenceFor(g.evidenceIds.length === 0 ? `${g.skillId}-${g.department}` : null)
+                    onSelectEvidence?.(g.evidenceIds)
+                  }}
                   className="w-full px-4 py-3 text-left hover:bg-muted focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
                 >
                   <span className="flex flex-wrap items-baseline justify-between gap-x-4">
@@ -39,6 +45,11 @@ export function SkillGaps({
                     </span>
                   </span>
                   <span className="mt-1 block text-body-sm text-muted-foreground">{g.explanation}</span>
+                  {noEvidenceFor === `${g.skillId}-${g.department}` && (
+                    <span role="status" className="mt-1 block text-body-sm text-caution-text">
+                      Geen bewijs gekoppeld aan deze skill gap.
+                    </span>
+                  )}
                 </button>
               </li>
             ))}
