@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Json — Pitch deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&family=Instrument+Serif:ital@1&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B131F; --ink2:#13213A; --inkLine:#2A416B;
+    --paper:#F4F5F1; --white:#fff; --text:#0E1726; --muted:#5A6475; --line:#D9DCE3;
+    --onDark:#E6EBF2; --onDarkMuted:#ADB8C7;
+    --blue:#2F6BFF; --blueSoft:#DCE6FF; --blueMid:#A9C0FF;
+    --mint:#1FB57F; --mintSoft:#D6F3E7;
+    --amber:#F2A900; --amberSoft:#FFF1CC; --amberText:#995F00;
+    --H:"Space Grotesk",system-ui,sans-serif; --B:"DM Sans",system-ui,sans-serif;
+    --M:"IBM Plex Mono",ui-monospace,monospace; --S:"Instrument Serif",Georgia,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#05080d;overflow:hidden}
+  .stage{position:fixed;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center}
+  .slide{position:absolute;inset:0;overflow:hidden;display:none;color:var(--text);font-family:var(--B)}
+  .slide.on{display:block}
+  .a{position:absolute}
+  svg.bg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .k{font:500 24px var(--M);letter-spacing:.08em}
+  .h{font-family:var(--H);font-weight:700;letter-spacing:-.02em}
+  .hm{font-family:var(--H);font-weight:500}
+  .pill{position:absolute;display:inline-block;border-radius:999px;padding:10px 22px;font:500 22px var(--M);white-space:nowrap}
+  .ph{background:var(--amberSoft);color:var(--amberText)}
+  .row{position:absolute;display:flex;gap:14px}
+  .row .pill{position:static}
+  .center{text-align:center}
+  .hud{position:fixed;right:20px;bottom:14px;font:500 13px var(--M);color:#7d8696;letter-spacing:.06em;user-select:none}
+  @media print{
+    @page{size:1920px 1080px;margin:0}
+    html,body{overflow:visible;background:none}
+    .stage{position:static;transform:none!important}
+    .slide{display:block;position:relative;width:1920px;height:1080px;page-break-after:always;break-after:page}
+    .hud{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+<!-- 1 Title -->
+<section class="slide" style="background:var(--ink)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <rect x="0" y="539" width="1920" height="2" fill="#2A416B"/><rect x="1479" y="0" width="2" height="1080" fill="#2A416B"/>
+    <circle cx="1480" cy="540" r="640" stroke="#2A416B" stroke-width="2"/>
+    <circle cx="1480" cy="540" r="440" stroke="#2A416B" stroke-width="2"/>
+    <circle cx="1480" cy="540" r="250" stroke="#2F6BFF" stroke-width="4"/>
+    <circle cx="1480" cy="540" r="10" fill="#2F6BFF"/>
+    <circle cx="1640" cy="400" r="22" fill="#1FB57F"/><circle cx="1640" cy="400" r="46" stroke="#1FB57F" stroke-width="3"/>
+  </svg>
+  <div class="a k" style="left:140px;top:150px;color:var(--mint)">CENEKATHON 2026 · CENEKA × TECHWOLF</div>
+  <div class="a h" style="left:128px;top:330px;font-size:210px;line-height:1;letter-spacing:-.03em;color:#fff">Json</div>
+  <div class="a" style="left:140px;top:610px;width:980px;font-size:46px;line-height:1.3;color:var(--onDark)">Benchmark your workforce's skills against 1.5 million real job vacancies, and see the evidence behind every answer.</div>
+  <div class="a k" style="left:140px;top:960px;font-size:22px;letter-spacing:.04em;color:var(--onDarkMuted)">Pitch deck v1</div>
+</section>
+
+<!-- 2 Problem -->
+<section class="slide" style="background:var(--paper)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <circle cx="160" cy="1080" r="230" stroke="#2F6BFF" stroke-width="4"/>
+    <circle cx="160" cy="1080" r="120" stroke="#A9C0FF" stroke-width="3"/>
+  </svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">01 — PROBLEM</div>
+  <div class="a h" style="left:136px;top:200px;width:1000px;font-size:100px;line-height:1.02">Workforce decisions are made blind to the market.</div>
+  <div class="a" style="left:140px;top:580px;width:880px;font-size:34px;line-height:1.4;color:var(--muted)">HR knows who they have. The job market shows what's needed. Nobody connects the two.</div>
+  <div class="a" style="left:1220px;top:0;width:700px;height:1080px;background:var(--ink)">
+    <div class="a h" style="left:90px;top:150px;font-size:56px;color:var(--mint)">01</div>
+    <div class="a" style="left:90px;top:230px;width:520px;font-size:34px;font-weight:500;line-height:1.35;color:#fff">Skills data lives in HR systems, with no outside benchmark.</div>
+    <div class="a h" style="left:90px;top:440px;font-size:56px;color:var(--mint)">02</div>
+    <div class="a" style="left:90px;top:520px;width:520px;font-size:34px;font-weight:500;line-height:1.35;color:#fff">Market demand is buried in millions of unstructured job postings.</div>
+    <div class="a h" style="left:90px;top:730px;font-size:56px;color:var(--mint)">03</div>
+    <div class="a" style="left:90px;top:810px;width:520px;font-size:34px;font-weight:500;line-height:1.35;color:#fff">So training, hiring and AI-adoption calls run on gut feel.</div>
+  </div>
+</section>
+
+<!-- 3 The question -->
+<section class="slide" style="background:var(--ink2)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <circle cx="1920" cy="0" r="560" stroke="#2A416B" stroke-width="2"/>
+    <circle cx="1920" cy="0" r="400" stroke="#1FB57F" stroke-width="4"/>
+    <circle cx="1690" cy="230" r="14" fill="#1FB57F"/>
+  </svg>
+  <div class="a k" style="left:210px;top:220px;color:var(--mint)">02 — THE QUESTION</div>
+  <div class="a" style="left:200px;top:300px;width:1400px;font:italic 400 124px/1.05 var(--S);color:#fff">“Which skills is the market hiring for that our people don't have yet?”</div>
+  <div class="a" style="left:210px;top:790px;width:120px;height:6px;background:var(--mint)"></div>
+  <div class="a" style="left:210px;top:830px;width:1300px;font-size:38px;line-height:1.35;color:var(--onDark)">Today that's a consulting project. With Json it's a question in Slack.</div>
+</section>
+
+<!-- 4 Solution -->
+<section class="slide" style="background:#fff">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <circle cx="1760" cy="170" r="100" stroke="#2F6BFF" stroke-width="4"/>
+    <circle cx="1760" cy="170" r="56" stroke="#A9C0FF" stroke-width="3"/>
+    <circle cx="1760" cy="170" r="12" fill="#1FB57F"/>
+  </svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">03 — SOLUTION</div>
+  <div class="a h" style="left:136px;top:200px;width:1460px;font-size:84px;line-height:1.06;letter-spacing:-.015em">An AI analyst that benchmarks your workforce against the job market, and cites its evidence.</div>
+  <div class="a" style="left:140px;top:660px;width:500px;height:8px;background:var(--blue)"></div>
+  <div class="a hm" style="left:140px;top:700px;width:500px;font-size:42px">Ask in plain language</div>
+  <div class="a" style="left:140px;top:770px;width:480px;font-size:29px;line-height:1.4;color:var(--muted)">HR and L&amp;D teams ask in Slack or a simple web app. No dashboards to learn.</div>
+  <div class="a" style="left:700px;top:660px;width:500px;height:8px;background:var(--mint)"></div>
+  <div class="a hm" style="left:700px;top:700px;width:500px;font-size:42px">Answers with numbers</div>
+  <div class="a" style="left:700px;top:770px;width:480px;font-size:29px;line-height:1.4;color:var(--muted)">SQL over 1.5M structured vacancies returns counts, trends and benchmarks.</div>
+  <div class="a" style="left:1260px;top:660px;width:500px;height:8px;background:var(--ink)"></div>
+  <div class="a hm" style="left:1260px;top:700px;width:500px;font-size:42px">Shows the proof</div>
+  <div class="a" style="left:1260px;top:770px;width:480px;font-size:29px;line-height:1.4;color:var(--muted)">Every recommendation links to the real postings and skill evidence behind it.</div>
+</section>
+
+<!-- 5 How it works -->
+<section class="slide" style="background:var(--paper)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <rect x="270" y="518" width="1380" height="4" fill="#D9DCE3"/>
+    <circle cx="1305" cy="520" r="96" stroke="#2F6BFF" stroke-width="3"/>
+    <g stroke="#2F6BFF" stroke-width="3">
+      <circle cx="270" cy="520" r="64" fill="#fff"/><circle cx="615" cy="520" r="64" fill="#fff"/>
+      <circle cx="960" cy="520" r="64" fill="#fff"/><circle cx="1305" cy="520" r="64" fill="#2F6BFF"/>
+      <circle cx="1650" cy="520" r="64" fill="#fff"/>
+    </g>
+  </svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">04 — HOW IT WORKS</div>
+  <div class="a h" style="left:136px;top:195px;width:1700px;font-size:76px;line-height:1.06;letter-spacing:-.015em">From raw postings to cited answers, in five steps.</div>
+  <div class="a h center" style="left:206px;top:489px;width:128px;font-size:48px;color:var(--blue)">1</div>
+  <div class="a h center" style="left:551px;top:489px;width:128px;font-size:48px;color:var(--blue)">2</div>
+  <div class="a h center" style="left:896px;top:489px;width:128px;font-size:48px;color:var(--blue)">3</div>
+  <div class="a h center" style="left:1241px;top:489px;width:128px;font-size:48px;color:#fff">4</div>
+  <div class="a h center" style="left:1586px;top:489px;width:128px;font-size:48px;color:var(--blue)">5</div>
+  <div class="a center" style="left:120px;top:660px;width:300px"><div class="hm" style="font-size:34px">Data sources</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">1.5M job vacancies plus internal company data</div></div>
+  <div class="a center" style="left:465px;top:660px;width:300px"><div class="hm" style="font-size:34px">Processing</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Clean, normalise, extract skills, embed</div></div>
+  <div class="a center" style="left:810px;top:660px;width:300px"><div class="hm" style="font-size:34px">Two data stores</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Analytics DB for numbers, vector DB for evidence</div></div>
+  <div class="a center" style="left:1155px;top:660px;width:300px"><div class="hm" style="font-size:34px">Claude agent</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Calls SQL and retrieval tools, reasons, recommends</div></div>
+  <div class="a center" style="left:1500px;top:660px;width:300px"><div class="hm" style="font-size:34px">Interfaces</div><div style="margin-top:14px;font-size:26px;line-height:1.4;color:var(--muted)">Slack and a minimal web frontend</div></div>
+</section>
+
+<!-- 6 Data foundation -->
+<section class="slide" style="background:#fff">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <rect x="1131" y="320" width="3" height="480" fill="#DCE6FF"/>
+  </svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">05 — DATA FOUNDATION</div>
+  <div class="a h" style="left:124px;top:205px;font-size:300px;line-height:1;letter-spacing:-.04em;color:var(--blue)">1.5M</div>
+  <div class="a" style="left:140px;top:530px;width:760px;font-size:36px;font-weight:500;line-height:1.3">job vacancies: titles, descriptions, dates, companies</div>
+  <div class="a hm" style="left:140px;top:700px;font-size:34px">+ internal company data</div>
+  <div class="row" style="left:140px;top:770px">
+    <span class="pill" style="background:var(--mintSoft);font:500 26px var(--B)">Skills</span>
+    <span class="pill" style="background:var(--mintSoft);font:500 26px var(--B)">Headcount</span>
+    <span class="pill" style="background:var(--mintSoft);font:500 26px var(--B)">AI usage</span>
+    <span class="pill" style="background:var(--mintSoft);font:500 26px var(--B)">Training records</span>
+  </div>
+  <div class="a hm" style="left:1110px;top:200px;font-size:40px">Processing &amp; intelligence</div>
+  <div class="a" style="left:1110px;top:300px;width:720px">
+    <div style="display:flex;gap:36px;height:120px"><span style="flex:none;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font:500 20px/44px var(--M);text-align:center">1</span><span style="font-size:30px;line-height:1.3">Clean and deduplicate vacancies</span></div>
+    <div style="display:flex;gap:36px;height:120px"><span style="flex:none;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font:500 20px/44px var(--M);text-align:center">2</span><span style="font-size:30px;line-height:1.3">Normalise company names and job titles</span></div>
+    <div style="display:flex;gap:36px;height:120px"><span style="flex:none;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font:500 20px/44px var(--M);text-align:center">3</span><span style="font-size:30px;line-height:1.3">Extract and categorise skills</span></div>
+    <div style="display:flex;gap:36px;height:120px"><span style="flex:none;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font:500 20px/44px var(--M);text-align:center">4</span><span style="font-size:30px;line-height:1.3">JEV and small classifiers for structured decisions</span></div>
+    <div style="display:flex;gap:36px;height:120px"><span style="flex:none;width:44px;height:44px;border-radius:50%;background:var(--mint);color:#fff;font:500 20px/44px var(--M);text-align:center">5</span><span style="font-size:30px;line-height:1.3">Embeddings for semantic search</span></div>
+  </div>
+</section>
+
+<!-- 7 Two data stores -->
+<section class="slide" style="background:var(--paper)">
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">06 — TWO COMPLEMENTARY STORES</div>
+  <div class="a h" style="left:136px;top:190px;width:1600px;font-size:84px;line-height:1.04;letter-spacing:-.015em">Numbers need SQL. Evidence needs retrieval.</div>
+  <div class="a" style="left:140px;top:420px;width:900px;height:540px;border-radius:28px;background:var(--blue);overflow:hidden;color:#fff">
+    <svg class="bg" viewBox="0 0 900 540" fill="none"><g stroke="#fff" stroke-opacity=".35" stroke-width="3"><circle cx="900" cy="0" r="220"/><circle cx="900" cy="0" r="130"/></g></svg>
+    <div class="a k" style="left:60px;top:56px;font-size:22px">STRUCTURED DATA</div>
+    <div class="a h" style="left:60px;top:100px;font-size:56px;letter-spacing:0">Analytics database</div>
+    <div class="a" style="left:60px;top:200px;font-size:32px;line-height:1.45">Companies<br>Skills<br>Job counts<br>Trends<br>Benchmarks</div>
+    <div class="a k" style="left:60px;top:470px;font-size:22px;letter-spacing:.04em">SQL / DuckDB</div>
+  </div>
+  <div class="a" style="left:1080px;top:420px;width:700px;height:540px;border-radius:28px;background:#fff;border:3px solid var(--mint)">
+    <div class="a k" style="left:57px;top:53px;font-size:22px;color:var(--mint)">SEMANTIC DATA</div>
+    <div class="a h" style="left:57px;top:97px;font-size:56px;letter-spacing:0">Vector database</div>
+    <div class="a" style="left:57px;top:197px;font-size:32px;line-height:1.45">Vacancy descriptions<br>Skill descriptions<br>Relevant evidence<br>Similar job profiles</div>
+    <div class="a k" style="left:57px;top:467px;font-size:22px;letter-spacing:.04em;color:var(--muted)">Embeddings / vector search</div>
+  </div>
+</section>
+
+<!-- 8 The agent -->
+<section class="slide" style="background:var(--ink)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <circle cx="560" cy="560" r="470" stroke="#2A416B" stroke-width="2"/>
+    <circle cx="560" cy="560" r="330" stroke="#2A416B" stroke-width="2"/>
+    <circle cx="560" cy="560" r="200" stroke="#2F6BFF" stroke-width="4"/>
+    <circle cx="560" cy="560" r="150" fill="#2F6BFF"/>
+    <g fill="#1FB57F"><circle cx="560" cy="230" r="14"/><circle cx="890" cy="560" r="14"/><circle cx="560" cy="890" r="14"/><circle cx="230" cy="560" r="14"/></g>
+  </svg>
+  <div class="a h center" style="left:410px;top:500px;width:300px;font-size:64px;color:#fff;letter-spacing:0">Json</div>
+  <div class="a k center" style="left:410px;top:590px;width:300px;font-size:20px;color:#fff">POWERED BY CLAUDE</div>
+  <div class="a k" style="left:1110px;top:130px;color:var(--mint)">07 — THE AGENT</div>
+  <div class="a h" style="left:1106px;top:180px;width:700px;font-size:60px;line-height:1.08;letter-spacing:-.01em;color:#fff">Small models for structure. Claude for reasoning.</div>
+  <div class="a" style="left:1110px;top:470px;width:760px;color:#fff">
+    <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">01</span><div><div class="hm" style="font-size:36px">SQL analytics tools</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Counts, trends and benchmarks via SQL</div></div></div>
+    <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">02</span><div><div class="hm" style="font-size:36px">RAG retrieval tools</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Pulls matching vacancies and skill evidence</div></div></div>
+    <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">03</span><div><div class="hm" style="font-size:36px">Benchmarking &amp; comparison</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Your company vs. peers and the market</div></div></div>
+    <div style="display:flex;gap:30px;height:135px"><span class="k" style="font-size:22px;color:var(--mint);padding-top:8px">04</span><div><div class="hm" style="font-size:36px">Evidence-based recommendations</div><div style="font-size:26px;color:var(--onDark);margin-top:6px">Every suggestion cites its sources</div></div></div>
+  </div>
+</section>
+
+<!-- 9 Product -->
+<section class="slide" style="background:var(--paper)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none"><circle cx="140" cy="1080" r="200" stroke="#2F6BFF" stroke-width="4"/></svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">08 — PRODUCT</div>
+  <div class="a h" style="left:136px;top:190px;width:640px;font-size:82px;line-height:1.04;letter-spacing:-.015em">Lives where teams already work.</div>
+  <div class="a" style="left:140px;top:600px;width:600px;font-size:32px;line-height:1.4;color:var(--muted)">Ask Json in Slack, or open a minimal web frontend for deeper comparisons.</div>
+  <div class="a" style="left:880px;top:150px;width:900px;height:790px;border-radius:28px;background:#fff;border:2px solid var(--line)">
+    <div class="a" style="left:54px;top:42px;font-size:28px;font-weight:700">#&nbsp;workforce-insights</div>
+    <div class="a" style="left:0;top:102px;width:100%;height:2px;background:var(--line)"></div>
+    <div class="a" style="left:54px;top:148px;width:56px;height:56px;border-radius:50%;background:var(--blueMid)"></div>
+    <div class="a" style="left:130px;top:146px;width:700px">
+      <div style="font-size:26px;font-weight:700">HR Lead</div>
+      <div style="font-size:28px;line-height:1.35;margin-top:6px">Which skills are peer companies hiring for that our data team lacks?</div>
+    </div>
+    <div class="a h center" style="left:54px;top:326px;width:56px;height:56px;border-radius:50%;background:var(--blue);color:#fff;font-size:28px;line-height:56px;letter-spacing:0">J</div>
+    <div class="a" style="left:130px;top:326px;width:700px">
+      <div style="display:flex;align-items:center;gap:14px"><span style="font-size:26px;font-weight:700">Json</span><span class="pill" style="position:static;background:var(--blueSoft);color:var(--blue);font-size:16px;padding:6px 14px">APP</span></div>
+      <div style="font-size:28px;line-height:1.35;margin-top:6px">Top 3 gaps vs. peer vacancies: [skill A], [skill B], [skill C].</div>
+      <div style="font-size:24px;line-height:1.4;margin-top:22px;color:var(--muted)">Based on [N] matching vacancies from the last 12 months. Your team covers [x of y] of the most-requested skills.</div>
+      <div style="display:flex;gap:14px;margin-top:30px">
+        <span class="pill" style="position:static;background:var(--blueSoft);color:var(--blue);font:600 22px var(--B)">View 3 example postings</span>
+        <span class="pill" style="position:static;background:var(--blueSoft);color:var(--blue);font:600 22px var(--B)">See 12-month trend</span>
+      </div>
+    </div>
+    <div class="a" style="left:54px;top:688px;width:788px;height:64px;border-radius:14px;background:var(--paper);padding:16px 24px;font-size:24px;color:var(--muted)">Message #workforce-insights</div>
+  </div>
+  <span class="pill" style="left:1480px;top:118px;background:var(--amber);color:var(--text);font-size:20px">ILLUSTRATIVE MOCK-UP</span>
+</section>
+
+<!-- 10 Use cases -->
+<section class="slide" style="background:#fff">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none"><circle cx="0" cy="1080" r="400" stroke="#DCE6FF" stroke-width="48"/></svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">09 — USE CASES</div>
+  <div class="a h" style="left:136px;top:190px;width:600px;font-size:88px;line-height:1.02;letter-spacing:-.015em">What teams ask Json</div>
+  <div class="a" style="left:860px;top:220px;width:440px"><div style="width:90px;height:8px;background:var(--blue)"></div><div class="hm" style="font-size:40px;margin-top:32px">Skill-gap analysis</div><div style="font-size:30px;line-height:1.4;color:var(--muted);margin-top:18px;width:420px">“Where are we under-skilled versus the market?”</div></div>
+  <div class="a" style="left:1360px;top:220px;width:440px"><div style="width:90px;height:8px;background:var(--mint)"></div><div class="hm" style="font-size:40px;margin-top:32px">Competitor benchmarking</div><div style="font-size:30px;line-height:1.4;color:var(--muted);margin-top:18px;width:420px">“What are companies like us hiring for?”</div></div>
+  <div class="a" style="left:860px;top:600px;width:440px"><div style="width:90px;height:8px;background:var(--mint)"></div><div class="hm" style="font-size:40px;margin-top:32px">AI readiness</div><div style="font-size:30px;line-height:1.4;color:var(--muted);margin-top:18px;width:420px">“Is our AI usage keeping up with demand for AI skills?”</div></div>
+  <div class="a" style="left:1360px;top:600px;width:440px"><div style="width:90px;height:8px;background:var(--blue)"></div><div class="hm" style="font-size:40px;margin-top:32px">Training targeting</div><div style="font-size:30px;line-height:1.4;color:var(--muted);margin-top:18px;width:420px">“Which training would close our biggest gaps?”</div></div>
+</section>
+
+<!-- 11 Market & model -->
+<section class="slide" style="background:var(--paper)">
+  <svg class="bg" viewBox="0 0 1920 1080">
+    <circle cx="1340" cy="580" r="400" fill="#DCE6FF"/>
+    <circle cx="1340" cy="710" r="270" fill="#A9C0FF"/>
+    <circle cx="1340" cy="840" r="140" fill="#2F6BFF"/>
+  </svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">10 — MARKET &amp; BUSINESS MODEL</div>
+  <div class="a h" style="left:136px;top:190px;font-size:84px;line-height:1.04;letter-spacing:-.015em">Who pays, and how.</div>
+  <div class="a hm" style="left:140px;top:400px;font-size:36px">Buyers</div>
+  <div class="a" style="left:140px;top:460px;width:560px;font-size:30px;line-height:1.6">HR &amp; People leaders<br>Learning &amp; Development teams<br>Workforce planning &amp; strategy</div>
+  <div class="a hm" style="left:140px;top:700px;font-size:36px">Model</div>
+  <div class="a" style="left:140px;top:760px;width:620px;font-size:30px;line-height:1.4">SaaS subscription per organisation, tiered by number of employees analysed.</div>
+  <span class="pill ph" style="left:140px;top:900px">[Pricing to validate with pilots]</span>
+  <div class="a center" style="left:1190px;top:230px;width:300px"><div class="h" style="font-size:40px;letter-spacing:0">TAM</div><div class="k" style="font-size:20px;letter-spacing:0;color:var(--amberText);margin-top:4px">[to research]</div></div>
+  <div class="a center" style="left:1190px;top:486px;width:300px"><div class="h" style="font-size:40px;letter-spacing:0">SAM</div><div class="k" style="font-size:20px;letter-spacing:0;color:var(--amberText);margin-top:4px">[to research]</div></div>
+  <div class="a center" style="left:1190px;top:770px;width:300px;color:#fff"><div class="h" style="font-size:40px;letter-spacing:0">SOM</div><div class="k" style="font-size:20px;letter-spacing:0;margin-top:4px">[to research]</div></div>
+</section>
+
+<!-- 12 Competition -->
+<section class="slide" style="background:#fff">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <rect x="1309" y="160" width="2" height="780" fill="#D9DCE3"/><rect x="820" y="549" width="980" height="2" fill="#D9DCE3"/>
+    <g fill="#0B131F"><circle cx="930" cy="770" r="14"/><circle cx="1400" cy="800" r="14"/><circle cx="930" cy="330" r="14"/></g>
+    <circle cx="1600" cy="330" r="60" stroke="#2F6BFF" stroke-width="3"/><circle cx="1600" cy="330" r="26" fill="#2F6BFF"/>
+  </svg>
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">11 — COMPETITION</div>
+  <div class="a h" style="left:136px;top:190px;width:560px;font-size:84px;line-height:1.04;letter-spacing:-.015em">Where Json fits</div>
+  <div class="a" style="left:140px;top:560px;width:540px;font-size:30px;line-height:1.4;color:var(--muted)">Other tools give you either your own data or the market's. Json joins both and answers in plain language, with sources.</div>
+  <span class="pill ph" style="left:140px;top:860px">[Name competitors after research]</span>
+  <div class="a k center" style="left:1010px;top:120px;width:600px;font-size:18px;letter-spacing:.06em;color:var(--muted)">CONVERSATIONAL, WITH EVIDENCE</div>
+  <div class="a k center" style="left:1010px;top:956px;width:600px;font-size:18px;letter-spacing:.06em;color:var(--muted)">STATIC DASHBOARDS</div>
+  <div class="a k" style="left:820px;top:566px;font-size:18px;letter-spacing:.06em;color:var(--muted)">INTERNAL DATA ONLY</div>
+  <div class="a k" style="left:1440px;top:566px;width:360px;text-align:right;font-size:18px;letter-spacing:.06em;color:var(--muted)">INTERNAL + MARKET DATA</div>
+  <div class="a" style="left:960px;top:752px;width:330px;font-size:26px;font-weight:500">HRIS skills modules</div>
+  <div class="a" style="left:1430px;top:782px;width:330px;font-size:26px;font-weight:500;line-height:1.3">Labour-market analytics dashboards</div>
+  <div class="a" style="left:960px;top:312px;width:330px;font-size:26px;font-weight:500">Generic AI chatbots</div>
+  <div class="a h center" style="left:1500px;top:410px;width:200px;font-size:38px;letter-spacing:0;color:var(--blue)">Json</div>
+</section>
+
+<!-- 13 Status & roadmap -->
+<section class="slide" style="background:var(--paper)">
+  <div class="a k" style="left:140px;top:130px;color:var(--blue)">12 — STATUS &amp; ROADMAP</div>
+  <div class="a h" style="left:136px;top:190px;font-size:84px;line-height:1.04;letter-spacing:-.015em">Built today. Next up.</div>
+  <div class="a" style="left:140px;top:380px;width:90px;height:8px;background:var(--mint)"></div>
+  <div class="a hm" style="left:140px;top:410px;font-size:38px">Real in the demo</div>
+  <span class="pill ph" style="left:140px;top:490px">[Fill in: e.g. Slack bot answers a benchmark question]</span>
+  <span class="pill ph" style="left:140px;top:574px">[Fill in: SQL over the vacancy dataset]</span>
+  <span class="pill ph" style="left:140px;top:658px">[Fill in]</span>
+  <div class="a" style="left:140px;top:780px;width:90px;height:8px;background:var(--ink)"></div>
+  <div class="a hm" style="left:140px;top:810px;font-size:38px">Mocked or partial</div>
+  <span class="pill ph" style="left:140px;top:890px">[Fill in: label anything mocked, in the UI too]</span>
+  <div class="a" style="left:1120px;top:0;width:800px;height:1080px;background:var(--ink);overflow:hidden;color:#fff">
+    <svg class="bg" viewBox="0 0 800 1080" fill="none">
+      <circle cx="800" cy="1080" r="320" stroke="#2A416B" stroke-width="2"/><circle cx="800" cy="1080" r="200" stroke="#2F6BFF" stroke-width="4"/>
+      <rect x="121" y="250" width="3" height="560" fill="#2A416B"/>
+      <circle cx="122" cy="262" r="16" fill="#1FB57F"/><circle cx="122" cy="432" r="12" fill="#2F6BFF"/>
+      <circle cx="122" cy="602" r="12" fill="#2F6BFF"/><circle cx="122" cy="772" r="12" fill="#2F6BFF"/>
+    </svg>
+    <div class="a k" style="left:100px;top:150px;font-size:22px;color:var(--mint)">ROADMAP</div>
+    <div class="a" style="left:170px;top:240px;width:520px"><div class="hm" style="font-size:36px">Now</div><div style="font-size:28px;line-height:1.35;color:var(--onDark);margin-top:6px">Hackathon prototype on the 1.5M-vacancy dataset</div></div>
+    <div class="a" style="left:170px;top:410px;width:520px"><div class="hm" style="font-size:36px">Next</div><div style="font-size:28px;line-height:1.35;color:var(--onDark);margin-top:6px">Pilot with one company's internal skills data</div></div>
+    <div class="a" style="left:170px;top:580px;width:520px"><div class="hm" style="font-size:36px">Then</div><div style="font-size:28px;line-height:1.35;color:var(--onDark);margin-top:6px">Live vacancy feed and more markets</div></div>
+    <div class="a" style="left:170px;top:750px;width:520px"><div class="hm" style="font-size:36px">Later</div><div style="font-size:28px;line-height:1.35;color:var(--onDark);margin-top:6px">More interfaces: Teams, HRIS integrations</div></div>
+  </div>
+</section>
+
+<!-- 14 The ask -->
+<section class="slide" style="background:var(--ink)">
+  <svg class="bg" viewBox="0 0 1920 1080" fill="none">
+    <rect x="0" y="819" width="1920" height="2" fill="#2A416B"/><rect x="1559" y="0" width="2" height="1080" fill="#2A416B"/>
+    <circle cx="1560" cy="820" r="560" stroke="#2A416B" stroke-width="2"/>
+    <circle cx="1560" cy="820" r="360" stroke="#2F6BFF" stroke-width="4"/>
+    <circle cx="1560" cy="820" r="10" fill="#2F6BFF"/>
+    <circle cx="1400" cy="640" r="22" fill="#1FB57F"/><circle cx="1400" cy="640" r="46" stroke="#1FB57F" stroke-width="3"/>
+    <circle cx="152" cy="545" r="8" fill="#1FB57F"/><circle cx="152" cy="615" r="8" fill="#1FB57F"/>
+  </svg>
+  <div class="a k" style="left:140px;top:150px;color:var(--mint)">13 — THE ASK</div>
+  <div class="a h" style="left:136px;top:210px;width:1180px;font-size:104px;line-height:1.02;color:#fff">Let's pilot Json on real workforce data.</div>
+  <div class="a" style="left:190px;top:520px;font-size:36px;color:var(--onDark)">One pilot company with internal skills data</div>
+  <div class="a" style="left:190px;top:590px;font-size:36px;color:var(--onDark)">Feedback from HR and L&amp;D leaders</div>
+  <span class="pill" style="left:140px;top:690px;background:var(--amber);color:var(--text)">[Add: prize / partnership ask]</span>
+  <span class="pill" style="left:140px;top:900px;background:var(--ink2);color:var(--amber)">[team email] · [demo URL]</span>
+</section>
+
+</div>
+<div class="hud" id="hud"></div>
+<script>
+  const stage = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')];
+  const hud = document.getElementById('hud');
+  let i = Math.min(Math.max((parseInt(location.hash.slice(1), 10) || 1) - 1, 0), slides.length - 1);
+  function fit() {
+    const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+  }
+  function show(n) {
+    i = Math.min(Math.max(n, 0), slides.length - 1);
+    slides.forEach((el, k) => el.classList.toggle('on', k === i));
+    hud.textContent = `${i + 1} / ${slides.length}  ·  ← →  ·  F fullscreen`;
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  addEventListener('keydown', e => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'f' || e.key === 'F') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  });
+  addEventListener('click', e => show(e.clientX > innerWidth / 2 ? i + 1 : i - 1));
+  addEventListener('resize', fit);
+  fit(); show(i);
+</script>
+</body>
+</html>
