@@ -36,11 +36,14 @@ export default function App() {
       .catch((e: unknown) => setCompaniesError(messageOf(e)))
   }
 
-  useEffect(loadCompanies, [reloadKey])
+  // The company/readiness/analyze endpoints are only served in demo mode.
+  useEffect(() => {
+    if (DEMO_MODE) loadCompanies()
+  }, [reloadKey])
 
   // Reset the plan and load readiness whenever the company changes.
   useEffect(() => {
-    if (!companyId) return
+    if (!DEMO_MODE || !companyId) return
     let stale = false
     setReadiness(null)
     setReadinessError(null)
@@ -103,11 +106,23 @@ export default function App() {
         </div>
       </nav>
 
-      {tab === 'chat' ? (
-        <div className="mx-auto max-w-3xl px-6 py-6">
-          <ChatView />
+      {/* Kept mounted so chat history and any pending request survive tab switches. */}
+      <div className={tab === 'chat' ? 'mx-auto max-w-3xl px-6 py-6' : 'hidden'}>
+        <ChatView />
+      </div>
+
+      {tab === 'dashboard' && !DEMO_MODE && (
+        <div className="mx-auto max-w-6xl px-6 py-6">
+          <section className="rounded-lg border border-border bg-surface p-4">
+            <h2 className="text-heading font-semibold">Dashboard alleen beschikbaar in demomodus</h2>
+            <p className="text-body-sm text-muted-foreground">
+              Dit dashboard toont gesimuleerde gegevens. Zet VITE_DEMO_MODE=true om het te gebruiken. De chat werkt op echte gegevens.
+            </p>
+          </section>
         </div>
-      ) : (
+      )}
+
+      {tab === 'dashboard' && DEMO_MODE && (
       <main className="mx-auto grid max-w-6xl gap-6 px-6 py-6 lg:grid-cols-[1fr_20rem]">
         <div className="min-w-0 space-y-6">
           <section className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-surface p-4">
