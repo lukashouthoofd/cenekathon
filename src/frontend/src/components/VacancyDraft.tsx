@@ -9,7 +9,7 @@ function buildDraft(gap: SkillGap) {
   const intro =
     gap.marketShare === null
       ? 'Het marktaandeel is onbekend'
-      : `Deze functie helpt het team ${gap.name} toe te passen, omdat de markt ${formatPercent(gap.marketShare)} van vergelijkbare vacatures hiervoor vraagt`
+      : `Deze functie helpt het team ${gap.name} toe te passen, omdat de (gesimuleerde) markt ${formatPercent(gap.marketShare)} hiervoor vraagt`
   const coverage =
     gap.internalCoverage === null
       ? 'Intern is nog niet gemeten wie dit kan'
