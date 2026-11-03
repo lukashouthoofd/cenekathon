@@ -9,6 +9,7 @@ Endpoints: POST /search_postings, /similar_titles, /extract_skills, /top_skills,
 Set COMPANY_DB=path/to/company.duckdb (built by company.py) to enable /company_sql, /company_profile, /skill_gap (SYNTHETIC internal data, read-only).
 """
 import os
+import re
 from typing import Optional
 
 import duckdb
@@ -18,6 +19,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 import models
+
+def company_pattern(name):
+    """Regex matching `name` as whole word(s) of company_norm: "ing" hits "ing bank", not "lloyds banking"."""
+    q = " ".join(re.escape(w) for w in name.lower().split())
+    return f"(^|[^a-z0-9]){q}([^a-z0-9]|$)"
+
 
 con = duckdb.connect(os.environ.get("RAG_DB", "rag.duckdb"), read_only=True)
 # SYNTHETIC internal company data (Goldman Stanley, data/synthetic via company.py): read-only, and SQL may not touch files.
@@ -53,7 +60,7 @@ app = FastAPI(title="Vacancy RAG")
 
 class Filters(BaseModel):
     country: Optional[str] = None       # BE, NL, LU, GB
-    company: Optional[str] = None       # case-insensitive substring of company_norm
+    company: Optional[str] = None       # whole word(s) of company_norm, case-insensitive
     year_from: Optional[int] = None     # on year(first_posted), inclusive
     year_to: Optional[int] = None
 
@@ -93,7 +100,7 @@ def search_postings(r: SearchReq):
     if r.country:
         mask &= (CH.country == r.country.strip().upper()).to_numpy()
     if r.company:
-        hit = np.asarray(CH.company_norm.cat.categories.str.contains(r.company.strip().lower(), regex=False))
+        hit = np.asarray(CH.company_norm.cat.categories.str.contains(company_pattern(r.company), regex=True))
         mask &= hit[CH.company_norm.cat.codes.to_numpy()]
     if r.year_from:
         mask &= CH.year.to_numpy() >= r.year_from
@@ -156,8 +163,8 @@ def top_skills(r: TopSkillsReq):
         conds.append("country = ?")
         params.append(r.country.strip().upper())
     if r.company:
-        conds.append("contains(company_norm, ?)")
-        params.append(r.company.strip().lower())
+        conds.append("regexp_matches(company_norm, ?)")
+        params.append(company_pattern(r.company))
     if r.year_from:
         conds.append("year(first_posted) >= ?")
         params.append(r.year_from)

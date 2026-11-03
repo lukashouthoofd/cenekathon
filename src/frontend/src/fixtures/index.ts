@@ -4,7 +4,7 @@ import { emptyAnalyze, emptyReadiness } from './empty'
 
 export const demoCompanies: Company[] = [
   { id: 'demo-bank', name: 'Goldman Stanley', industry: 'Bankwezen', country: 'BE', synthetic: true },
-  { id: 'demo-empty', name: 'Verzekeraar Leeg (demo)', industry: 'Verzekeringen', country: 'BE', synthetic: true },
+  { id: 'demo-empty', name: 'Verzekeraar Noord (demo)', industry: 'Verzekeringen', country: 'BE', synthetic: true },
 ]
 
 export const demoReadiness: Record<string, Readiness> = {

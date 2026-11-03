@@ -2,6 +2,8 @@ services:
   backend:
     build: ./src/backend
     env_file: .env          # read at runtime, never copied into the image
+    volumes:
+      - ./data:/app/data:ro  # summary.json stays out of the image (licensed data)
     restart: unless-stopped
 
   frontend:
