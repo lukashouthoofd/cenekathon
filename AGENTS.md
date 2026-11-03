@@ -128,6 +128,7 @@ scripts/             verify.sh · sync-skills.sh · check-skills.sh
 | `debug-fast` | Anything is broken |
 | `verification-before-done` | Before saying "done", opening a PR, or demoing |
 | `demo-and-pitch` | Last 90 min: demo script, slides, 3-minute pitch |
+| `pitch-deck` | Structuring a full pitch deck (10-slide format + best practices; `.pptx` generator script) — third-party, skills.sh |
 | `repo-polish` | README and repo presentation for judges |
 | `frontend-nextjs-vercel` | Building the web UI with Next.js/React; deploying on Vercel |
 | `ui-polish` | The UI works but looks generic or rough |
