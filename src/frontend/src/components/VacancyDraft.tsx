@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import type { SkillGap } from '../types'
-
-const pct = (v: number) => `${Math.round(v * 100)}%`
+import { formatPercent } from '../format'
 
 type Copy = 'idle' | 'ok' | 'failed'
 
@@ -10,11 +9,11 @@ function buildDraft(gap: SkillGap) {
   const intro =
     gap.marketShare === null
       ? 'Het marktaandeel is onbekend'
-      : `Deze functie helpt het team ${gap.name} toe te passen, omdat de markt ${pct(gap.marketShare)} van vergelijkbare vacatures hiervoor vraagt`
+      : `Deze functie helpt het team ${gap.name} toe te passen, omdat de markt ${formatPercent(gap.marketShare)} van vergelijkbare vacatures hiervoor vraagt`
   const coverage =
     gap.internalCoverage === null
       ? 'Interne dekking is onbekend en moet eerst gemeten worden'
-      : `Intern dekt ${pct(gap.internalCoverage)} van de benodigde skill`
+      : `Intern dekt ${formatPercent(gap.internalCoverage)} van de benodigde skill`
   const bullets = [
     `Wat je doet: ${gap.name} toepassen binnen ${gap.department}`,
     `Wat we vragen: ervaring met ${gap.name}`,

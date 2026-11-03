@@ -78,7 +78,12 @@ export default function App() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border bg-surface px-6 py-4">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
-          <h1 className="text-title font-semibold">AI-readiness</h1>
+          <div className="flex items-center gap-3">
+            <img src="/json-icon.svg" alt="" width="28" height="28" aria-hidden="true" />
+            <h1 className="text-title font-semibold">
+              Json <span className="text-caption font-normal text-muted-foreground">AI-readiness</span>
+            </h1>
+          </div>
           {DEMO_MODE && (
             <span className="rounded-md border border-caution px-2 py-1 text-caption text-caution-text">
               Demomodus: gesimuleerde gegevens

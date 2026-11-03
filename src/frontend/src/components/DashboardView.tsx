@@ -1,4 +1,5 @@
 import type { Dashboard } from '../types'
+import { formatNumber } from '../format'
 
 export function DashboardView({ dashboard }: { dashboard: Dashboard }) {
   return (
@@ -7,13 +8,13 @@ export function DashboardView({ dashboard }: { dashboard: Dashboard }) {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {dashboard.widgets.map((w, i) =>
           w.type === 'metric' ? (
-            <div key={i} className="rounded-lg border border-border bg-surface p-4">
+            <div key={i} className="rounded-md border border-border bg-surface p-4">
               <p className="text-body-sm text-muted-foreground">{w.label}</p>
               <p className="text-metric font-semibold">{w.value}</p>
               {w.note && <p className="text-caption text-muted-foreground">{w.note}</p>}
             </div>
           ) : (
-            <div key={i} className="rounded-lg border border-border bg-surface p-4 sm:col-span-2 lg:col-span-3">
+            <div key={i} className="rounded-md border border-border bg-surface p-4 sm:col-span-2 lg:col-span-3">
               <p className="mb-3 text-body font-medium">{w.title}</p>
               {w.items.length === 0 ? (
                 <p className="text-body-sm text-muted-foreground">Geen gegevens beschikbaar</p>
@@ -41,8 +42,8 @@ function BarRows({ items, unit }: { items: { label: string; value: number }[]; u
               style={{ width: `${max > 0 ? Math.max(0, (item.value / max) * 100) : 0}%` }}
             />
           </span>
-          <span className="text-right text-muted-foreground">
-            {item.value}
+          <span className="text-right text-muted-foreground tabular-nums">
+            {formatNumber(item.value)}
             {unit ? ` ${unit}` : ''}
           </span>
         </li>

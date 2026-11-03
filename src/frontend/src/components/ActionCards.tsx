@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Action, ActionType } from '../types'
 import { EmptyState } from './StateMessages'
 import { SlackPreviewDialog } from './SlackPreviewDialog'
+import { formatNumber } from '../format'
 
 interface Props {
   actions: Action[]
@@ -55,9 +56,9 @@ export function ActionCards({ actions, companyId, summary, limitations, mode }: 
       ) : (
         <ol className="flex flex-col gap-4">
           {sorted.map((a) => (
-            <li key={a.id} className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-4">
+            <li key={a.id} className="flex flex-col gap-3 rounded-md border border-border bg-surface p-4">
               <div className="flex flex-wrap items-center gap-2 text-caption">
-                <span className="rounded-md bg-accent-soft px-2 py-0.5 text-accent-text">Prioriteit {a.rank}</span>
+                <span className="rounded-md bg-accent-soft px-2 py-0.5 text-accent-text tabular-nums">Prioriteit {formatNumber(a.rank)}</span>
                 <span className="text-muted-foreground">{TYPE_LABEL[a.type]}</span>
               </div>
               <h3 className="text-heading font-semibold">{a.title}</h3>

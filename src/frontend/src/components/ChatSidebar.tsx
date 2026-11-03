@@ -1,4 +1,5 @@
 import type { ChatMessage, Overview } from '../types'
+import { formatNumber } from '../format'
 
 const LABELS: Record<string, string> = { skills: 'Vaardigheden', ai_usage: 'AI-gebruik', training: 'Opleiding' }
 
@@ -66,7 +67,7 @@ export function ChatSidebar({
                 <li key={g.ref} className="py-2 first:pt-0 last:pb-0">
                   <p className="text-body-sm font-medium">{g.skill}</p>
                   <p className="text-caption text-muted-foreground">
-                    Markt +{g.growthPct}% per jaar ·{' '}
+                    Markt +{formatNumber(g.growthPct)}% per jaar ·{' '}
                     <span className={g.internalPeople === 0 ? 'text-caution-text' : undefined}>
                       intern {g.internalPeople} {g.internalPeople === 1 ? 'persoon' : 'mensen'}
                     </span>
@@ -86,7 +87,7 @@ export function ChatSidebar({
                   </p>
                   {s.repetitiveHoursPerWeek > 0 && (
                     <p className="text-caption text-caution-text">
-                      {s.repetitiveHoursPerWeek} u/week repetitief werk bij deze gebruikers
+                      {formatNumber(s.repetitiveHoursPerWeek)} u/week repetitief werk bij deze gebruikers
                     </p>
                   )}
                 </li>
