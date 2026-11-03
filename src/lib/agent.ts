@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { byRef, data, search } from './data';
-import { searchVacancies, vacancyTrend } from './vacancies';
-import { saveVacancyDocument, type VacancyDraft } from './vacancyDoc';
+import { byRef, data, search } from './data.ts';
+import { searchVacancies, vacancyTrend } from './vacancies.ts';
+import { saveVacancyDocument, type VacancyDraft } from './vacancyDoc.ts';
 
 export type ChatMessage = { role: 'user' | 'assistant'; content: string };
 /** Vacancies written in one createVacancyDocument call, with the id of their Word document. */
@@ -31,6 +31,9 @@ prijzen of features die niet in de data staan.
 
 De vacaturedatabase bevat echte vacatures van financiële bedrijven in België, Nederland, Luxemburg en het VK (2022 tot september 2026).
 Zoek daarin met vacancyTrend en searchVacancies. Gebruik zoektermen in het Engels, Nederlands én Frans (bv. "RAG", "retrieval", "kennisassistent").
+Gebruik semanticSearch voor vragen over een concept (bv. "kennisassistent", "AI governance") en skillGap voor vragen over skills of readiness van een functie.
+Id's van vacatures uit semanticSearch mogen ook in basedOn van createVacancyDocument.
+Zeg altijd dat de interne bedrijfsdata synthetisch is.
 
 Vraagt de gebruiker een rapport over opleidingen en/of nieuwe aanwervingen, schrijf dan een volledig rapport met deze secties:
 ## Samenvatting
@@ -99,6 +102,34 @@ const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: 'semanticSearch',
+    description: 'Zoekt echte vacatures op betekenis in plaats van trefwoorden, over Engels, Nederlands en Frans heen. Geeft id, titel, bedrijf, datum, land en een fragment terug. Gebruik ze als voorbeeld en bewijs en verwijs naar de vacancy_id (bv. in basedOn). Niet om te tellen: daarvoor is vacancyTrend.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string' },
+        k: { type: 'integer', description: '1-50, standaard 8' },
+        country: { type: 'string', enum: ['BE', 'NL', 'LU', 'GB'] },
+        company: { type: 'string', description: 'Deel van de bedrijfsnaam' },
+        year_from: { type: 'integer' },
+        year_to: { type: 'integer' },
+      },
+      required: ['query'],
+    },
+  },
+  {
+    name: 'skillGap',
+    description: 'Vergelijkt de skills die de markt vraagt in vergelijkbare rollen met de skills die aanwezig zijn bij het (synthetische) Northwind Bank, per functie of functietitel. Geeft kloven en sterktes met marktaandeel, intern aandeel en een voorbeeldvacature als bewijs.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        function: { type: 'string', description: 'Functie of jobfamilie, bv. "Risk" of "Customer Service"' },
+        job_title: { type: 'string', description: 'Eén interne functietitel' },
+        k: { type: 'integer', description: '1-100, standaard 15' },
+      },
+    },
+  },
+  {
     name: 'createVacancyDocument',
     description: 'Maakt een downloadbaar Word-document met vacatureteksten op maat van het bedrijf. Eén keer per antwoord, met alle vacatures.',
     input_schema: {
@@ -129,9 +160,30 @@ const TOOLS: Anthropic.Tool[] = [
   },
 ];
 
-type ToolInput = { query?: string; ref?: string; terms?: string[]; limit?: number; vacancies?: VacancyDraft[] };
+type ToolInput = {
+  query?: string; ref?: string; terms?: string[]; limit?: number; vacancies?: VacancyDraft[];
+  k?: number; country?: string; company?: string; year_from?: number; year_to?: number; function?: string; job_title?: string;
+};
 
-async function runTool(name: string, input: ToolInput, documents: ProposedVacancies[]): Promise<unknown> {
+const RAG_API_URL = process.env.RAG_API_URL ?? 'http://localhost:8100';
+
+/** Calls the data team's RAG API (via SSH tunnel). Never throws, so the agent keeps working without it. */
+async function ragApi(path: string, body: unknown): Promise<unknown> {
+  try {
+    const res = await fetch(`${RAG_API_URL}${path}`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch {
+    return { message: 'Semantische zoekdienst niet bereikbaar; gebruik searchVacancies.' };
+  }
+}
+
+export async function runTool(name: string, input: ToolInput, documents: ProposedVacancies[]): Promise<unknown> {
   if (name === 'createVacancyDocument') {
     const vacancies = input.vacancies ?? [];
     const documentId = await saveVacancyDocument(data.company.name, vacancies);
@@ -145,6 +197,12 @@ async function runTool(name: string, input: ToolInput, documents: ProposedVacanc
   if (name === 'readSource') return byRef(input.ref ?? '') ?? { message: `Geen record "${input.ref}".` };
   if (name === 'vacancyTrend') return vacancyTrend(input.terms ?? []);
   if (name === 'searchVacancies') return searchVacancies(input.terms ?? [], input.limit);
+  if (name === 'semanticSearch') {
+    const { query, k, country, company, year_from, year_to } = input;
+    const hits = await ragApi('/search_postings', { query, k, country, company, year_from, year_to });
+    return Array.isArray(hits) ? hits.map((h) => ({ ...h, text: String(h.text ?? '').slice(0, 600) })) : hits;
+  }
+  if (name === 'skillGap') return ragApi('/skill_gap', { function: input.function, job_title: input.job_title, k: input.k });
   return { message: `Onbekende tool ${name}` };
 }
 
