@@ -1,0 +1,106 @@
+JSON: PITCHTEKST PER DIA
+Deck: https://claude.ai/artifact/MHmwFucCaNeRSvCc4vaNhF
+Totale tijd: ongeveer 3,5 minuten (waarvan 90 seconden live demo).
+Tip: spreek rustig, lees niet voor wat op de dia staat, wijs naar de grote cijfers.
+
+------------------------------------------------------------
+DIA 1: COVER (10 sec)
+------------------------------------------------------------
+"Wie hier weet hoe AI-ready zijn eigen bedrijf is? ... Precies, niemand weet
+het echt. Wij zijn Lukas, Botond, Jev, Salaets en Victor, en we bouwden Json:
+een assistent die vacaturedata vertaalt naar een concreet AI-actieplan."
+
+------------------------------------------------------------
+DIA 2: HET PROBLEEM (20 sec)
+------------------------------------------------------------
+"Banken en verzekeraars investeren volop in AI, maar ze weten niet waar ze
+staan tegenover de markt. Jaarverslagen lopen een jaar achter. Vacatures tonen
+elke dag welke skills concurrenten zoeken, maar niemand legt die naast de eigen
+mensen. En een dashboard toont misschien het gat, maar zegt niet wat je
+maandag moet doen. Vandaag is dat een consultancyproject van weken."
+
+------------------------------------------------------------
+DIA 3: ONZE AANPAK (20 sec)
+------------------------------------------------------------
+"Json legt twee bronnen naast elkaar. Links: 1,34 miljoen echte vacatures uit
+de financiële sector in België, Nederland, Luxemburg en het VK. Dat is wat de
+markt vraagt. Daarnaast de interne data van het bedrijf: skills, opleidingen,
+software en taken per afdeling. Dat is wat je in huis hebt.
+Een Claude-agent zoekt zelf de data op en staaft elke bewering. Het resultaat:
+een readiness-score met uitleg, en drie concrete acties. Gewoon in de chat,
+in Slack, of als vacature in Word."
+
+------------------------------------------------------------
+DIA 4: DRIE SCORES (20 sec)
+------------------------------------------------------------
+"Een voorbeeld. Vandenberg Verzekeringen, een fictief bedrijf van 45 mensen.
+Json geeft drie scores op 100: vaardigheden 34, gebruik van AI 22, opleiding 41.
+Belangrijk: bij elke score staat hoeveel data erachter zit. Lage datadekking
+betekent voorzichtig interpreteren, niet slecht.
+De zwakste plek? Gebruik van AI. Ze betalen al voor Copilot, maar het staat uit."
+
+------------------------------------------------------------
+DIA 5: DE GROOTSTE KLOOF (15 sec)
+------------------------------------------------------------
+"Dit is wat Json als eerste vindt. De vraag naar AI-zoeksystemen groeit met
+85 procent per jaar. Intern heeft niemand die skill. En ondertussen zoekt
+klantenservice 38 uur per week procedures op in de wiki.
+Signaal, interne behoefte en business case: in één beeld."
+
+------------------------------------------------------------
+DIA 6: DRIE ACTIES (25 sec)
+------------------------------------------------------------
+"En dan het verschil met een rapport: Json zegt wat je moet doen, gerangschikt
+op impact, haalbaarheid en bewijs.
+Eén: opleiden. Train twee mensen van klantenservice tot interne AI-coaches.
+Twee: tools. Zet eerst aan wat je al hebt, dus Copilot. Pas als dat niet
+volstaat, bouw je een kennisassistent die antwoordt met bronvermelding.
+Drie: aanwerven, maar alleen waar opleiden niet volstaat. Dan schrijft Json de
+vacature, gebaseerd op echte vacatures, met een LinkedIn-zoekstring erbij.
+Een mens keurt altijd goed. Eerste stap: een pilot in één team."
+
+------------------------------------------------------------
+DIA 7: LIVE DEMO (90 sec)
+------------------------------------------------------------
+"Genoeg slides, we laten het zien."
+→ Overschakelen naar de app.
+Vraag 1: "Hoe AI-ready is ons bedrijf?"
+   Zeggen: "Kijk, hij zoekt zelf in de bedrijfsdata en in de vacatures."
+Vraag 2: "Wat zijn de drie belangrijkste acties?"
+   Zeggen: "Elke actie verwijst naar een cijfer of een echte vacature."
+Vraag 3: "Maak een vacature voor de rol die we missen."
+   → Open het Word-document. Zeggen: "Klaar om door HR na te lezen."
+Optioneel: dezelfde vraag in Slack tonen.
+Back-up als de API traag is: screenshots klaarzetten en die tonen.
+
+------------------------------------------------------------
+DIA 8: HOE HET WERKT (15 sec)
+------------------------------------------------------------
+"Onder de motorkap: een Claude-agent met vier tools. Bedrijfsdata zoeken,
+vacaturetrends tellen, echte vacatures als bewijs ophalen, en vacatures
+schrijven. Het rekenwerk over de vacatures gebeurt in DuckDB; Claude krijgt
+alleen de resultaten. En er zijn grenzen: geen verzonnen cijfers, geen namen
+van personen, vragen buiten het onderwerp worden geweigerd."
+
+------------------------------------------------------------
+DIA 9: ECHT OF GESIMULEERD (15 sec)
+------------------------------------------------------------
+"We zijn eerlijk over wat echt is. De vacatures zijn echt: 1,34 miljoen,
+ontdubbeld. De agent draait live. De interne bedrijfsdata is gesimuleerd,
+want geen bedrijf geeft zijn HR-data voor een hackathon. En een skill in een
+vacature is een trefwoord, geen bewezen vaardigheid. Dat zeggen we er ook bij."
+
+------------------------------------------------------------
+DIA 10: VAN PROTOTYPE NAAR PRODUCT (15 sec)
+------------------------------------------------------------
+"Vandaag hebben we een werkend prototype. De volgende stap is een pilot met de
+echte HR-data van één bank of verzekeraar, met feedback van HR, L&D en IT.
+Daarna pluggen we in waar mensen al werken: HRIS, ATS, Teams.
+En het schaalt: het zware werk zit in de database, niet in het taalmodel."
+
+------------------------------------------------------------
+DIA 11: SLOT (10 sec)
+------------------------------------------------------------
+"Json brengt je van marktsignaal naar eerste stap, in één gesprek.
+We zoeken één bank of verzekeraar die met ons een pilot wil draaien.
+Bedankt. Vragen?"
