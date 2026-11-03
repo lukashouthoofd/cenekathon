@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { byRef, data, search } from './data.ts';
+import { searchKnowledge, type Kind } from './rag.ts';
 import { searchVacancies, vacancyTrend } from './vacancies.ts';
 import { saveVacancyDocument, type VacancyDraft } from './vacancyDoc.ts';
 
@@ -34,6 +35,9 @@ Zoek daarin met vacancyTrend en searchVacancies. Gebruik zoektermen in het Engel
 Gebruik semanticSearch voor vragen over een concept (bv. "kennisassistent", "AI governance") en skillGap voor vragen over skills of readiness van een functie.
 Id's van vacatures uit semanticSearch mogen ook in basedOn van createVacancyDocument.
 Zeg altijd dat de interne bedrijfsdata synthetisch is.
+Met searchKnowledge zoek je in vrije tekst (best passende eerst) in vacatures van 2025-2026, ESCO-skills (officiële skillnamen in EN/NL/FR)
+en AI-blootstelling per beroep (ILO, OpenAI GPTs-are-GPTs, Felten, Anthropic Economic Index). Gebruik het om een skill aan ESCO te koppelen
+en om te tonen hoe sterk een beroep aan AI blootgesteld is. Citeer met de ref uit het resultaat, bv. [esco:...] of [ILO:isco08_4d:2411].
 
 Vraagt de gebruiker een rapport over opleidingen en/of nieuwe aanwervingen, schrijf dan een volledig rapport met deze secties:
 ## Samenvatting
@@ -131,6 +135,19 @@ const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: 'searchKnowledge',
+    description: 'Full-text zoeken (BM25, best passende eerst) in vacatures 2025-2026, ESCO-skills en AI-blootstelling per beroep. Geeft ref, soort, titel, fragment en score terug.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Zoekvraag in gewone woorden, bv. "prompt engineering" of "claims handler"' },
+        kind: { type: 'string', enum: ['vacancy', 'skill', 'ai_exposure'], description: 'Optioneel: zoek in één soort' },
+        limit: { type: 'integer', description: '1-20, standaard 8' },
+      },
+      required: ['query'],
+    },
+  },
+  {
     name: 'skillGap',
     description: 'Vergelijkt de skills die de markt vraagt in vergelijkbare rollen met de skills die aanwezig zijn bij het (synthetische) Northwind Bank, per functie of functietitel. Geeft kloven en sterktes met marktaandeel, intern aandeel en een voorbeeldvacature als bewijs.',
     input_schema: {
@@ -174,7 +191,7 @@ const TOOLS: Anthropic.Tool[] = [
 ];
 
 type ToolInput = {
-  query?: string; ref?: string; terms?: string[]; limit?: number; vacancies?: VacancyDraft[];
+  query?: string; ref?: string; terms?: string[]; limit?: number; kind?: Kind; vacancies?: VacancyDraft[];
   k?: number; country?: string; company?: string; year_from?: number; year_to?: number; function?: string; job_title?: string;
 };
 
@@ -216,6 +233,7 @@ export async function runTool(name: string, input: ToolInput, documents: Propose
     return Array.isArray(hits) ? hits.map((h) => ({ ...h, text: String(h.text ?? '').slice(0, 600) })) : hits;
   }
   if (name === 'skillGap') return ragApi('/skill_gap', { function: input.function, job_title: input.job_title, k: input.k });
+  if (name === 'searchKnowledge') return searchKnowledge(input.query ?? '', input.kind, input.limit);
   return { message: `Onbekende tool ${name}` };
 }
 

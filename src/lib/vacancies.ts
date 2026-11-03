@@ -1,15 +1,20 @@
 import { DuckDBInstance, type DuckDBConnection } from '@duckdb/node-api';
 import { existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 
 // Built by src/data/build_duckdb.py (data team). Not in git: too large.
+// Or a MotherDuck database, e.g. VACANCY_DB_PATH=md:vacancies (reads MOTHERDUCK_TOKEN from the environment).
 const DEFAULT_PATH = process.env.VACANCY_DB_PATH ?? 'src/data/vacancies.duckdb';
 
 const connections = new Map<string, Promise<DuckDBConnection>>();
 
-function connect(path: string): Promise<DuckDBConnection> {
-  if (!existsSync(path)) throw new Error(`Vacaturedatabase niet gevonden (${path}). Vraag het data-team om vacancies.duckdb.`);
+export function connect(path: string): Promise<DuckDBConnection> {
+  const remote = path.startsWith('md:');
+  if (!remote && !existsSync(path)) throw new Error(`Vacaturedatabase niet gevonden (${path}). Vraag het data-team om vacancies.duckdb.`);
   if (!connections.has(path)) {
-    connections.set(path, DuckDBInstance.create(path, { access_mode: 'READ_ONLY' }).then((db) => db.connect()));
+    // MotherDuck downloads its extension into the home directory; on Vercel only the temp dir is writable.
+    const config: Record<string, string> = remote ? { home_directory: tmpdir() } : { access_mode: 'READ_ONLY' };
+    connections.set(path, DuckDBInstance.create(path, config).then((db) => db.connect()));
   }
   return connections.get(path)!;
 }
