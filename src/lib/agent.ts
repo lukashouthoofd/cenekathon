@@ -1,0 +1,112 @@
+import Anthropic from '@anthropic-ai/sdk';
+import { byRef, data, search } from './data';
+import { searchVacancies, vacancyTrend } from './vacancies';
+
+export type ChatMessage = { role: 'user' | 'assistant'; content: string };
+
+const SYSTEM = `Je bent een AI-readiness-adviseur voor het bedrijf "${data.company.name}" (${data.company.employees} medewerkers, fictieve bedrijfsdata).
+Je antwoordt in het Nederlands, kort en concreet, in Markdown.
+Gebruik ALTIJD eerst de tools om gegevens op te zoeken. Steun elke bewering op de data en zet de bron erachter tussen vierkante haken:
+bedrijfsdata als [mt1] of [is2], echte vacatures als [vacature-id].
+Staat iets niet in de data, zeg dat dan eerlijk en verzin niets. Verzin nooit cijfers.
+Scores (0-100): ${JSON.stringify(data.scores)}
+Vraagt men om acties, geef dan precies drie gerangschikte acties (intern opleiden, bestaande software inzetten, interne tool bouwen) met signaal, interne behoefte en eerste stap.
+
+De vacaturedatabase bevat echte vacatures van financiële bedrijven in België, Nederland, Luxemburg en het VK (2022 tot september 2026).
+Zoek daarin met vacancyTrend en searchVacancies. Gebruik zoektermen in het Engels, Nederlands én Frans (bv. "RAG", "retrieval", "kennisassistent").
+
+Vraagt de gebruiker een rapport over opleidingen en/of nieuwe aanwervingen, schrijf dan een volledig rapport met deze secties:
+## Samenvatting
+3 à 4 zinnen: de belangrijkste kloof en wat je aanraadt.
+## Wat de markt vraagt
+Tabel: skill | aandeel vacatures per jaar (vacancyTrend) | trend | voorbeeldvacatures. Doe vacancyTrend voor elke relevante skill.
+## Wat er intern is
+Aanwezige skills, gevolgde opleidingen en software uit de bedrijfsdata.
+## Aanbevolen opleidingen
+Tabel: opleiding | afdeling | voor wie / hoeveel mensen | waarom (marktsignaal + interne kloof) | eerste stap.
+## Nieuwe aanwervingen
+Per rol: functietitel zoals die in vacatures voorkomt, waarom aanwerven beter is dan opleiden (bv. niemand intern heeft de basis), hoeveel, en 1 à 2 voorbeeldvacatures.
+Raad alleen aanwervingen aan als de data dat onderbouwt; anders zeg je dat opleiden volstaat.
+## Beperkingen
+Datadekking, 2026 loopt maar tot september, trefwoorden zijn een benadering, de bedrijfsdata is fictief.`;
+
+const TOOLS: Anthropic.Tool[] = [
+  {
+    name: 'searchData',
+    description: 'Zoekt in de interne bedrijfsdata (skills, opleidingen, software, taken) en marktsamenvattingen op trefwoorden. Geeft records met hun ref terug.',
+    input_schema: { type: 'object', properties: { query: { type: 'string' } }, required: ['query'] },
+  },
+  {
+    name: 'readSource',
+    description: 'Leest één bedrijfsdata-record volledig op basis van zijn ref (bv. "mt1").',
+    input_schema: { type: 'object', properties: { ref: { type: 'string' } }, required: ['ref'] },
+  },
+  {
+    name: 'vacancyTrend',
+    description: 'Telt per jaar hoeveel echte vacatures een van de zoektermen noemen (in titel of beschrijving) en welk aandeel (%) van alle vacatures dat is. Gebruik dit om te zien of de vraag naar een skill groeit.',
+    input_schema: {
+      type: 'object',
+      properties: { terms: { type: 'array', items: { type: 'string' }, description: 'Synoniemen van één skill, max 8' } },
+      required: ['terms'],
+    },
+  },
+  {
+    name: 'searchVacancies',
+    description: 'Geeft de recentste echte vacatures die een van de zoektermen noemen, met id, titel, bedrijf, datum, land en een fragment. Gebruik ze als bewijs en voorbeeld van functietitels.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        terms: { type: 'array', items: { type: 'string' } },
+        limit: { type: 'integer', description: '1-10, standaard 5' },
+      },
+      required: ['terms'],
+    },
+  },
+];
+
+type ToolInput = { query?: string; ref?: string; terms?: string[]; limit?: number };
+
+async function runTool(name: string, input: ToolInput): Promise<unknown> {
+  if (name === 'searchData') {
+    const hits = search(input.query ?? '');
+    return hits.length ? hits : { message: 'Geen resultaten. Probeer andere trefwoorden.' };
+  }
+  if (name === 'readSource') return byRef(input.ref ?? '') ?? { message: `Geen record "${input.ref}".` };
+  if (name === 'vacancyTrend') return vacancyTrend(input.terms ?? []);
+  if (name === 'searchVacancies') return searchVacancies(input.terms ?? [], input.limit);
+  return { message: `Onbekende tool ${name}` };
+}
+
+const MAX_STEPS = 12;
+
+/** Manual tool-use loop against the Claude Messages API. */
+export async function answer(history: ChatMessage[]): Promise<string> {
+  const { AI_API_KEY, AI_MODEL } = process.env;
+  if (!AI_API_KEY || !AI_MODEL) throw new Error('Zet AI_API_KEY en AI_MODEL in .env');
+  const client = new Anthropic({ apiKey: AI_API_KEY });
+
+  const messages: Anthropic.MessageParam[] = [...history];
+  for (let step = 0; step < MAX_STEPS; step++) {
+    const response = await client.messages.create({ model: AI_MODEL, max_tokens: 16000, system: SYSTEM, tools: TOOLS, messages });
+    messages.push({ role: 'assistant', content: response.content });
+
+    const text = response.content.flatMap((b) => (b.type === 'text' ? [b.text] : [])).join('\n');
+    if (response.stop_reason === 'refusal') return 'Ik kan deze vraag niet beantwoorden.';
+    if (response.stop_reason === 'max_tokens') return `${text}\n\n_(Antwoord afgekapt: te lang.)_`;
+    if (response.stop_reason !== 'tool_use') return text;
+
+    const calls = response.content.filter((b): b is Anthropic.ToolUseBlock => b.type === 'tool_use');
+    const results = await Promise.all(
+      calls.map(async (call): Promise<Anthropic.ToolResultBlockParam> => {
+        try {
+          const result = await runTool(call.name, call.input as ToolInput);
+          return { type: 'tool_result', tool_use_id: call.id, content: JSON.stringify(result) };
+        } catch (err) {
+          return { type: 'tool_result', tool_use_id: call.id, content: (err as Error).message, is_error: true };
+        }
+      }),
+    );
+    messages.push({ role: 'user', content: results });
+  }
+  return 'Ik kon de vraag niet afronden binnen het aantal stappen. Probeer een specifiekere vraag.';
+}

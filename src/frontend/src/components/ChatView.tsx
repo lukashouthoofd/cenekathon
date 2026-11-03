@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ApiError, DEMO_MODE, sendChat } from '../api'
 import type { ChatMessage } from '../types'
 import { DashboardView } from './DashboardView'
+import { Markdown } from './Markdown'
 
 export function ChatView() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -57,7 +58,11 @@ export function ChatView() {
                   : 'w-full rounded-lg border border-border bg-surface px-4 py-3 text-body'
               }
             >
-              <p className="whitespace-pre-wrap">{m.content}</p>
+              {m.role === 'assistant' ? (
+                <Markdown text={m.content} />
+              ) : (
+                <p className="whitespace-pre-wrap">{m.content}</p>
+              )}
               {m.dashboard && <DashboardView dashboard={m.dashboard} />}
             </div>
           </div>
