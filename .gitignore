@@ -3,6 +3,10 @@
 .env.*
 !.env.example
 
+# Challenge data (confidential, ~2 GB): see docs/DATA.md
+data/
+*.parquet
+
 # Dependencies
 node_modules/
 .venv/

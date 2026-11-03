@@ -81,6 +81,18 @@ teams of ≤4. We are judged on a **working demo + a clear pitch**, not on code 
 The challenge brief lives in `docs/CHALLENGE.md` (filled in at 13:00). If it is empty, ask
 the human for it — do not invent a problem.
 
+## Data
+
+The challenge dataset is **1.5M financial-sector job postings** (BE/NL/LU/GB, 2021–2026) in
+`data/vacancies_<year>.parquet` (2021–2026, ~2 GB total). Columns: `vacancy_id`, `title`, `description`,
+`company`, `date_posted`, `country`, `city`. No labels or skill tags. **Read `docs/DATA.md`
+before touching it** (location in worktrees, caveats, how to query with DuckDB).
+
+- **Confidential + public repo:** never commit, upload, paste or deploy the raw data or large
+  excerpts. `data/` is git-ignored. Keep it that way.
+- Query with DuckDB straight from Parquet (`FROM 'data/vacancies_*.parquet'`). Don't load all
+  descriptions into memory.
+
 ## Prime directives
 
 1. **Demo first.** Always keep a runnable, deployable `main`. A boring thing that works beats an ambitious thing that doesn't.
@@ -107,7 +119,8 @@ docs/CHALLENGE.md  →  docs/PLAN.md  →  tasks (GitHub issues)  →  branch �
 
 ```
 AGENTS.md            this file (authoritative)
-docs/                CHALLENGE · PLAN · DECISIONS · TEAM · STACK · PITCH · SCHEDULE
+docs/                CHALLENGE · PLAN · DECISIONS · TEAM · STACK · PITCH · SCHEDULE · DATA
+data/                vacancy dataset, Parquet per year (git-ignored, see docs/DATA.md)
 src/                 the product (layout decided in the kickoff)
 .agents/skills/      canonical skills (agent-agnostic, SKILL.md format)
 .agents/roles/       role prompts: architect · builder · reviewer
