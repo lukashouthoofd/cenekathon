@@ -17,7 +17,7 @@ export function demoChatReply(messages: ChatMessage[]): ChatResponse {
             { type: 'metric', label: 'Skill gaps', value: '6', note: 'Gesimuleerde gegevens' },
             {
               type: 'bar',
-              title: 'Vraag naar skills in vacatures (% van vergelijkbare vacatures)',
+              title: 'Gesimuleerde vraag naar skills (%)',
               unit: '%',
               items: [
                 { label: 'Python', value: 41 },
@@ -31,6 +31,18 @@ export function demoChatReply(messages: ChatMessage[]): ChatResponse {
         },
       },
     }
+  }
+  const normalised = last.trim().replace(/[?.]/g, '')
+  const faq: { match: string; reply: string }[] = [
+    { match: 'hoe staat goldman stanley er voor op ai-gebruik', reply: '[Demo] Goldman Stanley scoort 64/100 op AI-gebruik, met 76% datadekking. Dit is gesimuleerd.' },
+    { match: 'welke skills missen we het meest bij goldman stanley', reply: '[Demo] De grootste gaps bij Goldman Stanley zijn prompt engineering / LLM-gebruik (intern bij 4% van de profielen) en modelmonitoring (intern bij 12%). Dit is gesimuleerd.' },
+    { match: 'wat moet hr als eerste doen', reply: '[Demo] Begin met de skill-gap met het grootste verschil tussen markt en intern: stel een pilot van 8 weken op en zet de resultaten in het HR-kanaal na goedkeuring. Dit is een demo-antwoord op gesimuleerde gegevens.' },
+    { match: 'welke vacatures vragen om ai-skills in 2025', reply: '[Demo] In de echte vacaturedata vragen in 2025 de meeste vacatures om Python (7,9%), SQL (6,9%) en cloud (6,6%); AI-regelgeving staat laag (0,06%). Trefwoordtellingen, geen bewezen skills.' },
+    { match: 'hoeveel vacatures noemen python in 2025', reply: '[Demo] Python komt in 2025 in 7,9% van de vacatures voor (trefwoordtelling).' },
+  ]
+  const hit = faq.find((f) => normalised.includes(f.match))
+  if (hit) {
+    return { mode: 'demo', message: { role: 'assistant', content: hit.reply } }
   }
   return {
     mode: 'demo',
