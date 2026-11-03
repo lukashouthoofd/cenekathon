@@ -12,19 +12,19 @@ export function demoChatReply(messages: ChatMessage[]): ChatResponse {
         dashboard: {
           title: 'Goldman Stanley (gesimuleerd)',
           widgets: [
-            { type: 'metric', label: 'Skills-score', value: '58/100', note: 'Gesimuleerde gegevens' },
-            { type: 'metric', label: 'Datadekking', value: '82%', note: 'Gesimuleerde gegevens' },
+            { type: 'metric', label: 'Skills-score', value: '17/100', note: 'Gesimuleerde gegevens' },
+            { type: 'metric', label: 'Datadekking', value: '83%', note: 'Gesimuleerde gegevens' },
             { type: 'metric', label: 'Skill gaps', value: '6', note: 'Gesimuleerde gegevens' },
             {
               type: 'bar',
-              title: 'Gesimuleerde vraag naar skills (%)',
+              title: 'Vacatures met dit trefwoord in 2025 (% van alle vacatures, trefwoordtelling)',
               unit: '%',
               items: [
-                { label: 'Python', value: 41 },
-                { label: 'Modelmonitoring', value: 34 },
-                { label: 'AI Act', value: 29 },
-                { label: 'Prompt engineering', value: 22 },
-                { label: 'Data governance', value: 18 },
+                { label: 'Python', value: 7.9 },
+                { label: 'SQL', value: 6.9 },
+                { label: 'Cloud (AWS/Azure/GCP)', value: 6.6 },
+                { label: 'Prompt engineering / LLM', value: 3.9 },
+                { label: 'Data governance', value: 1.6 },
               ],
             },
           ],

@@ -2,7 +2,9 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { readinessFor, readinessHandle } from './readiness.mjs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { readinessFor, readinessHandle, loadMarketShares } from './readiness.mjs'
 
 const bank = JSON.parse(readFileSync(new URL('./mock/internal-bank.json', import.meta.url), 'utf8'))
 
@@ -39,4 +41,13 @@ test('unknown company gives 404 with Dutch error', () => {
 test('readiness includes softwareGaps array (contract)', () => {
   const r = readinessFor('demo-bank')
   assert.ok(Array.isArray(r.softwareGaps) && r.softwareGaps.length > 0)
+})
+
+test('missing skill_signal.json gives null marketShare and the scores still compute', () => {
+  const missing = join(tmpdir(), `no-skill-signal-${process.pid}.json`)
+  const r = readinessFor('demo-bank', loadMarketShares(missing))
+  assert.ok(r.skillGaps.every((g) => g.marketShare === null))
+  assert.equal(r.scores.find((s) => s.dimension === 'skills').value, null)
+  assert.equal(typeof r.scores.find((s) => s.dimension === 'training').value, 'number')
+  assert.equal(r.scores.length, 3)
 })

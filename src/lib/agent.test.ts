@@ -41,6 +41,38 @@ test('an unreachable RAG API returns the fallback message instead of throwing', 
   assert.deepEqual(await runTool('skill_gap', { job_title: 'Analist' }, []), FALLBACK);
 });
 
+test('a 4xx from the RAG API is reported as bad input, not as "down"', async () => {
+  globalThis.fetch = (async () => new Response('{"detail":"k too big"}', { status: 422 })) as typeof fetch;
+  const res = (await runTool('top_skills', { country: 'BE' }, [])) as { error: string };
+  assert.match(res.error, /HTTP 422/);
+});
+
+test('k is clamped to the RAG API limits', async () => {
+  const bodies: { k?: number }[] = [];
+  globalThis.fetch = (async (_url: string, init: RequestInit) => {
+    bodies.push(JSON.parse(init.body as string));
+    return new Response('[]', { status: 200 });
+  }) as typeof fetch;
+  await runTool('search_postings', { query: 'x', k: 500 }, []);
+  await runTool('top_skills', { k: 999 }, []);
+  await runTool('skill_gap', { function: 'Risk', k: 0 }, []);
+  assert.deepEqual(bodies.map((b) => b.k), [50, 200, 1]);
+});
+
+test('search_postings never throws when both the RAG API and the vacancy DB are unreachable', async () => {
+  globalThis.fetch = (async () => {
+    throw new TypeError('fetch failed');
+  }) as typeof fetch;
+  const prev = process.env.VACANCY_DB_PATH;
+  process.env.VACANCY_DB_PATH = 'does-not-exist.duckdb';
+  try {
+    const res = (await runTool('search_postings', { query: 'kennisassistent voor banken' }, [])) as unknown;
+    assert.ok(res !== undefined);
+  } finally {
+    if (prev === undefined) delete process.env.VACANCY_DB_PATH; else process.env.VACANCY_DB_PATH = prev;
+  }
+});
+
 test('splitSuggestions takes the trailing follow-up line off the reply', () => {
   assert.deepEqual(splitSuggestions('Antwoord.\n\nVervolgvragen: Welke opleiding? | Wie aanwerven? | Welke software?\n'), {
     content: 'Antwoord.',

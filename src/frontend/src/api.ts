@@ -17,6 +17,8 @@ import { demoAnalyze, demoCompanies, demoReadiness, demoSlackPreview } from './f
 export const DEMO_MODE: boolean = import.meta.env.VITE_DEMO_MODE === 'true'
 // The chat backend exists before the dashboard endpoints do: let the chat go live on its own.
 export const LIVE_CHAT: boolean = import.meta.env.VITE_LIVE_CHAT === 'true'
+// Readiness from the RAG API (real vacancy data), even in demo mode. Falls back to the fixture on failure.
+export const LIVE_READINESS: boolean = import.meta.env.VITE_LIVE_READINESS === 'true'
 
 const BASE: string = import.meta.env.VITE_API_BASE ?? ''
 
@@ -58,7 +60,7 @@ function demoLookup<T>(value: T | undefined, what: string): T {
 }
 
 export async function getCompanies(): Promise<Company[]> {
-  if (DEMO_MODE) {
+  if (DEMO_MODE && !LIVE_READINESS) {
     await delay()
     return demoCompanies
   }
@@ -66,6 +68,13 @@ export async function getCompanies(): Promise<Company[]> {
 }
 
 export async function getReadiness(id: string): Promise<Readiness> {
+  if (LIVE_READINESS) {
+    try {
+      return await request<Readiness>(`/api/companies/${encodeURIComponent(id)}/readiness`)
+    } catch {
+      return demoLookup(demoReadiness[id], 'Bedrijf')
+    }
+  }
   if (DEMO_MODE) {
     await delay()
     return demoLookup(demoReadiness[id], 'Bedrijf')
@@ -93,7 +102,12 @@ export async function getSlackPreview(companyId: string, actionId: string): Prom
 /** Null when the chat runs on demo data: there is no backend to ask. */
 export async function getOverview(): Promise<Overview | null> {
   if (DEMO_MODE && !LIVE_CHAT) return null
-  return request<Overview>('/api/overview')
+  // Temporary: without a reachable overview endpoint the sidebar shows its empty state.
+  try {
+    return await request<Overview>('/api/overview')
+  } catch {
+    return null
+  }
 }
 
 export async function sendChat(messages: ChatMessage[]): Promise<ChatResponse> {
@@ -102,5 +116,18 @@ export async function sendChat(messages: ChatMessage[]): Promise<ChatResponse> {
     return demoChatReply(messages)
   }
   const body: ChatRequest = { messages: messages.map(({ role, content }) => ({ role, content })) }
-  return request<ChatResponse>('/api/chat', body)
+  try {
+    return await request<ChatResponse>('/api/chat', body)
+  } catch {
+    // Temporary: the live chat is not reachable, so answer with the labelled simulated reply.
+    // Replace this fallback once the GPU-backed chat is served on /api/chat.
+    const reply = demoChatReply(messages)
+    return {
+      ...reply,
+      message: {
+        ...reply.message,
+        content: `[Gesimuleerd: de live chat is nu niet bereikbaar.]\n\n${reply.message.content}`,
+      },
+    }
+  }
 }

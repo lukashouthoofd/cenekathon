@@ -6,6 +6,7 @@ Env: COMPANY_DB (default company.duckdb), RAG_DB (default rag.duckdb). Both open
 "Active" = hired on or before _meta.as_of (last date in the data) and not exited before it.
 """
 import os
+from datetime import date, timedelta
 from typing import Optional
 
 import duckdb
@@ -153,3 +154,151 @@ def skill_gap(r: GapReq):
         "gaps": [d for d in items if d["gap"] > 0][:r.k],
         "strengths": [d for d in reversed(items) if d["gap"] < 0][:r.k],
     }
+
+
+# ---- GET /readiness: dashboard payload (frontend Readiness type), built once from real market + synthetic internal data.
+READY_FNS = ["FN_RSK", "FN_CSC", "FN_OPS", "FN_FIN", "FN_DAI"]
+GENERIC = ("stakeholder", "communicat", "team", "relationship", "inclusion", "daily operations", "analytically",
+           "solve problems", "personal skills", "training", "microsoft office", "language", "english", "dutch",
+           "french", "german", "rapport", "collaborat")
+AI_DATA = ("data", "artificial", "machine", "analy", "model", "digital", "automat", "technolog", "software",
+           "ict", "cloud", "python", "sql", "statistic", "forecast", "process improvement")
+SUGGEST = {
+    "FN_RSK": "AI-ondersteunde tool voor risicoanalyse en -rapportage",
+    "FN_CSC": "AI-copilot voor klantcontact gekoppeld aan de kennisbank",
+    "FN_OPS": "Workflow-automatisering met AI-documentherkenning",
+    "FN_FIN": "AI-assistent voor financiële analyse en forecasting",
+    "FN_DAI": "Platform voor AI-gestuurde data-analyse en datakwaliteit",
+}
+_ready = None
+
+
+def pct(x):
+    return f"{round(100 * x)}%"
+
+
+def _pick(gaps):
+    """Top 2 non-generic gaps, AI/data-related skills first."""
+    ok = [g for g in gaps if g["market_n_postings"] >= 30 and not any(w in g["skill"].lower() for w in GENERIC)]
+    ai = [g for g in ok if any(w in g["skill"].lower() for w in AI_DATA)]
+    return (ai + [g for g in ok if g not in ai])[:2]
+
+
+def _build():
+    gaps, vac = [], {}
+    for fn in READY_FNS:
+        d = skill_gap(GapReq(function=fn, k=100))
+        if "error" in d:
+            continue
+        name = d["functions"][0]["function"]
+        for g in _pick(d["gaps"]):
+            ev = []
+            if g.get("example_vacancy_id") is not None:
+                vac[str(g["example_vacancy_id"])] = g.get("evidence") or ""
+                ev = [f"vac:{g['example_vacancy_id']}"]
+            gaps.append({
+                "skillId": f"{fn}:{g['skill']}", "name": g["skill"], "department": name,
+                "marketShare": g["market_share"], "internalCoverage": g["internal_share"],
+                "explanation": f"{pct(g['market_share'])} van {d['market_n_postings']} vergelijkbare vacatures "
+                               f"vraagt dit; intern {pct(g['internal_share'])} van {d['n_active_employees']} "
+                               f"actieve medewerkers in {name}.",
+                "evidenceIds": ev})
+
+    with co.cursor() as c:
+        p = {"as_of": AS_OF}
+        q = lambda sql: c.execute(sql, p).fetchall()
+        active = """SELECT e.employee_id, e.department_id AS team, d.parent AS fn FROM employees e
+            JOIN departments d ON d.department_id = e.department_id
+            WHERE e.hire_date <= $as_of AND (e.exit_date IS NULL OR e.exit_date >= $as_of)"""
+        n_act = q(f"SELECT count(*) FROM ({active})")[0][0]
+        # adoption per team = avg daily active AI users (last 90 days) capped at team headcount
+        teams = q(f"""WITH a AS ({active}), hc AS (SELECT team, fn, count(*) n FROM a GROUP BY 1, 2),
+            u AS (SELECT department_id AS team, sum(active_users) / 90.0 users FROM ai_usage_logs
+                  WHERE date > $as_of - INTERVAL 90 DAY GROUP BY 1)
+            SELECT hc.team, hc.fn, hc.n, coalesce(least(u.users, hc.n), 0), u.users IS NOT NULL
+            FROM hc LEFT JOIN u USING (team)""")
+        users = sum(t[3] for t in teams)
+        adoption = users / n_act
+        teams_cov = sum(t[4] for t in teams) / len(teams)
+        trained = q(f"""SELECT count(DISTINCT l.employee_id) FROM learning_records l
+            JOIN courses k ON k.course_id = l.course_id WHERE k.is_ai_related AND NOT k.is_mandatory AND l.status = 'completed'
+            AND l.employee_id IN (SELECT employee_id FROM ({active}))""")[0][0]
+        any_learning = q(f"""SELECT count(DISTINCT employee_id) FROM learning_records
+            WHERE employee_id IN (SELECT employee_id FROM ({active}))""")[0][0]
+        mapped, n_skills = c.execute("SELECT count(DISTINCT skill_name) FILTER (WHERE skill IS NOT NULL), "
+                             "count(DISTINCT skill_name) FROM job_skill_esco").fetchall()[0]
+        fn_names = dict(c.execute("SELECT department_id, name FROM departments WHERE org_level = 2").fetchall())
+        top_uc = {fn: (tool, uc) for fn, tool, uc in q("""SELECT d.parent, arg_max(a.tool, r), arg_max(a.use_case, r)
+            FROM (SELECT department_id, tool, use_case, sum(requests) r FROM ai_usage_logs
+                  WHERE date > $as_of - INTERVAL 90 DAY GROUP BY 1, 2, 3) a
+            JOIN departments d ON d.department_id = a.department_id GROUP BY 1""")}
+    fn_adopt = {}
+    for _, fn, n, u, _ in teams:
+        a = fn_adopt.setdefault(fn, [0, 0.0])
+        a[0] += n
+        a[1] += u
+
+    soft = []
+    for fn in sorted(READY_FNS, key=lambda f: fn_adopt[f][1] / fn_adopt[f][0])[:4]:
+        n, u = fn_adopt[fn]
+        tool, uc = top_uc.get(fn, ("AI-tool", "onbekend"))
+        soft.append({"id": f"sw:{fn}", "department": fn_names[fn],
+                     "need": f"Meer AI-ondersteuning bij '{uc}' (meest gebruikte AI-toepassing, laatste 90 dagen)",
+                     "currentTool": f"Generieke {tool}",
+                     "aiStatus": f"AI-adoptie {pct(u / n)}: gem. {round(u)} dagelijkse AI-gebruikers op {n} medewerkers",
+                     "suggestion": SUGGEST[fn]})
+
+    with rag.cursor() as c:
+        meta = {str(r[0]): r[1:] for r in c.execute(
+            """SELECT vacancy_id, title, company, country, first_posted FROM postings
+               WHERE list_contains(?::VARCHAR[], vacancy_id::VARCHAR)""", [list(vac)]).fetchall()}
+        last = c.execute("SELECT max(first_posted) FROM postings").fetchall()[0][0]
+    evidence = []
+    for v, sent in vac.items():
+        t, comp, ctry, fp = meta.get(v, ("Vacature", "onbekend", "?", ""))
+        evidence.append({"id": f"vac:{v}", "sourceType": "vacancy", "title": f"{t} — {comp} ({ctry}, {fp})",
+                         "excerpt": sent, "synthetic": False})
+    evidence += [
+        {"id": "int:ai_usage", "sourceType": "internal", "synthetic": True, "title": "AI-gebruikslogs (laatste 90 dagen)",
+         "excerpt": f"Gem. {round(users)} dagelijkse AI-gebruikers (per team begrensd op headcount) op {n_act} "
+                    f"actieve medewerkers, tot {AS_OF}."},
+        {"id": "int:training", "sourceType": "internal", "synthetic": True, "title": "Leerhistorie: AI-cursussen",
+         "excerpt": f"{trained} van {n_act} actieve medewerkers rondden minstens één niet-verplichte AI-cursus af "
+                    f"(verplichte AI Literacy-cursus niet meegeteld)."},
+        {"id": "int:skills", "sourceType": "internal", "synthetic": True, "title": "Functiearchitectuur en skills",
+         "excerpt": f"{mapped} van {n_skills} interne skillnamen gekoppeld aan ESCO-skills uit de vacaturedata."},
+    ]
+
+    avg_gap = sum((g["marketShare"] or 0) - (g["internalCoverage"] or 0) for g in gaps) / len(gaps) if gaps else None
+    start = date(last.year - 1, last.month, last.day) + timedelta(days=1)
+    return {
+        "companyId": "demo-bank", "companyName": "Goldman Stanley (gesimuleerd)", "synthetic": True,
+        "period": {"from": str(start), "to": str(last),
+                   "comparisonFrom": str(date(start.year - 1, start.month, start.day)),
+                   "comparisonTo": str(start - timedelta(days=1))},
+        "scores": [
+            {"dimension": "skills", "value": round(100 * (1 - avg_gap)) if avg_gap is not None else None,
+             "coverage": round(mapped / n_skills, 2),
+             "explanation": f"100 × (1 − gemiddelde gap) over {len(gaps)} kernskills in {len(READY_FNS)} functies; "
+                            f"gap = marktaandeel − interne dekking, gemiddeld {pct(avg_gap or 0)}.",
+             "evidenceIds": ["int:skills"] + sorted({e for g in gaps for e in g["evidenceIds"]})},
+            {"dimension": "ai_usage", "value": round(100 * adoption), "coverage": round(teams_cov, 2),
+             "explanation": f"Gem. dagelijkse AI-gebruikers per team (laatste 90 dagen, begrensd op headcount) gedeeld "
+                            f"door actieve medewerkers: {round(users)} / {n_act} = {pct(adoption)}.",
+             "evidenceIds": ["int:ai_usage"]},
+            {"dimension": "training", "value": round(100 * trained / n_act), "coverage": round(any_learning / n_act, 2),
+             "explanation": f"Aandeel actieve medewerkers met minstens één afgeronde niet-verplichte AI-cursus "
+                            f"(verplichte AI Literacy niet meegeteld): "
+                            f"{trained} / {n_act} = {pct(trained / n_act)}.",
+             "evidenceIds": ["int:training"]},
+        ],
+        "skillGaps": gaps, "softwareGaps": soft, "evidence": evidence,
+    }
+
+
+@router.get("/readiness")
+def readiness():
+    global _ready
+    if _ready is None:
+        _ready = _build()
+    return _ready

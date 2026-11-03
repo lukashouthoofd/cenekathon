@@ -59,7 +59,7 @@ export function ActionCards({ actions, companyId, summary, limitations, mode }: 
           {sorted.map((a) => (
             <li key={a.id} className="flex flex-col gap-3 rounded-[12px] border border-border bg-surface p-4">
               <div className="flex flex-wrap items-center gap-2 text-caption">
-                <span className="tabular-nums text-muted-foreground">Volgorde {formatNumber(a.rank)}</span>
+                <span className="tabular-nums text-muted-foreground">Prioriteit {formatNumber(a.rank)}</span>
                 <span className="text-muted-foreground">· {TYPE_LABEL[a.type]}</span>
               </div>
               <h3 className="text-heading font-semibold">{a.title}</h3>

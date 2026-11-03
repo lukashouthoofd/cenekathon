@@ -2,7 +2,8 @@
 .env.*
 !.env.example
 **/.npmrc
-data/
+data/*
+!data/company.json
 **/node_modules/
 **/dist/
 .git
@@ -13,3 +14,14 @@ docs
 *.docx
 *.pdf
 *.md
+node_modules
+.next
+.git
+.env
+.claude
+.agents
+**/*.parquet
+**/*.duckdb
+src/frontend
+src/backend
+src/slackbot

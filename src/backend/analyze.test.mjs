@@ -1,7 +1,7 @@
 // Run: node --test src/backend/analyze.test.mjs
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { analyzeFor, analyzeHandle } from './analyze.mjs'
+import { analyzeFor, analyzeHandle, slackPreviewHandle } from './analyze.mjs'
 import { readinessFor } from './readiness.mjs'
 
 const TYPES = new Set(['training', 'software', 'internal_tool'])
@@ -44,4 +44,13 @@ test('limitations has 2 entries', () => {
 test('analyze route ignores non-matching paths', async () => {
   assert.equal(await analyzeHandle('GET', '/api/analyze', bodyOf({})), null)
   assert.equal(await analyzeHandle('POST', '/api/chat', bodyOf({})), null)
+})
+
+test('slack preview returns text for a known action and 404 otherwise', async () => {
+  const ok = await slackPreviewHandle('POST', '/api/slack/preview', bodyOf({ companyId: 'demo-bank', actionId: 'act-1' }))
+  assert.equal(ok.status, 200)
+  assert.match(ok.body.text, /niet verzonden/)
+  const bad = await slackPreviewHandle('POST', '/api/slack/preview', bodyOf({ companyId: 'demo-bank', actionId: 'act-9' }))
+  assert.equal(bad.status, 404)
+  assert.equal(await slackPreviewHandle('GET', '/api/slack/preview', bodyOf({})), null)
 })
