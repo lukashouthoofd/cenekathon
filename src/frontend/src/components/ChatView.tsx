@@ -58,7 +58,7 @@ export function ChatView() {
       <div className="space-y-4">
         {messages.length === 0 && (
           <p className="text-body text-muted-foreground">
-            Welkom! Stel een vraag of vraag om een dashboard, bijvoorbeeld: maak een dashboard van Bank Vandermeulen.
+            Ik ben Json, de AI-readiness-assistent. Ik beantwoord vragen over vacatures, skills en AI-readiness. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.
           </p>
         )}
         {messages.map((m, i) => {
@@ -73,6 +73,7 @@ export function ChatView() {
                     : 'w-full rounded-lg border border-border bg-surface px-4 py-3 text-body'
                 }
               >
+                {m.role === 'assistant' && <p className="text-caption text-muted-foreground">Json</p>}
                 {body && <p className="whitespace-pre-wrap">{body}</p>}
                 {advice && <AdviceCard text={advice} />}
                 {m.dashboard && <DashboardView dashboard={m.dashboard} />}
@@ -118,7 +119,7 @@ export function ChatView() {
           }}
           rows={2}
           aria-label="Bericht"
-          placeholder="Typ je bericht…"
+          placeholder={messages.length === 0 ? 'Stel Json een vraag…' : 'Typ je bericht…'}
           className="min-w-0 flex-1 resize-none rounded-md border border-border bg-surface px-3 py-2 text-body text-foreground"
         />
         <button

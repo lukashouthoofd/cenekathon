@@ -39,7 +39,12 @@ function check(c, reply) {
       if (!numbersIn(text).some((n) => Math.abs(n - want) <= tol)) fails.push(`expected ~${want.toFixed(c.type === 'percent' ? 1 : 0)} not in reply`)
     }
   }
-  if (c.type === 'dashboard') {
+  if (c.type === 'refuse') {
+    // Heuristic: recipe-like words signal the scope rule was ignored; the reply must say what Json can help with.
+    if (reply.dashboard) fails.push('dashboard in refusal')
+    if (/ingredi[eë]nt|eieren|bloem|stap 1/i.test(text)) fails.push('recipe-like content')
+    if (!/AI-readiness|vacature/i.test(text)) fails.push('refusal does not mention AI-readiness/vacature')
+  } else if (c.type === 'dashboard') {
     if (!reply.dashboard) fails.push('no dashboard')
     if (!/Advies/.test(text)) fails.push('no "Advies" line')
   } else if (reply.dashboard && !/Advies/.test(text)) fails.push('dashboard without "Advies" line')
@@ -70,7 +75,7 @@ for (const c of cases) {
   } else if (fails.length) status = 'INVALID'
   else {
     const exp = c.from ? resolve(c.from) : undefined
-    status = `would send${exp !== undefined ? ` (expects ${exp})` : ''}`
+    status = c.type === 'refuse' ? 'would send (refuse check)' : `would send${exp !== undefined ? ` (expects ${exp})` : ''}`
   }
   if (fails.length) failed++
   console.log(`${c.id?.padEnd(18)} ${status}${fails.length ? ' - ' + fails.join('; ') : ''}`)

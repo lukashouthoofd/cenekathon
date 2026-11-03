@@ -100,7 +100,7 @@ export default function App() {
               onClick={() => setTab(t)}
               className={`rounded-md px-3 py-1.5 text-body ${tab === t ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}
             >
-              {t === 'dashboard' ? 'Dashboard' : 'Chat'}
+              {t === 'dashboard' ? 'Dashboard' : 'Json'}
             </button>
           ))}
         </div>
