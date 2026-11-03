@@ -1,7 +1,13 @@
 .env
 .env.*
 !.env.example
-data/
+# Licensed and large data stays local; only the fictional company file is needed by the Next.js app.
+/data/*
+!/data/company.json
+src/data/
+.venv/
+# Legacy Vite-deploy functions (see vercel.vite.json): they would shadow the Next.js /api routes.
+/api/
 **/node_modules/
 .git
 .claude

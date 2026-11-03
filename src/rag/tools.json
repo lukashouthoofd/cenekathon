@@ -1,0 +1,188 @@
+[
+  {
+    "name": "search_postings",
+    "description": "Semantic search over job postings (BE, NL, LU, GB; deduplicated, so reposts count once). Returns the best-matching text passage per posting with vacancy_id, title, company, country, city, first_posted and a cosine score. Use it for qualitative evidence and concrete examples: how employers describe AI/data roles, which tools or responsibilities they mention, what a competitor is hiring for. Quote or paraphrase the returned text and cite each claim by vacancy_id. Do NOT use it to count or rank things (it returns only k examples); use top_skills for numbers. Data caveats: collection is incomplete for Jan-Apr 2026, so do not read volume trends into that period; `company` may be a recruitment agency rather than the actual employer.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Natural-language description of what to find, any language (e.g. 'machine learning engineer building credit risk models at a bank')."
+        },
+        "k": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 8,
+          "description": "Number of distinct postings to return."
+        },
+        "country": {
+          "type": "string",
+          "enum": [
+            "BE",
+            "NL",
+            "LU",
+            "GB"
+          ],
+          "description": "Only postings from this country."
+        },
+        "company": {
+          "type": "string",
+          "description": "Case-insensitive substring of the normalised company name (lowercase, legal suffixes like N.V./Ltd removed). Use a distinctive fragment, e.g. 'rabobank', 'kbc', 'abn amro'; very short fragments match unrelated companies."
+        },
+        "year_from": {
+          "type": "integer",
+          "description": "Only postings first posted in or after this year."
+        },
+        "year_to": {
+          "type": "integer",
+          "description": "Only postings first posted in or before this year."
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "top_skills",
+    "description": "Counts ESCO skills across all job postings that match the filters and returns the most frequent ones: skill, n_postings (postings mentioning it) and share (fraction of the filtered postings), plus the total number of filtered postings. Use it for quantitative benchmarks: which skills the market or a specific competitor asks for, how common AI/ML skills are in finance roles, or how demand differs between countries or years. Always report the total n_postings alongside shares, and treat small totals (< ~50) as anecdotal. Skills are tagged automatically from posting text (ConTeXT-match against the ESCO taxonomy), so counts are estimates. Data caveats: collection is incomplete for Jan-Apr 2026, so year-over-year comparisons involving 2026 are unreliable; `company` may be a recruitment agency rather than the actual employer.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Case-insensitive substring of the normalised company name (lowercase, legal suffixes removed). Use a distinctive fragment, e.g. 'ing bank', 'belfius'."
+        },
+        "country": {
+          "type": "string",
+          "enum": [
+            "BE",
+            "NL",
+            "LU",
+            "GB"
+          ],
+          "description": "Only postings from this country."
+        },
+        "year_from": {
+          "type": "integer",
+          "description": "Only postings first posted in or after this year."
+        },
+        "year_to": {
+          "type": "integer",
+          "description": "Only postings first posted in or before this year."
+        },
+        "title_contains": {
+          "type": "string",
+          "description": "Case-insensitive substring of the normalised job title, e.g. 'data scientist', 'risk'. Use similar_titles first to find the market's wording."
+        },
+        "k": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 20,
+          "description": "Number of skills to return."
+        }
+      }
+    }
+  },
+  {
+    "name": "similar_titles",
+    "description": "Maps a job title (e.g. an internal title from the client's HR system, in any language) to the most similar job titles used in the market postings, with how many postings use each title and a similarity score. Use it to translate internal job names into market vocabulary before calling top_skills (title_contains) or search_postings, and to find adjacent roles a team could grow into. Titles are normalised (lowercase, bracketed text and 'Company:' prefixes removed). n_postings counts all copies of postings, including reposts; collection is incomplete for Jan-Apr 2026.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The job title to look up, e.g. 'Medewerker Kredietrisico' or 'Senior Quant Analyst'."
+        },
+        "k": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 10,
+          "description": "Number of titles to return."
+        }
+      },
+      "required": [
+        "title"
+      ]
+    }
+  },
+  {
+    "name": "extract_skills",
+    "description": "Tags free text with ESCO skills using the same model and threshold that tagged the market postings, so the result is directly comparable with top_skills. Returns each detected skill with its best score and the sentence that evidences it. Use it on texts the user provides, such as internal job descriptions, employee profiles, CVs or training catalogues, to do gap analyses against the market (compare with top_skills for the same role/country). Input should be full sentences or bullet lines of 3-60 words each; bare comma-separated keyword lists are mostly ignored. The model works best on English text.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "The free text to tag (job description, profile, etc.)."
+        },
+        "threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.48,
+          "description": "Minimum match score. Keep the default (0.48) for comparability with the market data; raise it for fewer, more precise skills."
+        }
+      },
+      "required": [
+        "text"
+      ]
+    }
+  },
+  {
+    "name": "company_sql",
+    "description": "Runs ONE read-only DuckDB SELECT/WITH query over the internal HR and AI-usage data of 'Goldman Stanley (synthetic)', a FICTIONAL bank generated for the demo (every table has is_synthetic = true): always say the internal data is synthetic, never present it as real or as a benchmark. Max 200 rows returned. Period 2023-01-01 to 2026-09-30 (_meta.as_of). Tables: departments(department_id, name, parent, country, org_level 0 group / 1 division / 2 function FN_* / 3 team T_<fn>_<country>); job_architecture(job_id, job_title, job_family, base_title, job_level L1-L5, grade_band, department_id = function FN_*, isco08_code, esco_uri, esco_occupation_label, source_vacancy_count); job_skills(job_id, skill_name, skill_uri, proficiency_level, proficiency_label, skill_category core/emerging, is_ai_related); job_skill_esco(job_id, skill_name, skill, match_score): skill_name mapped to the ESCO label used by top_skills / posting_skills (NULL when no match, e.g. new AI skills); employees(employee_id, job_id, department_id = team, country, grade, hire_date, exit_date, fte; active = exit_date IS NULL or >= as_of); headcount_monthly(month 'YYYY-MM', department_id = team, job_id, country, headcount, fte, hires, exits); ai_usage_logs(date, department_id = team, function_code, tool, model, model_provider, use_case, requests, input_tokens, output_tokens, cost_eur, active_users; daily aggregates, active_users double-counts across rows); model_pricing(model, model_provider, valid_from, list_price_usd_per_1m_input, list_price_usd_per_1m_output, fx_usd_eur, note); courses(course_id, course_title, skill_name, hours, category, is_mandatory, is_ai_related, available_from, provider); learning_records(record_id, employee_id, course_id, course_title, skill_name, start_date, completion_date, status completed/in_progress/overdue/withdrawn, hours); recruiting_records(requisition_id, job_id, department_id = team, country, opened_date, filled_date, status filled/open/on_hold/cancelled, applicants, positions, hires, source_channel, time_to_fill_days); title_map(job_title, market_title_norm, n_postings, score): JobBERT top 5 market titles per internal job_title and base_title; _meta(source, as_of). Team -> function: departments.parent, or job_architecture.department_id for a job. Typical use: aggregate per function (headcount trend, AI adoption and cost, AI-course completion, open roles), then compare with the market via top_skills/search_postings, using title_map or similar_titles for market wording.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "sql": {
+          "type": "string",
+          "description": "A single SELECT or WITH query (no semicolons, no file access)."
+        }
+      },
+      "required": [
+        "sql"
+      ]
+    }
+  },
+  {
+    "name": "company_profile",
+    "description": "Internal workforce snapshot of 'Goldman Stanley (synthetic)'. The company data is SYNTHETIC (a fictional bank generated for the demo; no real employees or real AI spend); always say so when you use it and never present it as real or as a benchmark. As of the last date in the data (as_of): active headcount and FTE by country and grade; AI usage in the last 90 days (requests, tokens, cost_eur, average daily active users per tool and top use cases; active users can double-count people using several tools); share of active employees who completed at least one AI-related course, with completions per AI course; recruiting requisitions by status and the open requisitions. No market data; use skill_gap to compare with the job market.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "function": {
+          "type": "string",
+          "description": "Internal function: name, FN_* code or a distinctive fragment (e.g. 'Risk', 'Customer Service'). Omit for the whole bank. Functions: Customer Service & Contact Centre (FN_CSC), Branch Network & Mortgages (FN_BRM), Corporate & Commercial Banking (FN_CBK), Wealth & Private Banking (FN_WPB), Software Engineering (FN_SWE), Data, Analytics & AI (FN_DAI), Infrastructure & Cloud (FN_INF), Cyber Security (FN_CYB), Change & Transformation (FN_CHG), Banking Operations & Payments (FN_OPS), Risk Management (FN_RSK), Compliance & Financial Crime (FN_CMP), Internal Audit (FN_AUD), Legal (FN_LEG), Finance & Treasury (FN_FIN), Human Resources (FN_HRM), Marketing & Communications (FN_MKT), Executive Office (FN_OFC)."
+        }
+      }
+    }
+  },
+  {
+    "name": "skill_gap",
+    "description": "Compares skills of 'Goldman Stanley (synthetic)' employees (SYNTHETIC, fictional internal data; say so) with real job-market postings for similar roles. Internal skills come from the job architecture (job_skills mapped to ESCO labels; non-ESCO AI skills are left out), so internal_share = share of active employees whose job requires the skill. Internal base titles are mapped to market titles (market_titles, with JobBERT similarity score); market_share = share of those postings tagged with the skill; gap = market_share - internal_share. Returns top gaps (skills to reskill or hire for) with an example vacancy_id and evidence sentence (cite the vacancy_id), and top strengths. Small market_n_postings means a weak signal.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "function": {
+          "type": "string",
+          "description": "Internal function: name, FN_* code or a distinctive fragment (e.g. 'Risk', 'Customer Service'). Omit for the whole bank. Functions: Customer Service & Contact Centre (FN_CSC), Branch Network & Mortgages (FN_BRM), Corporate & Commercial Banking (FN_CBK), Wealth & Private Banking (FN_WPB), Software Engineering (FN_SWE), Data, Analytics & AI (FN_DAI), Infrastructure & Cloud (FN_INF), Cyber Security (FN_CYB), Change & Transformation (FN_CHG), Banking Operations & Payments (FN_OPS), Risk Management (FN_RSK), Compliance & Financial Crime (FN_CMP), Internal Audit (FN_AUD), Legal (FN_LEG), Finance & Treasury (FN_FIN), Human Resources (FN_HRM), Marketing & Communications (FN_MKT), Executive Office (FN_OFC)."
+        },
+        "job_title": {
+          "type": "string",
+          "description": "One internal job title or base title exactly as in job_architecture (e.g. 'Credit Risk Analyst', 'Senior Customer Service Advisor')."
+        },
+        "k": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 15,
+          "description": "Number of gaps and strengths to return."
+        }
+      }
+    }
+  }
+]

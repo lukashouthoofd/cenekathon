@@ -70,5 +70,6 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 Read and follow `AGENTS.md` (repo root) as the single authoritative instruction file.
 Then check `docs/CHALLENGE.md` and `docs/PLAN.md` before proposing or writing code.
+The challenge dataset (1.5M job postings, Parquet) lives in `data/` (git-ignored, never commit it). Read `docs/DATA.md` before using it.
 
 _Guidelines above: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/CLAUDE.md_

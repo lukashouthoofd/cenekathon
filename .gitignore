@@ -3,6 +3,11 @@
 .env.*
 !.env.example
 
+# DuckDB stores (vacancy text, vectors): never commit
+*.duckdb
+*.duckdb.wal
+*.duckdb.tmp
+
 # Dependencies
 node_modules/
 .venv/
@@ -37,3 +42,6 @@ src/backend/summary.json
 # Local IDE settings and external workshop material (not part of the repo)
 .vscode/
 TechWolf*.md
+
+# Vercel CLI link (local only)
+.vercel

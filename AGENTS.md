@@ -81,6 +81,24 @@ teams of ≤4. We are judged on a **working demo + a clear pitch**, not on code 
 The challenge brief lives in `docs/CHALLENGE.md` (filled in at 13:00). If it is empty, ask
 the human for it — do not invent a problem.
 
+## Data
+
+The challenge dataset is **1.542.169 ruwe rijen; na ontdubbeling 1.341.284 vacatures (zie build_summary.py)** of financial-sector job postings (BE/NL/LU/GB, 2021–2026) in
+`data/vacancies_<year>.parquet` (2021–2026, ~2 GB total). Columns: `vacancy_id`, `title`, `description`,
+`company`, `date_posted`, `country`, `city`. No labels or skill tags. **Read `docs/DATA.md`
+before touching it** (location in worktrees, caveats, how to query with DuckDB).
+
+- **Confidential + public repo:** never commit, upload, paste or deploy the raw data or large
+  excerpts. `data/` is git-ignored. Keep it that way.
+- Query with DuckDB straight from Parquet (`FROM 'data/vacancies_*.parquet'`). Don't load all
+  descriptions into memory.
+- **RAG layer:** `src/rag/` (see its README) builds `rag.duckdb` (deduped postings, bge-m3 chunk vectors,
+  JobBERT-v3 title vectors, TechWolf ESCO skills) and `company.duckdb` on the GPU VM (`ssh team19`) with
+  one command (`bash src/rag/run_build.sh <source>`), and serves 7 agent tools (`src/rag/tools.json`) on
+  `localhost:8000` there. Tunnel with `ssh -N -L 8100:localhost:8000 team19` (8000 is the team backend locally).
+- **Internal company data is SYNTHETIC:** the team's fictional Goldman Stanley in `data/synthetic/` (see its
+  README), loaded into `company.duckdb` by `src/rag/company.py`. Always label it as synthetic in the UI and the pitch.
+
 ## Prime directives
 
 1. **Demo first.** Always keep a runnable, deployable `main`. A boring thing that works beats an ambitious thing that doesn't.
@@ -107,8 +125,9 @@ docs/CHALLENGE.md  →  docs/PLAN.md  →  tasks (GitHub issues)  →  branch �
 
 ```
 AGENTS.md            this file (authoritative)
-docs/                CHALLENGE · PLAN · DECISIONS · TEAM · STACK · PITCH · SCHEDULE
-src/                 the product (layout decided in the kickoff)
+docs/                CHALLENGE · PLAN · DECISIONS · TEAM · STACK · PITCH · SCHEDULE · DATA
+data/                vacancy dataset, Parquet per year (git-ignored, see docs/DATA.md)
+src/                 the product: rag/ (vectors, skills, search API, synthetic company layer)
 .agents/skills/      canonical skills (agent-agnostic, SKILL.md format)
 .agents/roles/       role prompts: architect · builder · reviewer
 .claude/skills/      generated mirror for Claude Code — run scripts/sync-skills.sh
