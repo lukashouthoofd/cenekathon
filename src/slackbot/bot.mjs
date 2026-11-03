@@ -22,6 +22,11 @@ const MAX_CHARS = 2000
 const ERROR_TEXT = 'Json kon het antwoord nu niet ophalen. Probeer het later opnieuw.'
 export const WELCOME_TEXT =
   "Hoi, ik ben Json. Ik beantwoord vragen over AI-readiness en vacatures bij financiële bedrijven. De bedrijfscijfers zijn gesimuleerd. Typ 'hulp' voor voorbeeldvragen, of stel gewoon je vraag."
+export const CHANNEL_WELCOME_TEXT = [
+  'Hoi, ik ben Json. Ik help HR met vragen over AI-readiness en vacatures bij financiële bedrijven. De bedrijfscijfers zijn gesimuleerd.',
+  "Wat ik hier doe: als je me vraagt om skill-gaps of vacatures naar HR te sturen, plaats ik eerst een voorstel met de knoppen 'Verstuur' en 'Annuleer'. Pas na een klik op 'Verstuur' komt er iets in dit kanaal.",
+  "Typ 'hulp' voor voorbeeldvragen.",
+].join('\n\n')
 export const HELP_TEXT = [
   "Voorbeeldvragen (typ 'hulp' om deze lijst weer te zien):",
   '- Welke skills missen we het meest bij Bank Vandermeulen?',
@@ -238,6 +243,18 @@ async function decide({ ack, action, body, client }, approve) {
   })
 }
 
+export function isBotJoin({ eventUser, botUserId }) {
+  return Boolean(eventUser) && eventUser === botUserId
+}
+
+const seenChannels = new Set() // kanalen waar het welkom al is geplaatst, in geheugen
+
+export function shouldPostChannelWelcome(channelId, seenSet) {
+  if (seenSet.has(channelId)) return false
+  seenSet.add(channelId)
+  return true
+}
+
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const APP_TOKEN = process.env.SLACK_APP_TOKEN
   const BOT_TOKEN = process.env.SLACK_BOT_TOKEN
@@ -271,6 +288,14 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
       await say({ text: WELCOME_TEXT, thread_ts: threadTs })
     }
     await handle((event.text || '').trim(), threadTs, say)
+  })
+
+  let botUserId
+  app.event('member_joined_channel', async ({ event, client }) => {
+    if (!botUserId) botUserId = (await client.auth.test()).user_id
+    if (!isBotJoin({ eventUser: event.user, botUserId })) return
+    if (!shouldPostChannelWelcome(event.channel, seenChannels)) return
+    await client.chat.postMessage({ channel: event.channel, text: CHANNEL_WELCOME_TEXT })
   })
 
   app.action('approve_send', (args) => decide(args, true))
