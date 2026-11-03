@@ -71,7 +71,7 @@ Sentences in more than 20 postings (`--max-sentence-postings`) are skipped as bo
 ```bash
 ssh -N -L 8100:localhost:8000 team19     # 8100 locally: the team backend already uses 8000
 curl localhost:8100/health               # agent base URL: http://localhost:8100
-ssh team19 'bash ~/rag/smoke_test.sh rag.duckdb'   # (re)starts the API and calls every endpoint
+ssh team19 'bash ~/rag_live/smoke_test.sh 8000'   # calls every endpoint of the running API (no restart)
 ```
 
 The API binds to localhost only (confidential data). Don't expose it. Forward each tool call to

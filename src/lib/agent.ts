@@ -211,6 +211,8 @@ type ToolInput = {
   k?: number; country?: string; company?: string; year_from?: number; year_to?: number; function?: string; job_title?: string; title_contains?: string;
 };
 
+const clamp = (k: number | undefined, max: number) => (k === undefined ? undefined : Math.min(Math.max(1, k), max));
+
 const RAG_DOWN = { message: 'RAG-API niet bereikbaar; gebruik searchVacancies en vacancyTrend.' };
 
 /** Calls the data team's RAG API (via SSH tunnel). Never throws, so the agent keeps working without it. */
@@ -222,6 +224,7 @@ async function ragApi(path: string, body: unknown): Promise<unknown> {
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(20000),
     });
+    if (res.status >= 400 && res.status < 500) return { error: `RAG-API weigerde de invoer (HTTP ${res.status}): ${(await res.text()).slice(0, 300)}` };
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch {
@@ -245,19 +248,23 @@ export async function runTool(name: string, input: ToolInput, documents: Propose
   if (name === 'searchVacancies') return searchVacancies(input.terms ?? [], input.limit);
   if (name === 'search_postings') {
     const { query, k, country, company, year_from, year_to } = input;
-    const hits = await ragApi('/search_postings', { query, k, country, company, year_from, year_to });
+    const hits = await ragApi('/search_postings', { query, k: clamp(k, 50), country, company, year_from, year_to });
     if (hits === RAG_DOWN) {
       // Keyword fallback: the longer words of the query as search terms.
       const terms = (query ?? '').split(/\s+/).filter((w) => w.length > 3).slice(0, 8);
-      return searchVacancies(terms.length ? terms : [query ?? ''], Math.min(k ?? 5, 10));
+      try {
+        return await searchVacancies(terms.length ? terms : [query ?? ''], Math.min(k ?? 5, 10));
+      } catch {
+        return { message: 'RAG-API en vacaturedatabase niet bereikbaar; antwoord zonder vacaturebewijs en zeg dat.' };
+      }
     }
     return Array.isArray(hits) ? hits.map((h) => ({ ...h, text: String(h.text ?? '').slice(0, 600) })) : hits;
   }
   if (name === 'top_skills') {
     const { company, country, year_from, year_to, title_contains, k } = input;
-    return ragApi('/top_skills', { company, country, year_from, year_to, title_contains, k });
+    return ragApi('/top_skills', { company, country, year_from, year_to, title_contains, k: clamp(k, 200) });
   }
-  if (name === 'skill_gap') return ragApi('/skill_gap', { function: input.function, job_title: input.job_title, k: input.k });
+  if (name === 'skill_gap') return ragApi('/skill_gap', { function: input.function, job_title: input.job_title, k: clamp(input.k, 100) });
   if (name === 'searchKnowledge') return searchKnowledge(input.query ?? '', input.kind, input.limit);
   return { message: `Onbekende tool ${name}` };
 }
