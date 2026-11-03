@@ -96,3 +96,28 @@ export async function analyzeHandle(method, url, readBody) {
   }
   return analyzeFor(companyId)
 }
+
+// POST /api/slack/preview: tekst van het Slack-bericht voor één actie. Er wordt niets verzonden.
+export async function slackPreviewHandle(method, url, readBody) {
+  if (method !== 'POST' || url.split('?')[0] !== '/api/slack/preview') return null
+  let body
+  try {
+    body = await readBody()
+  } catch (err) {
+    return { status: 400, body: { error: err.message } }
+  }
+  const result = analyzeFor(body?.companyId)
+  if (result.status !== 200) return result
+  const action = result.body.actions.find((a) => a.id === body?.actionId)
+  if (!action) return { status: 404, body: { error: 'Onbekende actie.' } }
+  const text = [
+    '*Voorbeeld, niet verzonden*',
+    `*AI-readiness: voorgestelde actie voor ${readinessFor(body.companyId).companyName}*`,
+    `*#${action.rank} ${action.title}* (${action.department})`,
+    ...action.bullets.map((b) => `• ${b}`),
+    `*Pilot:* ${action.pilot}`,
+    `*Succesmaat:* ${action.successMetric}`,
+    '_Gebaseerd op gesimuleerde gegevens._',
+  ].join('\n')
+  return { status: 200, body: { text } }
+}
