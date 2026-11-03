@@ -20,3 +20,6 @@ out/
 .claude/worktrees/
 *.log
 .DS_Store
+
+# Vacancy data (large, licence: team use only)
+data/
