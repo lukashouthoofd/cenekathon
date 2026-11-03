@@ -3,9 +3,7 @@
 .env.*
 !.env.example
 
-# Challenge data (confidential, ~2 GB): see docs/DATA.md
-data/
-*.parquet
+# DuckDB stores (vacancy text, vectors): never commit
 *.duckdb
 *.duckdb.wal
 *.duckdb.tmp
@@ -27,3 +25,20 @@ out/
 .claude/worktrees/
 *.log
 .DS_Store
+
+# Vacancy data (large, licence: team use only)
+data/
+
+# Team documents with data links / large slide decks (keep local)
+*.docx
+*.pdf
+
+# Licensed vacancy data and derived summary (team use only, see data/README.md)
+/data/
+src/backend/summary.json
+
+# Parquet data anywhere in the repo (licensed, team use only)
+*.parquet
+# Local IDE settings and external workshop material (not part of the repo)
+.vscode/
+TechWolf*.md
