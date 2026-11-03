@@ -14,6 +14,8 @@ import { demoChatReply } from './fixtures/chat'
 import { demoAnalyze, demoCompanies, demoReadiness, demoSlackPreview } from './fixtures'
 
 export const DEMO_MODE: boolean = import.meta.env.VITE_DEMO_MODE === 'true'
+// The chat backend exists before the dashboard endpoints do: let the chat go live on its own.
+export const LIVE_CHAT: boolean = import.meta.env.VITE_LIVE_CHAT === 'true'
 
 const BASE: string = import.meta.env.VITE_API_BASE ?? ''
 
@@ -88,7 +90,7 @@ export async function getSlackPreview(companyId: string, actionId: string): Prom
 }
 
 export async function sendChat(messages: ChatMessage[]): Promise<ChatResponse> {
-  if (DEMO_MODE) {
+  if (DEMO_MODE && !LIVE_CHAT) {
     await delay()
     return demoChatReply(messages)
   }

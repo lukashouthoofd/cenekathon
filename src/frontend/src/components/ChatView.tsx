@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ApiError, DEMO_MODE, sendChat } from '../api'
+import { ApiError, DEMO_MODE, LIVE_CHAT, sendChat } from '../api'
 import type { ChatMessage } from '../types'
 import { DashboardView } from './DashboardView'
 import { Markdown } from './Markdown'
@@ -40,7 +40,7 @@ export function ChatView() {
 
   return (
     <div className="flex flex-col gap-4">
-      {DEMO_MODE && (
+      {DEMO_MODE && !LIVE_CHAT && (
         <p className="text-caption text-caution-text">Demo-modus: gesimuleerde gegevens</p>
       )}
       <div className="space-y-4">
