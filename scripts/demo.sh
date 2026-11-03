@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Local demo in one command: SSH tunnel to the RAG API on the GPU VM + the Next.js agent (RAG tools) + the Vite frontend.
 #   bash scripts/demo.sh   -> open http://localhost:5173   (needs .env with AI_API_KEY and AI_MODEL; Ctrl-C stops everything)
-# The frontend's /api/chat goes to the Next agent on AGENT_PORT (default 3001; 3000 is often taken by Docker). Dashboard uses demo fixtures.
+# The frontend's /api/chat goes to the Next agent on AGENT_PORT (default 3001; 3000 is often taken by Docker). Dashboard readiness comes live from the RAG API (fixture fallback).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 AGENT_PORT=${AGENT_PORT:-3001}
@@ -21,4 +21,4 @@ curl -sf localhost:8100/health >/dev/null && echo "RAG API reachable on :8100" |
 RAG_API_URL=http://localhost:8100 npx next dev -p "$AGENT_PORT" &
 PIDS+=($!)
 cd src/frontend
-VITE_API_PROXY=http://localhost:$AGENT_PORT VITE_DEMO_MODE=true VITE_LIVE_CHAT=true npx vite
+VITE_API_PROXY=http://localhost:$AGENT_PORT VITE_DEMO_MODE=true VITE_LIVE_CHAT=true VITE_LIVE_READINESS=true npx vite
