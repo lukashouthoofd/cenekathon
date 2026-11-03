@@ -88,7 +88,6 @@ the model. See slide 11 ("What breaks at 100×").
 ## Open items before the pitch (team)
 
 - Confirm the skill-tagger accuracy run, or drop the number from slide 13.
-- Decide 1.34M (deduplicated) or 1.54M (raw) as the headline, and use it on every slide.
 - The simulated bank is named Goldman Stanley everywhere in the deck. Check the app's mock data
   (`src/backend/mock/internal-bank.json`) before the demo, so the UI shows the same name.
 - Fill the TODO slides (cost, TAM/SAM/SOM, competitors, team contact) or remove them before the pitch.
