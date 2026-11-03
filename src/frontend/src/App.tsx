@@ -3,7 +3,6 @@ import { ActionCards } from './components/ActionCards'
 import { EmptyState, ErrorState, LoadingState } from './components/StateMessages'
 import { ChatView } from './components/ChatView'
 import type { AskRequest } from './components/ChatView'
-import { EvidencePanel, resolveEvidence } from './components/EvidencePanel'
 import { Onboarding } from './components/Onboarding'
 import { ScoreCards } from './components/ScoreCards'
 import { SkillGaps } from './components/SkillGaps'
@@ -41,7 +40,6 @@ export default function App() {
   const [readiness, setReadiness] = useState<Readiness | null>(null)
   const [readinessError, setReadinessError] = useState<string | null>(null)
   const [readinessLoading, setReadinessLoading] = useState(false)
-  const [selectedEvidence, setSelectedEvidence] = useState<string[]>([])
 
   const [plan, setPlan] = useState<AnalyzeResponse | null>(null)
   const [planError, setPlanError] = useState<string | null>(null)
@@ -85,7 +83,6 @@ export default function App() {
     setReadiness(null)
     setReadinessError(null)
     setReadinessLoading(true)
-    setSelectedEvidence([])
     planRequest.current++
     setPlan(null)
     setPlanError(null)
@@ -116,7 +113,6 @@ export default function App() {
       .finally(() => id === planRequest.current && setPlanLoading(false))
   }
 
-  const resolved = readiness && selectedEvidence.length > 0 ? resolveEvidence(selectedEvidence, readiness.evidence) : null
   const company = companies?.find((c) => c.id === companyId)
 
   return (
@@ -181,7 +177,7 @@ export default function App() {
       )}
 
       {tab === 'dashboard' && DEMO_MODE && (
-      <main className="mx-auto grid max-w-6xl gap-6 px-6 py-6 lg:grid-cols-[1fr_20rem]">
+      <main className="mx-auto grid max-w-6xl gap-6 px-6 py-6">
         <div className="min-w-0 space-y-6">
           <section className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-surface p-4">
             <label className="flex min-w-0 flex-1 flex-col gap-1 text-body-sm text-muted-foreground">
@@ -240,7 +236,7 @@ export default function App() {
               </section>
 
               <div className="grid gap-6 md:grid-cols-2">
-                <SkillGaps gaps={readiness.skillGaps} onSelectEvidence={setSelectedEvidence} />
+                <SkillGaps gaps={readiness.skillGaps} />
                 <SoftwareGaps gaps={readiness.softwareGaps} />
               </div>
             </>
@@ -262,14 +258,6 @@ export default function App() {
             )}
           </div>
         </div>
-
-        {readiness && (
-          <EvidencePanel
-            evidence={resolved ? resolved.found : readiness.evidence}
-            highlightIds={selectedEvidence}
-            missingIds={resolved?.missing}
-          />
-        )}
       </main>
       )}
     </div>
