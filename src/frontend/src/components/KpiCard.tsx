@@ -31,8 +31,8 @@ export function KpiCard({
 
   return (
     <section aria-label={title} className="flex flex-col rounded-xl border border-border bg-surface p-5">
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-heading text-foreground">{title}</h3>
+      <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
+        <h3 className="whitespace-nowrap text-heading text-foreground">{title}</h3>
         {known && trend !== undefined && (
           <span className="shrink-0 rounded-sm border border-border px-1.5 py-0.5 text-caption tabular-nums text-muted-foreground">
             Trend: {trend > 0 ? '+' : ''}
@@ -73,7 +73,7 @@ export function KpiCard({
         </div>
       </div>
 
-      {coverage < 0.3 && (
+      {known && coverage < 0.3 && (
         <p className="mt-3 text-body-sm text-caution-text">Er is weinig gemeten. Lees deze score als een grove schatting.</p>
       )}
 

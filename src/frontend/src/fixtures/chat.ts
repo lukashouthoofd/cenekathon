@@ -12,8 +12,8 @@ export function demoChatReply(messages: ChatMessage[]): ChatResponse {
         dashboard: {
           title: 'Goldman Stanley (gesimuleerd)',
           widgets: [
-            { type: 'metric', label: 'Skills-score', value: '58/100', note: 'Gesimuleerde gegevens' },
-            { type: 'metric', label: 'Datadekking', value: '82%', note: 'Gesimuleerde gegevens' },
+            { type: 'metric', label: 'Skills-score', value: '17/100', note: 'Gesimuleerde gegevens' },
+            { type: 'metric', label: 'Datadekking', value: '83%', note: 'Gesimuleerde gegevens' },
             { type: 'metric', label: 'Skill gaps', value: '6', note: 'Gesimuleerde gegevens' },
             {
               type: 'bar',
@@ -24,7 +24,7 @@ export function demoChatReply(messages: ChatMessage[]): ChatResponse {
                 { label: 'Modelmonitoring', value: 34 },
                 { label: 'AI Act', value: 29 },
                 { label: 'Prompt engineering', value: 22 },
-                { label: 'Data governance', value: 18 },
+                { label: 'Data governance', value: 26 },
               ],
             },
           ],

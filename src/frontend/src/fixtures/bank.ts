@@ -30,7 +30,7 @@ const evidence: Evidence[] = [
     excerpt: 'In 2026 vraagt 38% van de vergelijkbare financiële vacatures naar minstens één AI-vaardigheid, tegen 21% in dezelfde periode van 2025.' },
   { id: 'ev-der-2', sourceType: 'derived', synthetic: true,
     title: 'Afgeleid: dekking van de analyse',
-    excerpt: 'De score voor AI-gebruik rust op slechts 20% dekking: er zijn geen gegevens over het gebruik van AI-tools.' },
+    excerpt: 'De score voor AI-gebruik rust op 76% dekking: 4 van de 5 afdelingen leverden gebruiksgegevens aan (gesimuleerd).' },
 ]
 
 export const bankReadiness: Readiness = {
@@ -126,7 +126,7 @@ export const bankAnalyze: AnalyzeResponse = {
   ],
   limitations: [
     'Alle gegevens in deze demo zijn gesimuleerd.',
-    'AI-gebruik kon niet worden gescoord door te weinig interne gegevens.',
+    'AI-gebruik is gemeten bij 4 van de 5 afdelingen (datadekking 76%).',
     'Vacatures zijn een indicatie van marktvraag, geen bewijs van wat bedrijven werkelijk nodig hebben.',
   ],
   mode: 'demo',
