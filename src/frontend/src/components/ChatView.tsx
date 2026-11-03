@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { ApiError, DEMO_MODE, sendChat } from '../api'
-import type { ChatMessage } from '../types'
+import { ApiError, DEMO_MODE, LIVE_CHAT, getOverview, sendChat } from '../api'
+import type { ChatMessage, Overview } from '../types'
 import { AdviceCard } from './AdviceCard'
 import { DashboardView } from './DashboardView'
+import { ChatSidebar } from './ChatSidebar'
+import { Markdown } from './Markdown'
 
 // Splits off the last line starting with "Advies:" (after trimming) from an assistant reply.
 function splitAdvice(content: string): { body: string; advice: string | null } {
@@ -22,6 +24,14 @@ export function ChatView() {
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const endRef = useRef<HTMLDivElement>(null)
+  const [overview, setOverview] = useState<Overview | null>(null)
+  const [overviewError, setOverviewError] = useState<string | null>(null)
+
+  useEffect(() => {
+    getOverview()
+      .then(setOverview)
+      .catch((e: unknown) => setOverviewError(e instanceof ApiError ? e.message : 'Overzicht kon niet geladen worden.'))
+  }, [])
 
   useEffect(() => {
     endRef.current?.scrollIntoView?.({ block: 'end' })
@@ -51,14 +61,17 @@ export function ChatView() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      {DEMO_MODE && (
+    <div className="grid items-start gap-6 lg:grid-cols-[1fr_20rem]">
+    <div className="flex min-w-0 flex-col gap-4">
+      {DEMO_MODE && !LIVE_CHAT && (
         <p className="text-caption text-caution-text">Demo-modus: gesimuleerde gegevens</p>
       )}
       <div className="space-y-4">
         {messages.length === 0 && (
           <p className="text-body text-muted-foreground">
-            Ik ben Json, de AI-readiness-assistent. Ik beantwoord vragen over vacatures, skills en AI-readiness. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.
+            {LIVE_CHAT
+              ? 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.'
+              : 'Ik ben Json, de AI-readiness-assistent. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.'}
           </p>
         )}
         {messages.map((m, i) => {
@@ -74,7 +87,12 @@ export function ChatView() {
                 }
               >
                 {m.role === 'assistant' && <p className="text-caption text-muted-foreground">Json</p>}
-                {body && <p className="whitespace-pre-wrap">{body}</p>}
+                {body &&
+                  (m.role === 'assistant' ? (
+                    <Markdown text={body} refs={overview?.refs} />
+                  ) : (
+                    <p className="whitespace-pre-wrap">{body}</p>
+                  ))}
                 {advice && <AdviceCard text={advice} />}
                 {m.dashboard && <DashboardView dashboard={m.dashboard} />}
               </div>
@@ -130,6 +148,8 @@ export function ChatView() {
           Verstuur
         </button>
       </form>
+    </div>
+    <ChatSidebar messages={messages} overview={overview} error={overviewError} />
     </div>
   )
 }
