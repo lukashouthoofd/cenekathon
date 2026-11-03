@@ -18,6 +18,15 @@ function splitAdvice(content: string): { body: string; advice: string | null } {
   return { body: content, advice: null }
 }
 
+// Shown at the start, and whenever the last reply has no follow-up questions of its own.
+const STARTERS = LIVE_CHAT
+  ? [
+      'Welke skills ontbreken het meest?',
+      'Geef de drie belangrijkste acties',
+      'Welke opleidingen hebben we nodig en moeten we aanwerven?',
+    ]
+  : ['Maak een dashboard van Bank Vandermeulen']
+
 export function ChatView() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
@@ -59,6 +68,13 @@ export function ChatView() {
   function retry() {
     if (!pending) send(messages)
   }
+
+  function ask(question: string) {
+    if (!pending) send([...messages, { role: 'user', content: question }])
+  }
+
+  const last = messages[messages.length - 1]
+  const suggestions = last?.role === 'assistant' && last.suggestions?.length ? last.suggestions : STARTERS
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[1fr_24rem]">
@@ -115,6 +131,20 @@ export function ChatView() {
             >
               Opnieuw proberen
             </button>
+          </div>
+        )}
+        {!pending && !error && (
+          <div className="flex flex-wrap gap-2" aria-label="Voorbeeldvragen">
+            {suggestions.map((q) => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => ask(q)}
+                className="rounded-md border border-border bg-surface px-3 py-1.5 text-body-sm text-foreground hover:bg-muted"
+              >
+                {q}
+              </button>
+            ))}
           </div>
         )}
         <div ref={endRef} />

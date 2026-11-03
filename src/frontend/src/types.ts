@@ -119,6 +119,8 @@ export type ChatMessage = {
   dashboard?: Dashboard
   /** Vacancies proposed in this reply, per Word document. Only sent by the agent backend. */
   proposed?: { documentId: string; vacancies: ProposedVacancy[] }[]
+  /** Follow-up questions the user can click. Only sent by the agent backend. */
+  suggestions?: string[]
 }
 
 export type ChatRequest = { messages: { role: 'user' | 'assistant'; content: string }[] }
