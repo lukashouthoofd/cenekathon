@@ -17,6 +17,8 @@ import { demoAnalyze, demoCompanies, demoReadiness, demoSlackPreview } from './f
 export const DEMO_MODE: boolean = import.meta.env.VITE_DEMO_MODE === 'true'
 // The chat backend exists before the dashboard endpoints do: let the chat go live on its own.
 export const LIVE_CHAT: boolean = import.meta.env.VITE_LIVE_CHAT === 'true'
+// Readiness from the RAG API (real vacancy data), even in demo mode. Falls back to the fixture on failure.
+export const LIVE_READINESS: boolean = import.meta.env.VITE_LIVE_READINESS === 'true'
 
 const BASE: string = import.meta.env.VITE_API_BASE ?? ''
 
@@ -58,7 +60,7 @@ function demoLookup<T>(value: T | undefined, what: string): T {
 }
 
 export async function getCompanies(): Promise<Company[]> {
-  if (DEMO_MODE) {
+  if (DEMO_MODE && !LIVE_READINESS) {
     await delay()
     return demoCompanies
   }
@@ -66,6 +68,13 @@ export async function getCompanies(): Promise<Company[]> {
 }
 
 export async function getReadiness(id: string): Promise<Readiness> {
+  if (LIVE_READINESS) {
+    try {
+      return await request<Readiness>(`/api/companies/${encodeURIComponent(id)}/readiness`)
+    } catch {
+      return demoLookup(demoReadiness[id], 'Bedrijf')
+    }
+  }
   if (DEMO_MODE) {
     await delay()
     return demoLookup(demoReadiness[id], 'Bedrijf')

@@ -33,6 +33,7 @@ prijzen of features die niet in de data staan.
 De vacaturedatabase bevat echte vacatures van financiële bedrijven in België, Nederland, Luxemburg en het VK (2022 tot september 2026).
 Zoek bewijs bij voorkeur met search_postings (op betekenis, meertalig, met filters op land, bedrijf en jaar) in plaats van searchVacancies (trefwoorden).
 Gebruik top_skills voor marktcijfers (welke skills, hoeveel vacatures; vermeld altijd het totaal) en skill_gap voor de kloof tussen interne skills en de markt.
+De marktcijfers (market_trends) en scores in de bedrijfsdata zijn illustratief. Gebruik voor marktcijfers ALTIJD top_skills, skill_gap of search_postings en zeg dat ze uit de vacaturedata komen.
 vacancyTrend blijft voor trends per jaar. Zeg je iets op basis van een vacature, steun het dan op de vacancy_id uit de tool (in basedOn, niet in de tekst).
 Is de RAG-API niet bereikbaar, gebruik dan searchVacancies en vacancyTrend.
 Zeg altijd dat de interne bedrijfsdata synthetisch is.
