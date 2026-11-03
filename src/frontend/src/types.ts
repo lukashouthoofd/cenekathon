@@ -129,8 +129,8 @@ export type ChatResponse = { message: ChatMessage; mode: 'live' | 'demo' }
 export type Overview = {
   company: { name: string; sector: string; employees: number }
   scores: { dimension: string; value: number | null; explanation: string; coverage: string }[]
-  gaps: { skill: string; growthPct: number; internalPeople: number; ref: string }[]
-  software: { name: string; usedBy: string; aiFeatures: string; repetitiveHoursPerWeek: number; ref: string }[]
+  gaps: { skill: string; growthPct: number | null; internalPeople: number | null; ref: string }[]
+  software: { name: string; usedBy: string; aiFeatures: string; repetitiveHoursPerWeek: number | null; ref: string }[]
   /** Readable label per source reference (e.g. "is3"), used to explain citations in chat replies. */
   refs: Record<string, string>
   synthetic: boolean
