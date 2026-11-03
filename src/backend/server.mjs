@@ -15,6 +15,7 @@ function sendJson(res, status, body) {
 function readBody(req) {
   return new Promise((resolve, reject) => {
     let raw = ''
+    req.setEncoding('utf8') // decode per stream, so multi-byte characters split across chunks stay intact
     req.on('data', (c) => {
       raw += c
       if (raw.length > 200_000) reject(new Error('Verzoek is te groot.'))
