@@ -5,11 +5,11 @@ Json is een assistent die laat zien welke vaardigheden bedrijven in vacatures vr
 
 ## Wat is echt, wat is nagemaakt?
 - **Echt:** de vacaturedata waarop de chat antwoordt.
-- **Nagemaakt:** het voorbeeldbedrijf (zoals Bank Vandermeulen), het dashboard en het actieplan. Die cijfers zijn gesimuleerd. Neem ze niet over als feit.
+- **Nagemaakt:** het voorbeeldbedrijf (zoals Goldman Stanley), het dashboard en het actieplan. Die cijfers zijn gesimuleerd. Neem ze niet over als feit.
 - **Let op:** "vaardigheden" zijn woorden die in vacatureteksten staan. Dat is geen bewijs dat iemand die vaardigheid echt heeft.
 
 ## Voorbeeldvragen
-1. Maak een dashboard van Bank Vandermeulen.
+1. Maak een dashboard van Goldman Stanley.
 2. Geef een volledig rapport over welke opleidingen we nodig hebben en of we moeten aanwerven.
 3. Hoeveel vacatures zijn er in 2025 geplaatst?
 4. Welk percentage van de vacatures in 2024 noemt Python?

@@ -31,6 +31,8 @@ Vraag om de skill-gaps en vacaturevoorstellen naar HR te sturen, bijvoorbeeld me
 
 Bij het eerste direct bericht aan Json krijgt een gebruiker eerst een welkomstbericht, daarna het antwoord. Dit wordt onthouden in het geheugen, dus na een herstart van de bot krijgt iedereen het opnieuw. Typ `hulp` voor een lijst met voorbeeldvragen. Het welkom verschijnt niet bij een vermelding in een kanaal.
 
+Wordt Json aan een kanaal toegevoegd, dan plaatst de bot daar een korte uitleg, eenmaal per kanaal. Hiervoor moet de bot het event `member_joined_channel` ontvangen en de scope `channels:read` hebben.
+
 ## Slack-app instellen
 
 1. Zet **Socket Mode** aan en maak een app-level token met scope `connections:write`.

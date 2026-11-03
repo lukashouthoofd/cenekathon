@@ -41,12 +41,12 @@ export function ScoreCards({ scores }: { scores: Score[] }) {
                 <Bar fraction={s.value / 100} label={`${label} score`} />
               </div>
             )}
-            <p className="mt-3 text-body-sm text-muted-foreground">Datadekking {formatPercent(s.coverage)}</p>
+            <p className="mt-3 text-body-sm text-muted-foreground">Hoeveel is gemeten: {formatPercent(s.coverage)}</p>
             <div className="mt-1">
               <Bar fraction={s.coverage} label={`${label} datadekking`} />
             </div>
             {s.coverage < 0.3 && (
-              <p className="mt-2 text-body-sm text-caution-text">Beperkte data: interpreteer met voorzichtigheid.</p>
+              <p className="mt-2 text-body-sm text-caution-text">Er is weinig gemeten. Lees deze score als een grove schatting.</p>
             )}
             <p className="mt-3 text-body text-foreground">{s.explanation}</p>
           </section>

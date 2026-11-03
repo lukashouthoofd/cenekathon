@@ -7,9 +7,10 @@ export function demoChatReply(messages: ChatMessage[]): ChatResponse {
       mode: 'demo',
       message: {
         role: 'assistant',
-        content: '[Demo] Hier is een kort dashboard voor Bank Vandermeulen, op basis van gesimuleerde gegevens.',
+        content: '[Demo] Hier is een kort dashboard voor Goldman Stanley, op basis van gesimuleerde gegevens.',
+        suggestions: ['Welke skills missen we het meest bij Goldman Stanley?', 'Hoe staat Goldman Stanley er voor op AI-gebruik?', 'Wat moet HR als eerste doen?'],
         dashboard: {
-          title: 'Bank Vandermeulen (gesimuleerd)',
+          title: 'Goldman Stanley (gesimuleerd)',
           widgets: [
             { type: 'metric', label: 'Skills-score', value: '58/100', note: 'Gesimuleerde gegevens' },
             { type: 'metric', label: 'Datadekking', value: '82%', note: 'Gesimuleerde gegevens' },
@@ -36,7 +37,8 @@ export function demoChatReply(messages: ChatMessage[]): ChatResponse {
     message: {
       role: 'assistant',
       content:
-        '[Demo] Ik kan dashboards maken over bedrijven en skills. Vraag bijvoorbeeld: maak een dashboard van Bank Vandermeulen.',
+        '[Demo] Ik kan dashboards maken over bedrijven en skills. Vraag bijvoorbeeld: maak een dashboard van Goldman Stanley.',
+      suggestions: ['Maak een dashboard van Goldman Stanley', 'Welke skills missen we het meest bij Goldman Stanley?', 'Welke vacatures vragen om AI-skills in 2025?'],
     },
   }
 }
