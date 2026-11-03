@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/* Design tokens from the Agonistes repo. Never hardcode colours in components: use these. */
+
+@font-face {
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("./assets/fonts/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --radius: 0.375rem;
+  --background: #F5F7F9;
+  --surface: #FFFFFF;
+  --muted: #EDF0F3;
+  --muted-strong: #E3E8ED;
+  --dark-section: #181818;
+  --foreground: #15191E;
+  --muted-foreground: #666666;
+  --tertiary-foreground: #666666;
+  --hero-start: #000000;
+  --hero-end: #666666;
+  --primary: #15191E;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FFFFFF;
+  --accent: #208989;
+  --accent-text: #125656;
+  --accent-foreground: #FFFFFF;
+  --accent-soft: #D5E8EA;
+  --changed: #176B6B;
+  --ring: #15191E;
+  --caution: #8C6F31;
+  --caution-text: #56441E;
+  --positive: #486F56;
+  --positive-text: #3B5B47;
+  --destructive: #76393E;
+  --border: #D5DCE3;
+  --border-strong: #87919B;
+  --zone-1: #748A9D;
+  --zone-2: #428E8B;
+  --zone-3: #748C6A;
+  --zone-4: #AD905A;
+  --zone-5: #A46C6B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #181818;
+    --surface: #272727;
+    --muted: #313131;
+    --muted-strong: #313131;
+    --dark-section: #181818;
+    --foreground: #F5F7F9;
+    --muted-foreground: #D5DCE3;
+    --tertiary-foreground: #9B9B9B;
+    --hero-start: #FFFFFF;
+    --hero-end: #9B9B9B;
+    --primary: #F5F7F9;
+    --primary-foreground: #15191E;
+    --secondary: #272727;
+    --accent: #41B2B2;
+    --accent-text: #41B2B2;
+    --accent-foreground: #15191E;
+    --accent-soft: #1F1F1F;
+    --changed: #41B2B2;
+    --ring: #F5F7F9;
+    --caution: #C0AA7B;
+    --caution-text: #CFC09F;
+    --positive: #8BAA98;
+    --positive-text: #A9C0B4;
+    --destructive: #D2A9AD;
+    --border: #4C545C;
+    --border-strong: #687582;
+    --zone-1: #748A9D;
+    --zone-2: #428E8B;
+    --zone-3: #748C6A;
+    --zone-4: #AD905A;
+    --zone-5: #A46C6B;
+  }
+}
+
+@theme inline {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.375rem;
+  --radius-2xl: 0.375rem;
+  --radius-3xl: 0.375rem;
+
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.75rem;
+  --text-heading: 0.9375rem;
+  --text-heading--line-height: 1.375rem;
+  --text-body: 0.8125rem;
+  --text-body--line-height: 1.25rem;
+  --text-body-sm: 0.75rem;
+  --text-body-sm--line-height: 1.125rem;
+  --text-caption: 0.6875rem;
+  --text-caption--line-height: 1rem;
+  --text-metric: 1.75rem;
+  --text-metric--line-height: 2rem;
+  --text-metric-sm: 1.125rem;
+  --text-metric-sm--line-height: 1.5rem;
+  --text-data: 0.875rem;
+  --text-data--line-height: 1.25rem;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted-strong: var(--muted-strong);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-positive: var(--positive);
+  --color-positive-text: var(--positive-text);
+  --color-caution: var(--caution);
+  --color-caution-text: var(--caution-text);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ring: var(--ring);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Numbers line up in columns and bars. */
+.tabular-nums,
+.text-metric,
+.text-metric-sm,
+.text-data {
+  font-variant-numeric: tabular-nums;
+}

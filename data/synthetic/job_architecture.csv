@@ -1,0 +1,271 @@
+job_id,job_title,job_family,base_title,job_level,grade_band,department_id,isco08_code,esco_uri,esco_occupation_label,source_vacancy_count,is_synthetic
+J0001,Customer Service Advisor,Customer Service & Contact Centre,Customer Service Advisor,L1,G03-G04,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,3997,True
+J0002,Senior Customer Service Advisor,Customer Service & Contact Centre,Customer Service Advisor,L2,G05-G06,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,3997,True
+J0003,Team Leader Customer Service Advisor,Customer Service & Contact Centre,Customer Service Advisor,L3,G07-G08,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,3997,True
+J0004,Customer Experience Advisor,Customer Service & Contact Centre,Customer Experience Advisor,L1,G03-G04,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,3418,True
+J0005,Senior Customer Experience Advisor,Customer Service & Contact Centre,Customer Experience Advisor,L2,G05-G06,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,3418,True
+J0006,Team Leader Customer Experience Advisor,Customer Service & Contact Centre,Customer Experience Advisor,L3,G07-G08,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,3418,True
+J0007,Customer Service Representative,Customer Service & Contact Centre,Customer Service Representative,L1,G03-G04,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,2206,True
+J0008,Senior Customer Service Representative,Customer Service & Contact Centre,Customer Service Representative,L2,G05-G06,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,2206,True
+J0009,Team Leader Customer Service Representative,Customer Service & Contact Centre,Customer Service Representative,L3,G07-G08,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,2206,True
+J0010,Customer Service Consultant,Customer Service & Contact Centre,Customer Service Consultant,L1,G03-G04,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,1860,True
+J0011,Senior Customer Service Consultant,Customer Service & Contact Centre,Customer Service Consultant,L2,G05-G06,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,1860,True
+J0012,Team Leader Customer Service Consultant,Customer Service & Contact Centre,Customer Service Consultant,L3,G07-G08,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,1860,True
+J0013,Customer Service Assistant,Customer Service & Contact Centre,Customer Service Assistant,L1,G03-G04,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,680,True
+J0014,Senior Customer Service Assistant,Customer Service & Contact Centre,Customer Service Assistant,L2,G05-G06,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,680,True
+J0015,Team Leader Customer Service Assistant,Customer Service & Contact Centre,Customer Service Assistant,L3,G07-G08,FN_CSC,5244,http://data.europa.eu/esco/occupation/0ededdc2-050a-4ec3-8e70-6295105fcd19,call centre agent,680,True
+J0016,Customer Journey Expert,Customer Service & Contact Centre,Customer Journey Expert,L1,G03-G04,FN_CSC,,,,516,True
+J0017,Senior Customer Journey Expert,Customer Service & Contact Centre,Customer Journey Expert,L2,G05-G06,FN_CSC,,,,516,True
+J0018,Team Leader Customer Journey Expert,Customer Service & Contact Centre,Customer Journey Expert,L3,G07-G08,FN_CSC,,,,516,True
+J0019,Head of Customer Service & Contact Centre,Customer Service & Contact Centre,Head of function,L5,G11-G12,FN_CSC,,,,0,True
+J0020,Personal Banker,Branch Network & Mortgages,Personal Banker,L1,G03-G04,FN_BRM,3312,http://data.europa.eu/esco/occupation/5e4d156a-1f05-4b2c-b0f0-5abb82d52ed6,bank account manager,576,True
+J0021,Senior Personal Banker,Branch Network & Mortgages,Personal Banker,L2,G05-G06,FN_BRM,3312,http://data.europa.eu/esco/occupation/5e4d156a-1f05-4b2c-b0f0-5abb82d52ed6,bank account manager,576,True
+J0022,Team Leader Personal Banker,Branch Network & Mortgages,Personal Banker,L3,G07-G08,FN_BRM,3312,http://data.europa.eu/esco/occupation/5e4d156a-1f05-4b2c-b0f0-5abb82d52ed6,bank account manager,576,True
+J0023,Branch Manager,Branch Network & Mortgages,Branch Manager,L1,G03-G04,FN_BRM,1346,http://data.europa.eu/esco/occupation/754ce08f-b4d9-4b9c-b9d2-06f15258a3ce,bank manager,413,True
+J0024,Senior Branch Manager,Branch Network & Mortgages,Branch Manager,L2,G05-G06,FN_BRM,1346,http://data.europa.eu/esco/occupation/754ce08f-b4d9-4b9c-b9d2-06f15258a3ce,bank manager,413,True
+J0025,Team Leader Branch Manager,Branch Network & Mortgages,Branch Manager,L3,G07-G08,FN_BRM,1346,http://data.europa.eu/esco/occupation/754ce08f-b4d9-4b9c-b9d2-06f15258a3ce,bank manager,413,True
+J0026,Mortgage Advisor,Branch Network & Mortgages,Mortgage Advisor,L1,G03-G04,FN_BRM,,,,363,True
+J0027,Senior Mortgage Advisor,Branch Network & Mortgages,Mortgage Advisor,L2,G05-G06,FN_BRM,,,,363,True
+J0028,Team Leader Mortgage Advisor,Branch Network & Mortgages,Mortgage Advisor,L3,G07-G08,FN_BRM,,,,363,True
+J0029,Product Manager Hypotheken,Branch Network & Mortgages,Product Manager Hypotheken,L1,G03-G04,FN_BRM,,,,131,True
+J0030,Senior Product Manager Hypotheken,Branch Network & Mortgages,Product Manager Hypotheken,L2,G05-G06,FN_BRM,,,,131,True
+J0031,Team Leader Product Manager Hypotheken,Branch Network & Mortgages,Product Manager Hypotheken,L3,G07-G08,FN_BRM,,,,131,True
+J0032,Head of Branch Network & Mortgages,Branch Network & Mortgages,Head of function,L5,G11-G12,FN_BRM,,,,0,True
+J0033,Relationship Manager,Corporate & Commercial Banking,Relationship Manager,L2,G05-G06,FN_CBK,2412,http://data.europa.eu/esco/occupation/d2d451cc-e839-4192-be54-d7724814aa03,corporate banking manager,1091,True
+J0034,Senior Relationship Manager,Corporate & Commercial Banking,Relationship Manager,L3,G07-G08,FN_CBK,2412,http://data.europa.eu/esco/occupation/d2d451cc-e839-4192-be54-d7724814aa03,corporate banking manager,1091,True
+J0035,Lead Relationship Manager,Corporate & Commercial Banking,Relationship Manager,L4,G09-G10,FN_CBK,2412,http://data.europa.eu/esco/occupation/d2d451cc-e839-4192-be54-d7724814aa03,corporate banking manager,1091,True
+J0036,Business Development Manager,Corporate & Commercial Banking,Business Development Manager,L2,G05-G06,FN_CBK,,,,612,True
+J0037,Senior Business Development Manager,Corporate & Commercial Banking,Business Development Manager,L3,G07-G08,FN_CBK,,,,612,True
+J0038,Lead Business Development Manager,Corporate & Commercial Banking,Business Development Manager,L4,G09-G10,FN_CBK,,,,612,True
+J0039,Credit Analyst,Corporate & Commercial Banking,Credit Analyst,L2,G05-G06,FN_CBK,3312,http://data.europa.eu/esco/occupation/075e4d25-74b3-46fb-9b6e-6b53cdb196e7,credit analyst,602,True
+J0040,Senior Credit Analyst,Corporate & Commercial Banking,Credit Analyst,L3,G07-G08,FN_CBK,3312,http://data.europa.eu/esco/occupation/075e4d25-74b3-46fb-9b6e-6b53cdb196e7,credit analyst,602,True
+J0041,Lead Credit Analyst,Corporate & Commercial Banking,Credit Analyst,L4,G09-G10,FN_CBK,3312,http://data.europa.eu/esco/occupation/075e4d25-74b3-46fb-9b6e-6b53cdb196e7,credit analyst,602,True
+J0042,Relationship Director,Corporate & Commercial Banking,Relationship Director,L2,G05-G06,FN_CBK,2412,http://data.europa.eu/esco/occupation/d2d451cc-e839-4192-be54-d7724814aa03,corporate banking manager,595,True
+J0043,Senior Relationship Director,Corporate & Commercial Banking,Relationship Director,L3,G07-G08,FN_CBK,2412,http://data.europa.eu/esco/occupation/d2d451cc-e839-4192-be54-d7724814aa03,corporate banking manager,595,True
+J0044,Lead Relationship Director,Corporate & Commercial Banking,Relationship Director,L4,G09-G10,FN_CBK,2412,http://data.europa.eu/esco/occupation/d2d451cc-e839-4192-be54-d7724814aa03,corporate banking manager,595,True
+J0045,Head of Corporate & Commercial Banking,Corporate & Commercial Banking,Head of function,L5,G11-G12,FN_CBK,,,,0,True
+J0046,Private Banker,Wealth & Private Banking,Private Banker,L2,G05-G06,FN_WPB,,,,372,True
+J0047,Senior Private Banker,Wealth & Private Banking,Private Banker,L3,G07-G08,FN_WPB,,,,372,True
+J0048,Lead Private Banker,Wealth & Private Banking,Private Banker,L4,G09-G10,FN_WPB,,,,372,True
+J0049,Wealth Manager,Wealth & Private Banking,Wealth Manager,L2,G05-G06,FN_WPB,,,,344,True
+J0050,Senior Wealth Manager,Wealth & Private Banking,Wealth Manager,L3,G07-G08,FN_WPB,,,,344,True
+J0051,Lead Wealth Manager,Wealth & Private Banking,Wealth Manager,L4,G09-G10,FN_WPB,,,,344,True
+J0052,Portfolio Manager,Wealth & Private Banking,Portfolio Manager,L2,G05-G06,FN_WPB,,,,254,True
+J0053,Senior Portfolio Manager,Wealth & Private Banking,Portfolio Manager,L3,G07-G08,FN_WPB,,,,254,True
+J0054,Lead Portfolio Manager,Wealth & Private Banking,Portfolio Manager,L4,G09-G10,FN_WPB,,,,254,True
+J0055,Investment Manager,Wealth & Private Banking,Investment Manager,L2,G05-G06,FN_WPB,,,,151,True
+J0056,Senior Investment Manager,Wealth & Private Banking,Investment Manager,L3,G07-G08,FN_WPB,,,,151,True
+J0057,Lead Investment Manager,Wealth & Private Banking,Investment Manager,L4,G09-G10,FN_WPB,,,,151,True
+J0058,Head of Wealth & Private Banking,Wealth & Private Banking,Head of function,L5,G11-G12,FN_WPB,,,,0,True
+J0059,Software Engineer,Software Engineering,Software Engineer,L2,G05-G06,FN_SWE,,,,2688,True
+J0060,Senior Software Engineer,Software Engineering,Software Engineer,L3,G07-G08,FN_SWE,,,,2688,True
+J0061,Lead Software Engineer,Software Engineering,Software Engineer,L4,G09-G10,FN_SWE,,,,2688,True
+J0062,Solution Architect,Software Engineering,Solution Architect,L2,G05-G06,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,858,True
+J0063,Senior Solution Architect,Software Engineering,Solution Architect,L3,G07-G08,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,858,True
+J0064,Lead Solution Architect,Software Engineering,Solution Architect,L4,G09-G10,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,858,True
+J0065,Enterprise Architect,Software Engineering,Enterprise Architect,L2,G05-G06,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,530,True
+J0066,Senior Enterprise Architect,Software Engineering,Enterprise Architect,L3,G07-G08,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,530,True
+J0067,Lead Enterprise Architect,Software Engineering,Enterprise Architect,L4,G09-G10,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,530,True
+J0068,Java Developer,Software Engineering,Java Developer,L2,G05-G06,FN_SWE,,,,524,True
+J0069,Senior Java Developer,Software Engineering,Java Developer,L3,G07-G08,FN_SWE,,,,524,True
+J0070,Lead Java Developer,Software Engineering,Java Developer,L4,G09-G10,FN_SWE,,,,524,True
+J0071,Full Stack Developer,Software Engineering,Full Stack Developer,L2,G05-G06,FN_SWE,,,,461,True
+J0072,Senior Full Stack Developer,Software Engineering,Full Stack Developer,L3,G07-G08,FN_SWE,,,,461,True
+J0073,Lead Full Stack Developer,Software Engineering,Full Stack Developer,L4,G09-G10,FN_SWE,,,,461,True
+J0074,Solutions Architect,Software Engineering,Solutions Architect,L2,G05-G06,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,375,True
+J0075,Senior Solutions Architect,Software Engineering,Solutions Architect,L3,G07-G08,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,375,True
+J0076,Lead Solutions Architect,Software Engineering,Solutions Architect,L4,G09-G10,FN_SWE,2511,http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae,ICT system architect,375,True
+J0077,Head of Software Engineering,Software Engineering,Head of function,L5,G11-G12,FN_SWE,,,,0,True
+J0078,Data Analyst,"Data, Analytics & AI",Data Analyst,L2,G05-G06,FN_DAI,2511,http://data.europa.eu/esco/occupation/d3edb8f8-3a06-47a0-8fb9-9b212c006aa2,data analyst,1353,True
+J0079,Senior Data Analyst,"Data, Analytics & AI",Data Analyst,L3,G07-G08,FN_DAI,2511,http://data.europa.eu/esco/occupation/d3edb8f8-3a06-47a0-8fb9-9b212c006aa2,data analyst,1353,True
+J0080,Lead Data Analyst,"Data, Analytics & AI",Data Analyst,L4,G09-G10,FN_DAI,2511,http://data.europa.eu/esco/occupation/d3edb8f8-3a06-47a0-8fb9-9b212c006aa2,data analyst,1353,True
+J0081,Data Scientist,"Data, Analytics & AI",Data Scientist,L2,G05-G06,FN_DAI,2511,http://data.europa.eu/esco/occupation/258e46f9-0075-4a2e-adae-1ff0477e0f30,data scientist,1271,True
+J0082,Senior Data Scientist,"Data, Analytics & AI",Data Scientist,L3,G07-G08,FN_DAI,2511,http://data.europa.eu/esco/occupation/258e46f9-0075-4a2e-adae-1ff0477e0f30,data scientist,1271,True
+J0083,Lead Data Scientist,"Data, Analytics & AI",Data Scientist,L4,G09-G10,FN_DAI,2511,http://data.europa.eu/esco/occupation/258e46f9-0075-4a2e-adae-1ff0477e0f30,data scientist,1271,True
+J0084,Data Engineer,"Data, Analytics & AI",Data Engineer,L2,G05-G06,FN_DAI,,,,1193,True
+J0085,Senior Data Engineer,"Data, Analytics & AI",Data Engineer,L3,G07-G08,FN_DAI,,,,1193,True
+J0086,Lead Data Engineer,"Data, Analytics & AI",Data Engineer,L4,G09-G10,FN_DAI,,,,1193,True
+J0087,Reporting Analyst,"Data, Analytics & AI",Reporting Analyst,L2,G05-G06,FN_DAI,,,,249,True
+J0088,Senior Reporting Analyst,"Data, Analytics & AI",Reporting Analyst,L3,G07-G08,FN_DAI,,,,249,True
+J0089,Lead Reporting Analyst,"Data, Analytics & AI",Reporting Analyst,L4,G09-G10,FN_DAI,,,,249,True
+J0090,Quantitative Analyst,"Data, Analytics & AI",Quantitative Analyst,L2,G05-G06,FN_DAI,,,,238,True
+J0091,Senior Quantitative Analyst,"Data, Analytics & AI",Quantitative Analyst,L3,G07-G08,FN_DAI,,,,238,True
+J0092,Lead Quantitative Analyst,"Data, Analytics & AI",Quantitative Analyst,L4,G09-G10,FN_DAI,,,,238,True
+J0093,Big Data Engineer,"Data, Analytics & AI",Big Data Engineer,L2,G05-G06,FN_DAI,,,,224,True
+J0094,Senior Big Data Engineer,"Data, Analytics & AI",Big Data Engineer,L3,G07-G08,FN_DAI,,,,224,True
+J0095,Lead Big Data Engineer,"Data, Analytics & AI",Big Data Engineer,L4,G09-G10,FN_DAI,,,,224,True
+J0096,"Head of Data, Analytics & AI","Data, Analytics & AI",Head of function,L5,G11-G12,FN_DAI,,,,0,True
+J0097,DevOps Engineer,Infrastructure & Cloud,DevOps Engineer,L2,G05-G06,FN_INF,,,,1602,True
+J0098,Senior DevOps Engineer,Infrastructure & Cloud,DevOps Engineer,L3,G07-G08,FN_INF,,,,1602,True
+J0099,Lead DevOps Engineer,Infrastructure & Cloud,DevOps Engineer,L4,G09-G10,FN_INF,,,,1602,True
+J0100,Infrastructure Engineer,Infrastructure & Cloud,Infrastructure Engineer,L2,G05-G06,FN_INF,,,,907,True
+J0101,Senior Infrastructure Engineer,Infrastructure & Cloud,Infrastructure Engineer,L3,G07-G08,FN_INF,,,,907,True
+J0102,Lead Infrastructure Engineer,Infrastructure & Cloud,Infrastructure Engineer,L4,G09-G10,FN_INF,,,,907,True
+J0103,Platform Engineer,Infrastructure & Cloud,Platform Engineer,L2,G05-G06,FN_INF,,,,638,True
+J0104,Senior Platform Engineer,Infrastructure & Cloud,Platform Engineer,L3,G07-G08,FN_INF,,,,638,True
+J0105,Lead Platform Engineer,Infrastructure & Cloud,Platform Engineer,L4,G09-G10,FN_INF,,,,638,True
+J0106,Site Reliability Engineer,Infrastructure & Cloud,Site Reliability Engineer,L2,G05-G06,FN_INF,,,,313,True
+J0107,Senior Site Reliability Engineer,Infrastructure & Cloud,Site Reliability Engineer,L3,G07-G08,FN_INF,,,,313,True
+J0108,Lead Site Reliability Engineer,Infrastructure & Cloud,Site Reliability Engineer,L4,G09-G10,FN_INF,,,,313,True
+J0109,Head of Infrastructure & Cloud,Infrastructure & Cloud,Head of function,L5,G11-G12,FN_INF,,,,0,True
+J0110,Security Engineer,Cyber Security,Security Engineer,L2,G05-G06,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,312,True
+J0111,Senior Security Engineer,Cyber Security,Security Engineer,L3,G07-G08,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,312,True
+J0112,Lead Security Engineer,Cyber Security,Security Engineer,L4,G09-G10,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,312,True
+J0113,Security Analyst,Cyber Security,Security Analyst,L2,G05-G06,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,188,True
+J0114,Senior Security Analyst,Cyber Security,Security Analyst,L3,G07-G08,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,188,True
+J0115,Lead Security Analyst,Cyber Security,Security Analyst,L4,G09-G10,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,188,True
+J0116,Security Consultant,Cyber Security,Security Consultant,L2,G05-G06,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,131,True
+J0117,Senior Security Consultant,Cyber Security,Security Consultant,L3,G07-G08,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,131,True
+J0118,Lead Security Consultant,Cyber Security,Security Consultant,L4,G09-G10,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,131,True
+J0119,Information Security Officer,Cyber Security,Information Security Officer,L2,G05-G06,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,127,True
+J0120,Senior Information Security Officer,Cyber Security,Information Security Officer,L3,G07-G08,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,127,True
+J0121,Lead Information Security Officer,Cyber Security,Information Security Officer,L4,G09-G10,FN_CYB,2529,http://data.europa.eu/esco/occupation/7754d570-9519-48c2-b1c9-8e165f8bca0f,ICT security manager,127,True
+J0122,Head of Cyber Security,Cyber Security,Head of function,L5,G11-G12,FN_CYB,,,,0,True
+J0123,Product Manager,Change & Transformation,Product Manager,L2,G05-G06,FN_CHG,,,,2123,True
+J0124,Senior Product Manager,Change & Transformation,Product Manager,L3,G07-G08,FN_CHG,,,,2123,True
+J0125,Lead Product Manager,Change & Transformation,Product Manager,L4,G09-G10,FN_CHG,,,,2123,True
+J0126,Business Analyst,Change & Transformation,Business Analyst,L2,G05-G06,FN_CHG,2421,http://data.europa.eu/esco/occupation/60082a99-d8ef-4e84-9290-78902681b6ed,business analyst,2119,True
+J0127,Senior Business Analyst,Change & Transformation,Business Analyst,L3,G07-G08,FN_CHG,2421,http://data.europa.eu/esco/occupation/60082a99-d8ef-4e84-9290-78902681b6ed,business analyst,2119,True
+J0128,Lead Business Analyst,Change & Transformation,Business Analyst,L4,G09-G10,FN_CHG,2421,http://data.europa.eu/esco/occupation/60082a99-d8ef-4e84-9290-78902681b6ed,business analyst,2119,True
+J0129,Product Owner,Change & Transformation,Product Owner,L2,G05-G06,FN_CHG,,,,1524,True
+J0130,Senior Product Owner,Change & Transformation,Product Owner,L3,G07-G08,FN_CHG,,,,1524,True
+J0131,Lead Product Owner,Change & Transformation,Product Owner,L4,G09-G10,FN_CHG,,,,1524,True
+J0132,Project Manager,Change & Transformation,Project Manager,L2,G05-G06,FN_CHG,1330,http://data.europa.eu/esco/occupation/8b6388a4-4904-471b-9331-d3b1211f5525,ICT project manager,1197,True
+J0133,Senior Project Manager,Change & Transformation,Project Manager,L3,G07-G08,FN_CHG,1330,http://data.europa.eu/esco/occupation/8b6388a4-4904-471b-9331-d3b1211f5525,ICT project manager,1197,True
+J0134,Lead Project Manager,Change & Transformation,Project Manager,L4,G09-G10,FN_CHG,1330,http://data.europa.eu/esco/occupation/8b6388a4-4904-471b-9331-d3b1211f5525,ICT project manager,1197,True
+J0135,Change Manager,Change & Transformation,Change Manager,L2,G05-G06,FN_CHG,,,,547,True
+J0136,Senior Change Manager,Change & Transformation,Change Manager,L3,G07-G08,FN_CHG,,,,547,True
+J0137,Lead Change Manager,Change & Transformation,Change Manager,L4,G09-G10,FN_CHG,,,,547,True
+J0138,UX Designer,Change & Transformation,UX Designer,L2,G05-G06,FN_CHG,,,,500,True
+J0139,Senior UX Designer,Change & Transformation,UX Designer,L3,G07-G08,FN_CHG,,,,500,True
+J0140,Lead UX Designer,Change & Transformation,UX Designer,L4,G09-G10,FN_CHG,,,,500,True
+J0141,Head of Change & Transformation,Change & Transformation,Head of function,L5,G11-G12,FN_CHG,,,,0,True
+J0142,Operations Analyst,Banking Operations & Payments,Operations Analyst,L1,G03-G04,FN_OPS,,,,209,True
+J0143,Senior Operations Analyst,Banking Operations & Payments,Operations Analyst,L2,G05-G06,FN_OPS,,,,209,True
+J0144,Team Leader Operations Analyst,Banking Operations & Payments,Operations Analyst,L3,G07-G08,FN_OPS,,,,209,True
+J0145,Operations Manager,Banking Operations & Payments,Operations Manager,L1,G03-G04,FN_OPS,,,,188,True
+J0146,Senior Operations Manager,Banking Operations & Payments,Operations Manager,L2,G05-G06,FN_OPS,,,,188,True
+J0147,Team Leader Operations Manager,Banking Operations & Payments,Operations Manager,L3,G07-G08,FN_OPS,,,,188,True
+J0148,Operations Administrator,Banking Operations & Payments,Operations Administrator,L1,G03-G04,FN_OPS,,,,53,True
+J0149,Senior Operations Administrator,Banking Operations & Payments,Operations Administrator,L2,G05-G06,FN_OPS,,,,53,True
+J0150,Team Leader Operations Administrator,Banking Operations & Payments,Operations Administrator,L3,G07-G08,FN_OPS,,,,53,True
+J0151,Operations Specialist,Banking Operations & Payments,Operations Specialist,L1,G03-G04,FN_OPS,,,,50,True
+J0152,Senior Operations Specialist,Banking Operations & Payments,Operations Specialist,L2,G05-G06,FN_OPS,,,,50,True
+J0153,Team Leader Operations Specialist,Banking Operations & Payments,Operations Specialist,L3,G07-G08,FN_OPS,,,,50,True
+J0154,Head of Banking Operations & Payments,Banking Operations & Payments,Head of function,L5,G11-G12,FN_OPS,,,,0,True
+J0155,Risk Analyst,Risk Management,Risk Analyst,L2,G05-G06,FN_RSK,,,,701,True
+J0156,Senior Risk Analyst,Risk Management,Risk Analyst,L3,G07-G08,FN_RSK,,,,701,True
+J0157,Lead Risk Analyst,Risk Management,Risk Analyst,L4,G09-G10,FN_RSK,,,,701,True
+J0158,Credit Risk Analyst,Risk Management,Credit Risk Analyst,L2,G05-G06,FN_RSK,,,,658,True
+J0159,Senior Credit Risk Analyst,Risk Management,Credit Risk Analyst,L3,G07-G08,FN_RSK,,,,658,True
+J0160,Lead Credit Risk Analyst,Risk Management,Credit Risk Analyst,L4,G09-G10,FN_RSK,,,,658,True
+J0161,Risk Manager,Risk Management,Risk Manager,L2,G05-G06,FN_RSK,,,,615,True
+J0162,Senior Risk Manager,Risk Management,Risk Manager,L3,G07-G08,FN_RSK,,,,615,True
+J0163,Lead Risk Manager,Risk Management,Risk Manager,L4,G09-G10,FN_RSK,,,,615,True
+J0164,Credit Risk Manager,Risk Management,Credit Risk Manager,L2,G05-G06,FN_RSK,,,,440,True
+J0165,Senior Credit Risk Manager,Risk Management,Credit Risk Manager,L3,G07-G08,FN_RSK,,,,440,True
+J0166,Lead Credit Risk Manager,Risk Management,Credit Risk Manager,L4,G09-G10,FN_RSK,,,,440,True
+J0167,Financial Risk Analyst,Risk Management,Financial Risk Analyst,L2,G05-G06,FN_RSK,,,,358,True
+J0168,Senior Financial Risk Analyst,Risk Management,Financial Risk Analyst,L3,G07-G08,FN_RSK,,,,358,True
+J0169,Lead Financial Risk Analyst,Risk Management,Financial Risk Analyst,L4,G09-G10,FN_RSK,,,,358,True
+J0170,Operational Risk Manager,Risk Management,Operational Risk Manager,L2,G05-G06,FN_RSK,,,,330,True
+J0171,Senior Operational Risk Manager,Risk Management,Operational Risk Manager,L3,G07-G08,FN_RSK,,,,330,True
+J0172,Lead Operational Risk Manager,Risk Management,Operational Risk Manager,L4,G09-G10,FN_RSK,,,,330,True
+J0173,Head of Risk Management,Risk Management,Head of function,L5,G11-G12,FN_RSK,,,,0,True
+J0174,Financial Crime Investigator,Compliance & Financial Crime,Financial Crime Investigator,L2,G05-G06,FN_CMP,,,,887,True
+J0175,Senior Financial Crime Investigator,Compliance & Financial Crime,Financial Crime Investigator,L3,G07-G08,FN_CMP,,,,887,True
+J0176,Lead Financial Crime Investigator,Compliance & Financial Crime,Financial Crime Investigator,L4,G09-G10,FN_CMP,,,,887,True
+J0177,Compliance Officer,Compliance & Financial Crime,Compliance Officer,L2,G05-G06,FN_CMP,,,,558,True
+J0178,Senior Compliance Officer,Compliance & Financial Crime,Compliance Officer,L3,G07-G08,FN_CMP,,,,558,True
+J0179,Lead Compliance Officer,Compliance & Financial Crime,Compliance Officer,L4,G09-G10,FN_CMP,,,,558,True
+J0180,Compliance Manager,Compliance & Financial Crime,Compliance Manager,L2,G05-G06,FN_CMP,,,,288,True
+J0181,Senior Compliance Manager,Compliance & Financial Crime,Compliance Manager,L3,G07-G08,FN_CMP,,,,288,True
+J0182,Lead Compliance Manager,Compliance & Financial Crime,Compliance Manager,L4,G09-G10,FN_CMP,,,,288,True
+J0183,Fraud Investigator,Compliance & Financial Crime,Fraud Investigator,L2,G05-G06,FN_CMP,,,,279,True
+J0184,Senior Fraud Investigator,Compliance & Financial Crime,Fraud Investigator,L3,G07-G08,FN_CMP,,,,279,True
+J0185,Lead Fraud Investigator,Compliance & Financial Crime,Fraud Investigator,L4,G09-G10,FN_CMP,,,,279,True
+J0186,KYC Analyst,Compliance & Financial Crime,KYC Analyst,L2,G05-G06,FN_CMP,,,,244,True
+J0187,Senior KYC Analyst,Compliance & Financial Crime,KYC Analyst,L3,G07-G08,FN_CMP,,,,244,True
+J0188,Lead KYC Analyst,Compliance & Financial Crime,KYC Analyst,L4,G09-G10,FN_CMP,,,,244,True
+J0189,KYC Officer,Compliance & Financial Crime,KYC Officer,L2,G05-G06,FN_CMP,,,,235,True
+J0190,Senior KYC Officer,Compliance & Financial Crime,KYC Officer,L3,G07-G08,FN_CMP,,,,235,True
+J0191,Lead KYC Officer,Compliance & Financial Crime,KYC Officer,L4,G09-G10,FN_CMP,,,,235,True
+J0192,Head of Compliance & Financial Crime,Compliance & Financial Crime,Head of function,L5,G11-G12,FN_CMP,,,,0,True
+J0193,Audit Manager,Internal Audit,Audit Manager,L2,G05-G06,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,808,True
+J0194,Senior Audit Manager,Internal Audit,Audit Manager,L3,G07-G08,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,808,True
+J0195,Lead Audit Manager,Internal Audit,Audit Manager,L4,G09-G10,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,808,True
+J0196,Audit Supervisor,Internal Audit,Audit Supervisor,L2,G05-G06,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,306,True
+J0197,Senior Audit Supervisor,Internal Audit,Audit Supervisor,L3,G07-G08,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,306,True
+J0198,Lead Audit Supervisor,Internal Audit,Audit Supervisor,L4,G09-G10,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,306,True
+J0199,Internal Auditor,Internal Audit,Internal Auditor,L2,G05-G06,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,279,True
+J0200,Senior Internal Auditor,Internal Audit,Internal Auditor,L3,G07-G08,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,279,True
+J0201,Lead Internal Auditor,Internal Audit,Internal Auditor,L4,G09-G10,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,279,True
+J0202,Internal Audit Manager,Internal Audit,Internal Audit Manager,L2,G05-G06,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,152,True
+J0203,Senior Internal Audit Manager,Internal Audit,Internal Audit Manager,L3,G07-G08,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,152,True
+J0204,Lead Internal Audit Manager,Internal Audit,Internal Audit Manager,L4,G09-G10,FN_AUD,2411,http://data.europa.eu/esco/occupation/cd4f41a5-87a6-4b3c-8ee3-14e6f457c365,audit supervisor,152,True
+J0205,Head of Internal Audit,Internal Audit,Head of function,L5,G11-G12,FN_AUD,,,,0,True
+J0206,Legal Counsel,Legal,Legal Counsel,L2,G05-G06,FN_LEG,,,,1597,True
+J0207,Senior Legal Counsel,Legal,Legal Counsel,L3,G07-G08,FN_LEG,,,,1597,True
+J0208,Lead Legal Counsel,Legal,Legal Counsel,L4,G09-G10,FN_LEG,,,,1597,True
+J0209,Legal Advisor,Legal,Legal Advisor,L2,G05-G06,FN_LEG,,,,156,True
+J0210,Senior Legal Advisor,Legal,Legal Advisor,L3,G07-G08,FN_LEG,,,,156,True
+J0211,Lead Legal Advisor,Legal,Legal Advisor,L4,G09-G10,FN_LEG,,,,156,True
+J0212,Legal Advisor Capital Markets,Legal,Legal Advisor Capital Markets,L2,G05-G06,FN_LEG,,,,37,True
+J0213,Senior Legal Advisor Capital Markets,Legal,Legal Advisor Capital Markets,L3,G07-G08,FN_LEG,,,,37,True
+J0214,Lead Legal Advisor Capital Markets,Legal,Legal Advisor Capital Markets,L4,G09-G10,FN_LEG,,,,37,True
+J0215,Corporate Lawyer,Legal,Corporate Lawyer,L2,G05-G06,FN_LEG,,,,30,True
+J0216,Senior Corporate Lawyer,Legal,Corporate Lawyer,L3,G07-G08,FN_LEG,,,,30,True
+J0217,Lead Corporate Lawyer,Legal,Corporate Lawyer,L4,G09-G10,FN_LEG,,,,30,True
+J0218,Head of Legal,Legal,Head of function,L5,G11-G12,FN_LEG,,,,0,True
+J0219,Finance Manager,Finance & Treasury,Finance Manager,L2,G05-G06,FN_FIN,,,,673,True
+J0220,Senior Finance Manager,Finance & Treasury,Finance Manager,L3,G07-G08,FN_FIN,,,,673,True
+J0221,Lead Finance Manager,Finance & Treasury,Finance Manager,L4,G09-G10,FN_FIN,,,,673,True
+J0222,Financial Analyst,Finance & Treasury,Financial Analyst,L2,G05-G06,FN_FIN,2413,http://data.europa.eu/esco/occupation/8d586ee9-0ab1-4155-a3b0-2ca786c8e48c,financial analyst,360,True
+J0223,Senior Financial Analyst,Finance & Treasury,Financial Analyst,L3,G07-G08,FN_FIN,2413,http://data.europa.eu/esco/occupation/8d586ee9-0ab1-4155-a3b0-2ca786c8e48c,financial analyst,360,True
+J0224,Lead Financial Analyst,Finance & Treasury,Financial Analyst,L4,G09-G10,FN_FIN,2413,http://data.europa.eu/esco/occupation/8d586ee9-0ab1-4155-a3b0-2ca786c8e48c,financial analyst,360,True
+J0225,Finance Business Partner,Finance & Treasury,Finance Business Partner,L2,G05-G06,FN_FIN,,,,314,True
+J0226,Senior Finance Business Partner,Finance & Treasury,Finance Business Partner,L3,G07-G08,FN_FIN,,,,314,True
+J0227,Lead Finance Business Partner,Finance & Treasury,Finance Business Partner,L4,G09-G10,FN_FIN,,,,314,True
+J0228,Financial Controller,Finance & Treasury,Financial Controller,L2,G05-G06,FN_FIN,,,,307,True
+J0229,Senior Financial Controller,Finance & Treasury,Financial Controller,L3,G07-G08,FN_FIN,,,,307,True
+J0230,Lead Financial Controller,Finance & Treasury,Financial Controller,L4,G09-G10,FN_FIN,,,,307,True
+J0231,Head of Finance & Treasury,Finance & Treasury,Head of function,L5,G11-G12,FN_FIN,,,,0,True
+J0232,HR Business Partner,Human Resources,HR Business Partner,L2,G05-G06,FN_HRM,,,,247,True
+J0233,Senior HR Business Partner,Human Resources,HR Business Partner,L3,G07-G08,FN_HRM,,,,247,True
+J0234,Lead HR Business Partner,Human Resources,HR Business Partner,L4,G09-G10,FN_HRM,,,,247,True
+J0235,HR Advisor,Human Resources,HR Advisor,L2,G05-G06,FN_HRM,,,,148,True
+J0236,Senior HR Advisor,Human Resources,HR Advisor,L3,G07-G08,FN_HRM,,,,148,True
+J0237,Lead HR Advisor,Human Resources,HR Advisor,L4,G09-G10,FN_HRM,,,,148,True
+J0238,People Partner,Human Resources,People Partner,L2,G05-G06,FN_HRM,,,,103,True
+J0239,Senior People Partner,Human Resources,People Partner,L3,G07-G08,FN_HRM,,,,103,True
+J0240,Lead People Partner,Human Resources,People Partner,L4,G09-G10,FN_HRM,,,,103,True
+J0241,HR Officer,Human Resources,HR Officer,L2,G05-G06,FN_HRM,,,,86,True
+J0242,Senior HR Officer,Human Resources,HR Officer,L3,G07-G08,FN_HRM,,,,86,True
+J0243,Lead HR Officer,Human Resources,HR Officer,L4,G09-G10,FN_HRM,,,,86,True
+J0244,Head of Human Resources,Human Resources,Head of function,L5,G11-G12,FN_HRM,,,,0,True
+J0245,Marketing Manager,Marketing & Communications,Marketing Manager,L2,G05-G06,FN_MKT,,,,278,True
+J0246,Senior Marketing Manager,Marketing & Communications,Marketing Manager,L3,G07-G08,FN_MKT,,,,278,True
+J0247,Lead Marketing Manager,Marketing & Communications,Marketing Manager,L4,G09-G10,FN_MKT,,,,278,True
+J0248,Content Designer,Marketing & Communications,Content Designer,L2,G05-G06,FN_MKT,,,,130,True
+J0249,Senior Content Designer,Marketing & Communications,Content Designer,L3,G07-G08,FN_MKT,,,,130,True
+J0250,Lead Content Designer,Marketing & Communications,Content Designer,L4,G09-G10,FN_MKT,,,,130,True
+J0251,Marketing Executive,Marketing & Communications,Marketing Executive,L2,G05-G06,FN_MKT,,,,108,True
+J0252,Senior Marketing Executive,Marketing & Communications,Marketing Executive,L3,G07-G08,FN_MKT,,,,108,True
+J0253,Lead Marketing Executive,Marketing & Communications,Marketing Executive,L4,G09-G10,FN_MKT,,,,108,True
+J0254,Digital Marketing Specialist,Marketing & Communications,Digital Marketing Specialist,L2,G05-G06,FN_MKT,,,,107,True
+J0255,Senior Digital Marketing Specialist,Marketing & Communications,Digital Marketing Specialist,L3,G07-G08,FN_MKT,,,,107,True
+J0256,Lead Digital Marketing Specialist,Marketing & Communications,Digital Marketing Specialist,L4,G09-G10,FN_MKT,,,,107,True
+J0257,Head of Marketing & Communications,Marketing & Communications,Head of function,L5,G11-G12,FN_MKT,,,,0,True
+J0258,Executive Assistant,Executive Office,Executive Assistant,L2,G05-G06,FN_OFC,,,,445,True
+J0259,Senior Executive Assistant,Executive Office,Executive Assistant,L3,G07-G08,FN_OFC,,,,445,True
+J0260,Lead Executive Assistant,Executive Office,Executive Assistant,L4,G09-G10,FN_OFC,,,,445,True
+J0261,Personal Assistant,Executive Office,Personal Assistant,L2,G05-G06,FN_OFC,,,,373,True
+J0262,Senior Personal Assistant,Executive Office,Personal Assistant,L3,G07-G08,FN_OFC,,,,373,True
+J0263,Lead Personal Assistant,Executive Office,Personal Assistant,L4,G09-G10,FN_OFC,,,,373,True
+J0264,Strategy Manager,Executive Office,Strategy Manager,L2,G05-G06,FN_OFC,,,,82,True
+J0265,Senior Strategy Manager,Executive Office,Strategy Manager,L3,G07-G08,FN_OFC,,,,82,True
+J0266,Lead Strategy Manager,Executive Office,Strategy Manager,L4,G09-G10,FN_OFC,,,,82,True
+J0267,Strategy Consultant,Executive Office,Strategy Consultant,L2,G05-G06,FN_OFC,,,,70,True
+J0268,Senior Strategy Consultant,Executive Office,Strategy Consultant,L3,G07-G08,FN_OFC,,,,70,True
+J0269,Lead Strategy Consultant,Executive Office,Strategy Consultant,L4,G09-G10,FN_OFC,,,,70,True
+J0270,Head of Executive Office,Executive Office,Head of function,L5,G11-G12,FN_OFC,,,,0,True

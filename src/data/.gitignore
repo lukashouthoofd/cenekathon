@@ -1,0 +1,7 @@
+# Data files are too large for GitHub and may contain sensitive data
+*.parquet
+*.csv
+*.duckdb
+*.duckdb.tmp
+*.duckdb.wal
+raw/

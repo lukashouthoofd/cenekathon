@@ -1,0 +1,13 @@
+original_column,snake_case_column,dtype
+vacancy_id,vacancy_id,large_string
+title,title,large_string
+description,description,large_string
+company,company,large_string
+date_posted,date_posted,date32[day]
+country,country,large_string
+city,city,large_string
+(added),source_file,string
+(added),source_year,int16
+(added),source_row,int64
+(added),is_duplicate,bool
+(added),is_content_duplicate,bool
