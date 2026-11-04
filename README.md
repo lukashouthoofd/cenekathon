@@ -7,6 +7,8 @@ Een prototype voor financiële instellingen die willen weten hoe klaar ze zijn v
 - een **Slack-preview**,
 - een **chat** die antwoordt met dashboards; elk antwoord eindigt met advies.
 
+**Pitch deck:** [Figma Slides](https://www.figma.com/slides/mATgE7kG6B65FPtisDteyM/Json-%E2%80%94-Pitch-deck-Cenekathon?node-id=3-2&t=RBoFwF5yTCMQgKag-0)
+
 ## Onderdelen
 
 - **Frontend** (`src/frontend`): React + Vite + Tailwind.
